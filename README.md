@@ -130,7 +130,6 @@ plot(1:10)</span></p></td></tr></tbody></table></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data2plotzip</span>(sampleData2,<span class="dt">format=</span><span class="st">&quot;PNG&quot;</span>)</code></pre></div>
 <p>You can set the width, height, resolution, units of your plots. You can see the manual of this function by entering the following command.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">?data2plotzip</code></pre></div>
-<pre><code>Using development documentation for data2plotzip</code></pre>
 </div>
 </div>
 <div id="the-shiny-module-pptxlist-for-developer" class="section level2">
