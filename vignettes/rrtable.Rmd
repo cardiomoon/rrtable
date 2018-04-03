@@ -1,6 +1,6 @@
 ---
-title: "Simple is beautiful"
-subtitle: "R package rrtable : Reproducible Research with R codes Table"
+title: "R package `rrtable`"
+subtitle : "Reproducible Research with a Table of R codes"
 author: "Keon-Woong Moon"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette

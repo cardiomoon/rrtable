@@ -603,94 +603,121 @@ data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL
 
      data$type=tolower(data$type)
      if("title" %in% data$type) {
-         mytitle=data[data$type=="title",]$code[1]
+         mytitle=data[data$type=="title",]$text[1]
          data=data[data$type!="title",]
      } else{
          mytitle="Web-based Analysis with R"
      }
+     mysubtitle=""
+     if("subtitle" %in% data$type) {
+         mysubtitle=data[data$type=="subtitle",]$text[1]
+         data=data[data$type!="subtitle",]
+     }
      if("author" %in% data$type) {
-         myauthor=data[data$type=="author",]$code[1]
+         myauthor=data[data$type=="author",]$text[1]
          data=data[data$type!="author",]
      } else{
          myauthor="prepared by web-r.org"
      }
-     cat("---\ntitle: '",mytitle,"'\n",file=tempReport,append=TRUE)
-     cat("author: '",myauthor,"'\n",file=tempReport,append=TRUE)
-     cat("date: '`r Sys.time()`'\n---\n",file=tempReport,append=TRUE)
 
-     cat("```{r setup, include=FALSE}\n",file=tempReport,append=TRUE)
-     cat("knitr::opts_chunk$set(echo =",echo,",message=FALSE,warning=FALSE,comment=NA,
-         fig.width=9,fig.asp=0.618,fig.align='center',out.width='70%')\n",
-         file=tempReport,append=TRUE)
-     cat("```\n",file=tempReport,append=TRUE)
+     mycat=function(...){
+         cat(...,file=tempReport,append=TRUE)
+     }
+     mycat("---\ntitle: '",mytitle,"'\n")
+     if(mysubtitle!=""){
+         mycat("subtitle: '",mysubtitle,"'\n")
+     }
+     mycat("author: '",myauthor,"'\n")
+     mycat("date: '`r Sys.time()`'\n---\n")
 
-     cat("```{r,echo=",echo,",message=FALSE}\n",file=tempReport,append=TRUE)
-     cat("require(moonBook)\n",file=tempReport,append=TRUE)
-     cat("require(ztable)\n",file=tempReport,append=TRUE)
-     cat("require(rrtable)\n",file=tempReport,append=TRUE)
-     cat("require(ggplot2)\n",file=tempReport,append=TRUE)
-     cat("```\n\n",file=tempReport,append=TRUE)
+     mycat("```{r setup, include=FALSE}\n")
+     mycat("knitr::opts_chunk$set(echo =",echo,",message=FALSE,warning=FALSE,comment=NA,
+         fig.width=9,fig.asp=0.618,fig.align='center',out.width='70%')\n")
+     mycat("```\n")
+
+     mycat("```{r,echo=",echo,",message=FALSE}\n")
+     mycat("require(moonBook)\n")
+     mycat("require(ztable)\n")
+     mycat("require(rrtable)\n")
+     mycat("require(ggplot2)\n")
+     mycat("```\n\n")
 
      if(!is.null(rawDataName)){
-         cat("```{r}\n",file=tempReport,append=TRUE)
-         cat("# Read Raw Data\n",file=tempReport,append=TRUE)
+         mycat("```{r}\n")
+         mycat("# Read Raw Data\n")
          temp=paste0("rawData=readRDS('",rawDataFile,"')\n")
-         cat(temp,file=tempReport,append=TRUE)
+         mycat(temp)
          temp=paste0("assign('",rawDataName,"',rawData)\n")
-         cat(temp,file=tempReport,append=TRUE)
-         cat("```\n\n",file=tempReport,append=TRUE)
+         mycat(temp)
+         mycat("```\n\n")
      }
 
      if(preprocessing!="") {
-          cat("```{r}\n",file=tempReport,append=TRUE)
-          cat("# Preprocessing\n",file=tempReport,append=TRUE)
-          cat(preprocessing,'\n',file=tempReport,append=TRUE)
-          cat("```\n\n",file=tempReport,append=TRUE)
+          mycat("```{r}\n")
+          mycat("# Preprocessing\n")
+          mycat(preprocessing,'\n')
+          mycat("```\n\n")
      }
 
      mypptlist=data
      count=nrow(mypptlist)
      for(i in 1:count){
 
-          if(!is.na(mypptlist$title[i])) {
-               cat("## ",mypptlist$title[i],"\n",file=tempReport,append=TRUE)
-          }
+          # if(!is.na(mypptlist$title[i])) {
+          #      mycat("### ",mypptlist$title[i],"\n")
+          # }
 
           if(mypptlist$type[i]=="mytable") {
-              cat("```{r,results='asis'}\n",file=tempReport,append=TRUE)
-              cat("mytable2flextable(",mypptlist$code[i],",vanilla=",vanilla,")\n",file=tempReport,append=TRUE)
+              mycat("```{r,results='asis'}\n")
+              mycat("mytable2flextable(",mypptlist$code[i],",vanilla=",vanilla,")\n")
 
           } else if(mypptlist$type[i]=="data"){
-              cat("```{r,results='asis'}\n",file=tempReport,append=TRUE)
+              mycat("```{r,results='asis'}\n")
+              mycat("df2flextable(",mypptlist$code[i],",vanilla=",vanilla,")\n")
 
           } else if(mypptlist$type[i]=="table") {
-               cat("```{r,results='asis'}\n",file=tempReport,append=TRUE)
+               mycat("```{r,results='asis'}\n")
+              code=set_argument(mypptlist$code[i],argument="vanilla",value=vanilla)
+              mycat(code,"\n")
           } else if(mypptlist$type[i]=="rcode") {
-               cat("```{r,echo=TRUE}\n",file=tempReport,append=TRUE)
+              if(mypptlist$title[i]!="") mycat("###",mypptlist$title[i],'\n')
+              if(mypptlist$text[i]!="") mycat(mypptlist$text[i],'\n')
+               mycat("```{r,echo=TRUE}\n")
+               mycat(mypptlist$code[i],'\n')
+          } else if(mypptlist$type[i]=="code") {
+              mycat("```{r,echo=TRUE,eval=FALSE}\n")
+              mycat(mypptlist$code[i],'\n')
+          } else if(mypptlist$type[i]=="eval") {
+              mycat("```{r}\n")
+              mycat(mypptlist$code[i],'\n')
           } else if(mypptlist$type[i] %in% c("2ggplots","2plots")){
-              cat("```{r,out.width='50%',fig.align='default',fig.show='hold'}\n",file=tempReport,append=TRUE)
-          } else if(mypptlist$type[i]!="text"){
-               cat("```{r}\n",file=tempReport,append=TRUE)
+              mycat("```{r,out.width='50%',fig.align='default',fig.show='hold'}\n")
+              mycat(mypptlist$code[i],'\n')
+          } else if(mypptlist$type[i] %in% c("##","###","")){
+              mycat(mypptlist$type[i],mypptlist$title[i],'\n')
+              if(mypptlist$text[i]!="") mycat(mypptlist$text[i],'\n')
+              if(mypptlist$code[i]!="") {
+                  mycat("```{r,",mypptlist$option[i],"}\n")
+                  mycat(mypptlist$code[i],'\n')
+                  mycat("```\n\n")
+              }
+          } else if(mypptlist$type[i]=="text"){
+              mycat(mypptlist$text[i],'\n')
+          }  else if(mypptlist$type[i]!="text"){
+               mycat("```{r}\n")
+               mycat(mypptlist$code[i],'\n')
           }
 
-          if(mypptlist$type[i]=="data"){
-              cat("df2flextable(",mypptlist$code[i],",vanilla=",vanilla,")\n",file=tempReport,append=TRUE)
-          } else if(mypptlist$type[i]=="table"){
-                code=set_argument(mypptlist$code[i],argument="vanilla",value=vanilla)
-                cat(code,"\n",file=tempReport,append=TRUE)
-          } else if(mypptlist$type[i]!="mytable") {
-             cat(mypptlist$code[i],'\n',file=tempReport,append=TRUE)
-          }
-          if(mypptlist$type[i]!="text") {
-              cat("```\n\n",file=tempReport,append=TRUE)
+          if(mypptlist$type[i] %in% c("text","##","###","")) {
+              mycat("\n\n")
           } else{
-              cat("\n\n",file=tempReport,append=TRUE)
+              mycat("```\n\n")
           }
      }
 
      out <- rmarkdown::render('report2.Rmd', rmarkdown::html_document())
      result=file.rename(out, filename)
-     file.remove("report2.Rmd")
+     #file.remove("report2.Rmd")
      invisible(result)
 }
 
@@ -726,49 +753,54 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,r
      } else{
          myauthor="prepared by web-r.org"
      }
-     cat("---\ntitle: '",mytitle,"'\n",file=tempReport,append=TRUE)
-     cat("author: '",myauthor,"'\n",file=tempReport,append=TRUE)
-     cat("date: '`r Sys.time()`'\n",file=tempReport,append=TRUE)
 
-     cat("header-includes:\n",file=tempReport,append=TRUE)
-     if(kotex==TRUE) cat("- \\usepackage{kotex}\n",file=tempReport,append=TRUE)
-     cat("- \\usepackage{multirow}\n",file=tempReport,append=TRUE)
-     cat("- \\usepackage{colortbl}\n- \\usepackage{pdflscape}\n- \\usepackage[table]{xcolor}\n",file=tempReport,append=TRUE)
-     cat("- \\usepackage{tabularx,booktabs}\n- \\usepackage{boxedminipage}\n- \\usepackage{graphicx}\n",
+     mycat=function(...){
+         cat(...,file=tempReport,append=TRUE)
+     }
+
+     mycat("---\ntitle: '",mytitle,"'\n")
+     mycat("author: '",myauthor,"'\n")
+     mycat("date: '`r Sys.time()`'\n")
+
+     mycat("header-includes:\n")
+     if(kotex==TRUE) mycat("- \\usepackage{kotex}\n")
+     mycat("- \\usepackage{multirow}\n")
+     mycat("- \\usepackage{colortbl}\n- \\usepackage{pdflscape}\n- \\usepackage[table]{xcolor}\n")
+     mycat("- \\usepackage{tabularx,booktabs}\n- \\usepackage{boxedminipage}\n- \\usepackage{graphicx}\n",
          file=tempReport,append=TRUE)
-     cat("- \\usepackage{rotating}\n- \\usepackage{longtable}\n",file=tempReport,append=TRUE)
-     cat("---\n",file=tempReport,append=TRUE)
-     cat("```{r setup, include=FALSE}\n",file=tempReport,append=TRUE)
-     cat("knitr::opts_chunk$set(echo =",echo,",message=FALSE,warning=FALSE,comment=NA,
+     mycat("- \\usepackage{rotating}\n- \\usepackage{longtable}\n")
+     mycat("---\n")
+     mycat("```{r setup, include=FALSE}\n")
+     mycat("knitr::opts_chunk$set(echo =",echo,",message=FALSE,warning=FALSE,comment=NA,
          fig.width=9,fig.asp=0.618,fig.align='center',out.width='70%')\n",
          file=tempReport,append=TRUE)
-     cat("```\n",file=tempReport,append=TRUE)
+     mycat("```\n")
 
-     cat("```{r,echo=",echo,",message=FALSE}\n",file=tempReport,append=TRUE)
-     cat("require(moonBook)\n",file=tempReport,append=TRUE)
-     cat("require(ztable)\n",file=tempReport,append=TRUE)
-     cat("require(rrtable)\n",file=tempReport,append=TRUE)
-     cat("require(ggplot2)\n",file=tempReport,append=TRUE)
-     cat("options(ztable.type='latex')\n",file=tempReport,append=TRUE)
-     cat("```\n\n",file=tempReport,append=TRUE)
+     mycat("```{r,echo=",echo,",message=FALSE}\n")
+     mycat("require(moonBook)\n")
+     mycat("require(ztable)\n")
+     mycat("require(rrtable)\n")
+     mycat("require(ggplot2)\n")
+     mycat("options(ztable.type='latex')\n")
+     mycat("```\n\n")
 
      if(!is.null(rawDataName)){
-         cat("```{r}\n",file=tempReport,append=TRUE)
-         cat("# Read Raw Data\n",file=tempReport,append=TRUE)
+         mycat("```{r}\n")
+         mycat("# Read Raw Data\n")
          temp=paste0("rawData=readRDS('",rawDataFile,"')\n")
-         cat(temp,file=tempReport,append=TRUE)
+         mycat(temp)
          temp=paste0("assign('",rawDataName,"',rawData)\n")
-         cat(temp,file=tempReport,append=TRUE)
-         cat("```\n\n",file=tempReport,append=TRUE)
+         mycat(temp)
+         mycat("```\n\n")
      }
 
       if(preprocessing!="") {
           eval(parse(text=preprocessing))
-          cat("```{r}\n",file=tempReport,append=TRUE)
-          cat("# Preprocessing\n",file=tempReport,append=TRUE)
-          cat(preprocessing,'\n',file=tempReport,append=TRUE)
+          mycat("```{r}\n")
+          mycat("# Preprocessing\n")
+          mycat(preprocessing,'\n')
 
-          cat("```\n\n",file=tempReport,append=TRUE)
+          mycat("```\n\n")
      }
 
      mypptlist=data
@@ -778,57 +810,64 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,r
 
 
           if(!is.na(mypptlist$title[i])) {
-               cat("## ",mypptlist$title[i],"\n",file=tempReport,append=TRUE)
+               mycat("### ",mypptlist$title[i],"\n")
           }
 
 
           if(mypptlist$type[i]=="table") {
-               cat("```{r,results='asis'}\n",file=tempReport,append=TRUE)
+               mycat("```{r,results='asis'}\n")
                temp=mypptlist$code[i]
 
                result<-eval(parse(text=temp))
                if("flextable" %in% class(result)){
-                    cat("result=",mypptlist$code[i],"\n",file=tempReport,append=TRUE)
-                    cat("df=result$body$dataset\n",file=tempReport,append=TRUE)
-                    cat("df=html2latex(df)\n",file=tempReport,append=TRUE)
-                    cat("class(df)='data.frame'\n",file=tempReport,append=TRUE)
-                    cat("print(ztable(df,longtable=TRUE),type='latex')\n",file=tempReport,append=TRUE)
+                    mycat("result=",mypptlist$code[i],"\n")
+                    mycat("df=result$body$dataset\n")
+                    mycat("df=html2latex(df)\n")
+                    mycat("class(df)='data.frame'\n")
+                    mycat("print(ztable(df,longtable=TRUE),type='latex')\n")
                } else {
-                    cat(mypptlist$code[i],'\n',file=tempReport,append=TRUE)
+                    mycat(mypptlist$code[i],'\n')
 
 
                }
 
           } else if(mypptlist$type[i]=="mytable"){
-               cat("```{r,results='asis'}\n",file=tempReport,append=TRUE)
-               cat("result=",mypptlist$code[i],"\n",file=tempReport,append=TRUE)
-               cat("print(ztable(result,longtable=TRUE),type='latex')\n",file=tempReport,append=TRUE)
+               mycat("```{r,results='asis'}\n")
+               mycat("result=",mypptlist$code[i],"\n")
+               mycat("print(ztable(result,longtable=TRUE),type='latex')\n")
           } else if(mypptlist$type[i]=="data"){
-              cat("```{r,results='asis'}\n",file=tempReport,append=TRUE)
-              cat("print(ztable(",mypptlist$code[i],",longtable=TRUE),type='latex')\n",file=tempReport,append=TRUE)
+              mycat("```{r,results='asis'}\n")
+              mycat("print(ztable(",mypptlist$code[i],",longtable=TRUE),type='latex')\n")
           } else if(mypptlist$type[i]=="rcode") {
-               cat("```{r,echo=TRUE}\n",file=tempReport,append=TRUE)
-               cat(mypptlist$code[i],'\n',file=tempReport,append=TRUE)
+               mycat("```{r,echo=TRUE}\n")
+               mycat(mypptlist$code[i],'\n')
+          }  else if(mypptlist$type[i]=="code") {
+              mycat("```{r,echo=TRUE,eval=FALSE}\n")
+              mycat(mypptlist$code[i],'\n')
           } else if(mypptlist$type[i] %in% c("2ggplots","2plots")){
-              cat("```{r,out.width='50%',fig.align='default',fig.show='hold'}\n",file=tempReport,append=TRUE)
-              cat(mypptlist$code[i],'\n',file=tempReport,append=TRUE)
-          } else if(mypptlist$type[i]=="text"){
-              cat(mypptlist$code[i],'\n',file=tempReport,append=TRUE)
+              mycat("```{r,out.width='50%',fig.align='default',fig.show='hold'}\n")
+              mycat(mypptlist$code[i],'\n')
+          } else if(mypptlist$type[i]=="##"){
+              mycat("## ",mypptlist$code[i],'\n')
+          } else if(mypptlist$type[i]=="###"){
+              mycat("### ",mypptlist$code[i],'\n')
+          } else if(mypptlist$type[i] %in% c("text","##","###")){
+              mycat(mypptlist$code[i],'\n')
 
           } else {
-               cat("```{r}\n",file=tempReport,append=TRUE)
-               cat(mypptlist$code[i],'\n',file=tempReport,append=TRUE)
+               mycat("```{r}\n")
+               mycat(mypptlist$code[i],'\n')
           }
-         if(mypptlist$type[i]!="text") {
-             cat("```\n\n",file=tempReport,append=TRUE)
+         if(mypptlist$type[i] %in% c("text","##","###")) {
+             mycat("\n\n")
          } else{
-             cat("\n\n",file=tempReport,append=TRUE)
+             mycat("```\n\n")
          }
      }
 
      out <- rmarkdown::render('report2.Rmd', params=list(format="PDF"),rmarkdown::pdf_document())
      result=file.rename(out, filename)
-     file.remove("report2.Rmd")
+     #file.remove("report2.Rmd")
      invisible(result)
 }
 
