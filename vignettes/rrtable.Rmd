@@ -101,7 +101,7 @@ shiny::runApp(system.file('pptxList',package='rrtable'))
 
 
 ```{r,echo=FALSE,fig.height=5,fig.width=7}
-knitr::include_graphics("https://raw.githubusercontent.com/cardiomoon/rrtable/master/man/figures/1.png")
+#knitr::include_graphics("https://raw.githubusercontent.com/cardiomoon/rrtable/master/man/figures/1.png")
 ```
 
 After loading the shiny app, please click the 'load sample Data' button. You can edit the sample data by clicking 'edit Data' button. You can download report as a "HTML" or "docx" or "pptx" format. You can download report as a 'pdf' file(You have to set the LaTex in your computer).

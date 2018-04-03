@@ -1,11 +1,12 @@
 ---
-title: '  '
-author: '  '
+title: ' R package `rrtable` '
+subtitle: ' Reproducible Research with a Table of R codes '
+author: ' Keon-Woong Moon '
 date: '`r Sys.time()`'
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE ,message=FALSE,warning=FALSE,comment=NA,
-         fig.width=9,fig.asp=0.618,fig.align='center',out.width='70%')
+          fig.width=9,fig.asp=0.618,fig.align='center',out.width='70%')
 ```
 ```{r,echo= FALSE ,message=FALSE}
 require(moonBook)
@@ -14,52 +15,62 @@ require(rrtable)
 require(ggplot2)
 ```
 
-  
-If you are a data scientist or researcher, you will certainly be interested in reproducible research. R package `rrtable` makes it possible to make reports with HTML, LaTex, MS word or MS Powerpoint formats from a table of R codes. 
+If you are a data scientist or researcher, you will certainly be interested in reproducible research. R package `rrtable` makes it possible to make reports with HTML, LaTex, MS word or MS Powerpoint formats from a table of R codes.
+ 
+
 
 
 ## Package Installation 
+
 You can install R package `rrtable` with the following command. 
-```{r, echo=TRUE,eval=FALSE }
-if(!require(devtools)){
-     install.packages("devtools")
-}
-devtools::install_github("cardiomoon/rrtable") 
+
+```{r echo=TRUE,eval=FALSE }
+if(!require(devtools)){ install.packages("devtools") } devtools::install_github("cardiomoon/rrtable") 
 ```
 
 
 
 ## Package Loading 
+
 You can load the `rrtable` package with the following R command. 
-```{r, echo=TRUE }
+
+```{r echo=TRUE }
 require(rrtable) 
 ```
 
 
 
 ## Sample Data 
+
 Sample data sampleData3 is included in rrtable package. You can see the sampleData3 by folllowing R command. 
-```{r, echo=TRUE }
+
+```{r echo=TRUE }
 str(sampleData3) 
 ```
 
 
 
-  
 Or you can make a table of this data 
-```{r, echo=FALSE }
-df2flextable(sampleData3[9,],align_body = "left") 
+
+```{r  }
+df2flextable(sampleData3[9,],align_body = "left")
+ 
 ```
 
 
 
 ```{r,results='asis'}
-df2flextable( sampleData3 ,vanilla= FALSE )
+df2flextable( sampleData3
+ ,vanilla= FALSE )
 ```
 
+
+
 ### mytable object 
+
 You can add mytable object with the following R code. 
-```{r, echo=FALSE }
+
+```{r echo=FALSE }
 df2flextable(sampleData3[11,],align_body = "left") 
 ```
 
@@ -69,59 +80,66 @@ df2flextable(sampleData3[11,],align_body = "left")
 mytable2flextable( mytable(Dx~.,data=acs) ,vanilla= FALSE )
 ```
 
+
+
 ### Plot 
+
 You can insert a plot into your document. 
-```{r, echo=FALSE }
-df2flextable(sampleData3[13,]) 
+
+```{r echo=FALSE }
+df2flextable(sampleData3[13,])
+ 
 ```
 
 
 
-```{r}
+```{r  }
 plot(iris) 
 ```
 
+
+
 ### ggplot 
+
 You can insert a ggplot into a document 
-```{r, echo=FALSE }
-df2flextable(sampleData3[15,]) 
+
+```{r echo=FALSE }
+df2flextable(sampleData3[15,])
+ 
 ```
 
 
 
-```{r}
+```{r  }
 ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width,color=Species))+geom_point() 
 ```
 
+
+
 ### R code 
-You can insert the result of R code. For example, you can insert the result of regression analysis.  
-```{r, echo=FALSE }
-df2flextable(sampleData3[17,]) 
+
+You can insert the result of R code. For example, you can insert the result of regression analysis. 
+
+```{r echo=FALSE }
+df2flextable(sampleData3[17,])
+ 
 ```
 
 
 
 ```{r,echo=TRUE}
-fit=lm(mpg~wt*hp,data=mtcars);summary(fit) 
-```
-
-### Two plots 
-You can insert two parallel plots with the following code. 
-```{r, echo=FALSE }
-df2flextable(sampleData3[19,]) 
+fit=lm(mpg~wt*hp,data=mtcars);summary(fit)
+ 
 ```
 
 
-
-```{r,out.width='50%',fig.align='default',fig.show='hold'}
-hist(rnorm(1000))
-plot(1:10) 
-```
 
 ### Two ggplots 
-You can insert two parallel ggplots with the following code.  
-```{r, echo=FALSE }
-df2flextable(sampleData3[21,]) 
+
+You can insert two parallel ggplots with the following code. 
+
+```{r echo=FALSE }
+df2flextable(sampleData3[19,]) 
 ```
 
 
@@ -130,4 +148,28 @@ df2flextable(sampleData3[21,])
 ggplot(iris,aes(Sepal.Length,Sepal.Width))+geom_point()
 ggplot(iris,aes(Sepal.Length,Sepal.Width,colour=Species))+geom_point()+guides(colour=FALSE) 
 ```
+
+
+
+### Two plots 
+
+You can insert two parallel plots with the following code. 
+
+```{r echo=FALSE }
+df2flextable(sampleData3[21,])
+ 
+```
+
+
+
+### Two plots 
+
+You can insert two parallel plots with the following code. 
+
+```{r,out.width='50%',fig.align='default',fig.show='hold'}
+hist(rnorm(1000))
+plot(1:10) 
+```
+
+
 
