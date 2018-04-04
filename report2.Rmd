@@ -25,7 +25,8 @@ If you are a data scientist or researcher, you will certainly be interested in r
 You can install R package `rrtable` with the following command. 
 
 ```{r echo=TRUE,eval=FALSE }
-if(!require(devtools)){ install.packages("devtools") } devtools::install_github("cardiomoon/rrtable") 
+if(!require(devtools)){ install.packages("devtools") }
+devtools::install_github("cardiomoon/rrtable") 
 ```
 
 
@@ -53,15 +54,15 @@ str(sampleData3)
 Or you can make a table of this data 
 
 ```{r  }
-df2flextable(sampleData3[9,],align_body = "left")
+df2flextable2(sampleData3[9,])
  
 ```
 
 
 
-```{r,results='asis'}
-df2flextable( sampleData3
- ,vanilla= FALSE )
+```{r  }
+df2flextable2(sampleData3)
+ 
 ```
 
 
@@ -71,7 +72,7 @@ df2flextable( sampleData3
 You can add mytable object with the following R code. 
 
 ```{r echo=FALSE }
-df2flextable(sampleData3[11,],align_body = "left") 
+df2flextable2(sampleData3[11,]) 
 ```
 
 
@@ -87,7 +88,7 @@ mytable2flextable( mytable(Dx~.,data=acs) ,vanilla= FALSE )
 You can insert a plot into your document. 
 
 ```{r echo=FALSE }
-df2flextable(sampleData3[13,])
+df2flextable2(sampleData3[13,])
  
 ```
 
@@ -104,7 +105,7 @@ plot(iris)
 You can insert a ggplot into a document 
 
 ```{r echo=FALSE }
-df2flextable(sampleData3[15,])
+df2flextable2(sampleData3[15,])
  
 ```
 
@@ -121,7 +122,7 @@ ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width,color=Species))+geom_point()
 You can insert the result of R code. For example, you can insert the result of regression analysis. 
 
 ```{r echo=FALSE }
-df2flextable(sampleData3[17,])
+df2flextable2(sampleData3[17,])
  
 ```
 
@@ -139,7 +140,7 @@ fit=lm(mpg~wt*hp,data=mtcars);summary(fit)
 You can insert two parallel ggplots with the following code. 
 
 ```{r echo=FALSE }
-df2flextable(sampleData3[19,]) 
+df2flextable2(sampleData3[19,]) 
 ```
 
 
@@ -156,19 +157,25 @@ ggplot(iris,aes(Sepal.Length,Sepal.Width,colour=Species))+geom_point()+guides(co
 You can insert two parallel plots with the following code. 
 
 ```{r echo=FALSE }
-df2flextable(sampleData3[21,])
+df2flextable2(sampleData3[21,])
  
 ```
 
 
 
-### Two plots 
-
-You can insert two parallel plots with the following code. 
-
 ```{r,out.width='50%',fig.align='default',fig.show='hold'}
 hist(rnorm(1000))
 plot(1:10) 
+```
+
+
+
+## HTML Report 
+
+You can get report with HTML format(this file) by following R command. 
+
+```{r echo=TRUE,eval=FALSE }
+data2HTML(sampleData3) 
 ```
 
 

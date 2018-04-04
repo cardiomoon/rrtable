@@ -119,6 +119,7 @@ mytable2flextable=function(result,vanilla=TRUE,fontname=NULL,fontsize=10){
                        padding.top=2,padding.bottom=2,part="all") %>%
                autofit()
 
+          ft
           rowno=c()
           current=1
           for(i in 1:nrow(test)){

@@ -42,9 +42,6 @@ data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL
         myauthor="prepared by web-r.org"
     }
 
-    mycat=function(...){
-        cat(...,file=tempReport,append=TRUE)
-    }
     mycat("---\ntitle: '",mytitle,"'\n")
     if(mysubtitle!=""){
         mycat("subtitle: '",mysubtitle,"'\n")

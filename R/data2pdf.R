@@ -1,3 +1,11 @@
+#' Concatenate to file
+#' @param ... R object
+#' @param file A connection
+#' @export
+mycat=function(...,file="report2.Rmd"){
+    base::cat(...,file=file, append=TRUE)
+}
+
 #' Make a pdf file with a data.frame
 #' @param data A data.frame
 #' @param preprocessing A character string of R code
@@ -14,12 +22,12 @@
 #' data2pdf(sampleData2)
 data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,rawDataFile="rawData.RDS",kotex=FALSE,echo=FALSE){
 
+    # data=sampleData2
+    # preprocessing="";filename="report.pdf";
+    # rawDataName=NULL;rawDataFile="rawData.RDS";kotex=FALSE;echo=FALSE
+
     if(file.exists("report2.Rmd")) file.remove("report2.Rmd")
     tempReport <-  "report2.Rmd"
-
-    mycat=function(...){
-        cat(...,file=tempReport,append=TRUE)
-    }
 
     data$type=tolower(data$type)
     if("title" %in% data$type) {
@@ -45,14 +53,12 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,r
     if(kotex==TRUE) mycat("- \\usepackage{kotex}\n")
     mycat("- \\usepackage{multirow}\n")
     mycat("- \\usepackage{colortbl}\n- \\usepackage{pdflscape}\n- \\usepackage[table]{xcolor}\n")
-    mycat("- \\usepackage{tabularx,booktabs}\n- \\usepackage{boxedminipage}\n- \\usepackage{graphicx}\n",
-          file=tempReport,append=TRUE)
+    mycat("- \\usepackage{tabularx,booktabs}\n- \\usepackage{boxedminipage}\n- \\usepackage{graphicx}\n")
     mycat("- \\usepackage{rotating}\n- \\usepackage{longtable}\n")
     mycat("---\n")
     mycat("```{r setup, include=FALSE}\n")
     mycat("knitr::opts_chunk$set(echo =",echo,",message=FALSE,warning=FALSE,comment=NA,
-          fig.width=9,fig.asp=0.618,fig.align='center',out.width='70%')\n",
-          file=tempReport,append=TRUE)
+          fig.width=9,fig.asp=0.618,fig.align='center',out.width='70%')\n")
     mycat("```\n")
 
     mycat("```{r,echo=",echo,",message=FALSE}\n")
