@@ -1,8 +1,18 @@
 ---
 title: ' R package `rrtable` '
-subtitle: ' Reproducible Research with a Table of R codes '
 author: ' Keon-Woong Moon '
-date: '`r Sys.time()`'
+date: "`r Sys.time()`"
+output: pdf_document
+header-includes:
+- \usepackage{multirow}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage[table]{xcolor}
+- \usepackage{tabularx,booktabs}
+- \usepackage{boxedminipage}
+- \usepackage{graphicx}
+- \usepackage{rotating}
+- \usepackage{longtable}
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE ,message=FALSE,warning=FALSE,comment=NA,
@@ -10,9 +20,12 @@ knitr::opts_chunk$set(echo = FALSE ,message=FALSE,warning=FALSE,comment=NA,
 ```
 ```{r,echo= FALSE ,message=FALSE}
 require(moonBook)
+require(xtable)
 require(ztable)
 require(rrtable)
 require(ggplot2)
+require(stringr)
+options(ztable.type='latex')
 ```
 
 If you are a data scientist or researcher, you will certainly be interested in reproducible research. R package `rrtable` makes it possible to make reports with HTML, LaTex, MS word or MS Powerpoint formats from a table of R codes.
@@ -53,129 +66,32 @@ str(sampleData3)
 
 Or you can make a table of this data 
 
-```{r  }
-df2flextable2(sampleData3[9,])
+```{r  ,results='asis'}
+HTML2latex=function(data){
+    seek=c("\\{","\\}","_","~")
+    replace=c("\\\\{","\\\\}","\\\\_","\\\\~{}")
+    code=data.frame(seek,replace,stringsAsFactors = FALSE)
  
-```
+    fnr=function(x){
+        
+        for(i in 1:nrow(code)){
+            x=str_replace_all(x,code$seek[i],code$replace[i])
+        }
+        x
+    }     
 
+    data[]=lapply(data,fnr)
+    data
+}
 
+ztable2=function(data,...){
+    data1=HTML2latex(data)
+    print(ztable(data1,...),include.rownames=FALSE,type="latex")
+}
 
-```{r  }
-df2flextable2(sampleData3)
- 
-```
-
-
-
-### mytable object 
-
-You can add mytable object with the following R code. 
-
-```{r echo=FALSE }
-df2flextable2(sampleData3[11,]) 
-```
-
-
-
-```{r,results='asis'}
-mytable2flextable( mytable(Dx~.,data=acs) ,vanilla= FALSE )
-```
-
-
-
-### Plot 
-
-You can insert a plot into your document. 
-
-```{r echo=FALSE }
-df2flextable2(sampleData3[13,])
- 
-```
-
-
-
-```{r  }
-plot(iris) 
-```
-
-
-
-### ggplot 
-
-You can insert a ggplot into a document 
-
-```{r echo=FALSE }
-df2flextable2(sampleData3[15,])
- 
-```
-
-
-
-```{r  }
-ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width,color=Species))+geom_point() 
-```
-
-
-
-### R code 
-
-You can insert the result of R code. For example, you can insert the result of regression analysis. 
-
-```{r echo=FALSE }
-df2flextable2(sampleData3[17,])
- 
-```
-
-
-
-```{r,echo=TRUE}
-fit=lm(mpg~wt*hp,data=mtcars);summary(fit)
- 
-```
-
-
-
-### Two ggplots 
-
-You can insert two parallel ggplots with the following code. 
-
-```{r echo=FALSE }
-df2flextable2(sampleData3[19,]) 
-```
-
-
-
-```{r,out.width='50%',fig.align='default',fig.show='hold'}
-ggplot(iris,aes(Sepal.Length,Sepal.Width))+geom_point()
-ggplot(iris,aes(Sepal.Length,Sepal.Width,colour=Species))+geom_point()+guides(colour=FALSE) 
-```
-
-
-
-### Two plots 
-
-You can insert two parallel plots with the following code. 
-
-```{r echo=FALSE }
-df2flextable2(sampleData3[21,])
- 
-```
-
-
-
-```{r,out.width='50%',fig.align='default',fig.show='hold'}
-hist(rnorm(1000))
-plot(1:10) 
-```
-
-
-
-## HTML Report 
-
-You can get report with HTML format(this file) by following R command. 
-
-```{r echo=TRUE,eval=FALSE }
-data2HTML(sampleData3) 
+data=sampleData3
+xtable(data)
+#ztable2(data,sidewaystable=TRUE,longtable=TRUE) 
 ```
 
 

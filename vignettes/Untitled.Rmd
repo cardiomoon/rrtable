@@ -1,0 +1,42 @@
+---
+title: "Untitled"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r pressure, echo=FALSE,results="asis"}
+require(rrtable)
+require(ztable)
+require(xtable)
+require(stringr)
+
+data=sampleData3[17,]
+
+
+HTML2latex=function(data){
+    seek=c("\\{","\\}","_","~")
+    replace=c("\\\\{","\\\\}","\\\\_","\\\\~{}")
+    code=data.frame(seek,replace,stringsAsFactors = FALSE)
+ 
+    fnr=function(x){
+        
+        for(i in 1:nrow(code)){
+            x=str_replace_all(x,code$seek[i],code$replace[i])
+        }
+        x
+    }     
+
+    data[]=lapply(data,fnr)
+    data
+}
+
+data1=HTML2latex(data)
+
+xtable(data)
+print(ztable(data1),type="latex")
+```
+

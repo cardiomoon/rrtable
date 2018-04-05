@@ -15,29 +15,37 @@ mycat=function(...,file="report2.Rmd"){
 #' @param kotex Logical. Whether or not use kotex package of latex
 #' @param echo Logical. Whether or not show R code of plot and table
 #' @importFrom rmarkdown render
+#' @importFrom stringr str_replace
 #' @export
 #' @examples
 #' library(moonBook)
 #' library(ztable)
-#' data2pdf(sampleData2)
+#' data2pdf(sampleData3)
 data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,rawDataFile="rawData.RDS",kotex=FALSE,echo=FALSE){
 
-    # data=sampleData2
+    # data=sampleData3
     # preprocessing="";filename="report.pdf";
     # rawDataName=NULL;rawDataFile="rawData.RDS";kotex=FALSE;echo=FALSE
 
     if(file.exists("report2.Rmd")) file.remove("report2.Rmd")
     tempReport <-  "report2.Rmd"
 
+    data$code=str_replace_all(data$code,"df2flextable[1-9]?","xtable")
+
     data$type=tolower(data$type)
     if("title" %in% data$type) {
-        mytitle=data[data$type=="title",]$code[1]
+        mytitle=data[data$type=="title",]$text[1]
         data=data[data$type!="title",]
     } else{
         mytitle="Web-based Analysis with R"
     }
+    mysubtitle=""
+    if("subtitle" %in% data$type) {
+        mysubtitle=data[data$type=="subtitle",]$text[1]
+        data=data[data$type!="subtitle",]
+    }
     if("author" %in% data$type) {
-        myauthor=data[data$type=="author",]$code[1]
+        myauthor=data[data$type=="author",]$text[1]
         data=data[data$type!="author",]
     } else{
         myauthor="prepared by web-r.org"
@@ -63,6 +71,7 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,r
 
     mycat("```{r,echo=",echo,",message=FALSE}\n")
     mycat("require(moonBook)\n")
+    mycat("require(xtable)\n")
     mycat("require(ztable)\n")
     mycat("require(rrtable)\n")
     mycat("require(ggplot2)\n")
@@ -94,10 +103,15 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,r
 
 
 
-        if(!is.na(mypptlist$title[i])) {
-            mycat("### ",mypptlist$title[i],"\n")
+        if(mypptlist$type[i] == "header2"){
+            mycat("##",mypptlist$title[i],"\n\n")
+        } else if(mypptlist$type[i] == "header3"){
+            mycat("###",mypptlist$title[i],"\n\n")
+        } else {
+            if(mypptlist$title[i]!="") mycat("###",mypptlist$title[i],"\n\n")
         }
 
+        if(mypptlist$text[i]!="") mycat(mypptlist$text[i],"\n\n")
 
         if(mypptlist$type[i]=="table") {
             mycat("```{r,results='asis'}\n")
@@ -109,49 +123,71 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,r
                 mycat("df=result$body$dataset\n")
                 mycat("df=html2latex(df)\n")
                 mycat("class(df)='data.frame'\n")
-                mycat("print(ztable(df,longtable=TRUE),type='latex')\n")
+                mycat("xtable(df)\n")
             } else {
                 mycat(mypptlist$code[i],'\n')
-
-
             }
+            mycat("```\n\n")
 
         } else if(mypptlist$type[i]=="mytable"){
             mycat("```{r,results='asis'}\n")
             mycat("result=",mypptlist$code[i],"\n")
             mycat("print(ztable(result,longtable=TRUE),type='latex')\n")
+            mycat("```\n\n")
         } else if(mypptlist$type[i]=="data"){
             mycat("```{r,results='asis'}\n")
-            mycat("print(ztable(",mypptlist$code[i],",longtable=TRUE),type='latex')\n")
+            mycat("xtable(",mypptlist$code[i],",auto=TRUE)\n")
+            mycat("```\n\n")
         } else if(mypptlist$type[i]=="rcode") {
             mycat("```{r,echo=TRUE}\n")
             mycat(mypptlist$code[i],'\n')
+            mycat("```\n\n")
         }  else if(mypptlist$type[i]=="code") {
             mycat("```{r,echo=TRUE,eval=FALSE}\n")
             mycat(mypptlist$code[i],'\n')
+            mycat("```\n\n")
         } else if(mypptlist$type[i] %in% c("2ggplots","2plots")){
             mycat("```{r,out.width='50%',fig.align='default',fig.show='hold'}\n")
             mycat(mypptlist$code[i],'\n')
-        } else if(mypptlist$type[i]=="##"){
-            mycat("## ",mypptlist$code[i],'\n')
-        } else if(mypptlist$type[i]=="###"){
-            mycat("### ",mypptlist$code[i],'\n')
-        } else if(mypptlist$type[i] %in% c("text","##","###")){
+            mycat("```\n\n")
+        } else if(str_detect(mypptlist$code[i],"xtable")){
+            mycat("```{r",mypptlist$option[i],",results='asis'}\n")
             mycat(mypptlist$code[i],'\n')
-
-        } else {
-            mycat("```{r}\n")
+            mycat("```\n\n")
+        } else if(mypptlist$code[i]!=""){
+            mycat("```{r",mypptlist$option[i],"}\n")
             mycat(mypptlist$code[i],'\n')
-        }
-        if(mypptlist$type[i] %in% c("text","##","###")) {
-            mycat("\n\n")
-        } else{
             mycat("```\n\n")
         }
+        mycat("\n\n")
+
     }
 
     out <- rmarkdown::render('report2.Rmd', params=list(format="PDF"),rmarkdown::pdf_document())
     result=file.rename(out, filename)
     #file.remove("report2.Rmd")
     invisible(result)
+}
+
+
+HTML2latex=function(data){
+    seek=c("\\{","\\}","_","~")
+    replace=c("\\\\{","\\\\}","\\\\_","\\\\~{}")
+    code=data.frame(seek,replace,stringsAsFactors = FALSE)
+
+    fnr=function(x){
+
+        for(i in 1:nrow(code)){
+            x=stringr::str_replace_all(x,code$seek[i],code$replace[i])
+        }
+        x
+    }
+
+    data[]=lapply(data,fnr)
+    data
+}
+
+ztable2=function(data,...){
+    data1=HTML2latex(data)
+    print(ztable(data1,...),include.rownames=FALSE,type="latex")
 }
