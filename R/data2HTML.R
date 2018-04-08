@@ -15,6 +15,7 @@
 #' library(ztable)
 #' library(rrtable)
 #' data2HTML(sampleData3)
+#' data2HTML(sampleData2)
 data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL,rawDataFile="rawData.RDS",
                    vanilla=FALSE,echo=FALSE){
 
@@ -22,6 +23,12 @@ data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL
     if(file.exists("report2.Rmd")) file.remove("report2.Rmd")
 
     tempReport <-  "report2.Rmd"
+
+    if(ncol(data)==3) {
+        shortdata=1
+    } else {
+        shortdata=0
+    }
 
     data$type=tolower(data$type)
     if("title" %in% data$type) {
@@ -88,7 +95,10 @@ data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL
             if(mypptlist$title[i]!="") mycat("###",mypptlist$title[i],"\n\n")
         }
 
-        if(mypptlist$text[i]!="") mycat(mypptlist$text[i],"\n\n")
+
+        if(shortdata==0){
+            if(mypptlist$text[i]!="") mycat(mypptlist$text[i],"\n\n")
+        }
 
         if(mypptlist$type[i]=="mytable") {
             mycat("```{r,results='asis'}\n")
@@ -121,8 +131,12 @@ data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL
             mycat("```{r,out.width='50%',fig.align='default',fig.show='hold'}\n")
             mycat(mypptlist$code[i],'\n')
             mycat("```\n\n")
+        } else if(mypptlist$type[i]=="text") {
+
+            mycat(mypptlist$code[i],'\n')
+
         } else if(mypptlist$code[i]!=""){
-            mycat("```{r",mypptlist$option[i],"}\n")
+            mycat("```{r",ifelse(shortdata,"",mypptlist$option[i]),"}\n")
             mycat(mypptlist$code[i],'\n')
             mycat("```\n\n")
         }

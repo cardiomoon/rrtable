@@ -39,6 +39,7 @@ pastelf=function(...){
 #' @param size desired length
 #' @param exdent exdent
 #' @importFrom stringr str_extract_all str_flatten str_pad
+#' @export
 #' @return splitted character vector
 tensiSplit <- function(string,size=82,exdent=3) {
     result=c()

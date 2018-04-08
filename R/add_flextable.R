@@ -58,6 +58,21 @@ add_flextable=function(mydoc,ftable,title="",code="",echo=FALSE){
 }
 
 
-
-
-
+# require(officer)
+# require(flextable)
+# mydoc=read_docx()
+# ftable=df2flextable2(sampleData3[1:3])
+# ftable
+# nrow(sampleData3)
+# sampleData3[15,]
+# title=""
+# code="df2flextable(sampleData3[c(4),])"
+# ftable=eval(parse(text=code))
+#
+# data1 <- sampleData3[4,] %>%
+#     lfData()
+# data1
+# df2flextable(data1)
+# read_docx() %>% add_flextable(ftable,title="",code=code,echo=TRUE) %>%
+#     print(target="mytable.docx")
+#

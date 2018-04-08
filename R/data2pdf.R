@@ -21,16 +21,23 @@ mycat=function(...,file="report2.Rmd"){
 #' library(moonBook)
 #' library(ztable)
 #' data2pdf(sampleData3)
+#' data2pdf(sampleData2)
 data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,rawDataFile="rawData.RDS",kotex=FALSE,echo=FALSE){
 
-    # data=sampleData3
+    # data=sampleData2[9,]
     # preprocessing="";filename="report.pdf";
     # rawDataName=NULL;rawDataFile="rawData.RDS";kotex=FALSE;echo=FALSE
 
     if(file.exists("report2.Rmd")) file.remove("report2.Rmd")
     tempReport <-  "report2.Rmd"
 
-    data$code=str_replace_all(data$code,"df2flextable[1-9]?","xtable")
+    if(ncol(data)==3) {
+        shortdata=1
+    } else {
+        shortdata=0
+    }
+
+    data$code=str_replace_all(data$code,"df2flextable[1-9]?","ztable2")
 
     data$type=tolower(data$type)
     if("title" %in% data$type) {
@@ -111,7 +118,9 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,r
             if(mypptlist$title[i]!="") mycat("###",mypptlist$title[i],"\n\n")
         }
 
-        if(mypptlist$text[i]!="") mycat(mypptlist$text[i],"\n\n")
+        if(shortdata==0){
+            if(mypptlist$text[i]!="") mycat(mypptlist$text[i],"\n\n")
+        }
 
         if(mypptlist$type[i]=="table") {
             mycat("```{r,results='asis'}\n")
@@ -150,12 +159,15 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,r
             mycat("```{r,out.width='50%',fig.align='default',fig.show='hold'}\n")
             mycat(mypptlist$code[i],'\n')
             mycat("```\n\n")
-        } else if(str_detect(mypptlist$code[i],"xtable")){
-            mycat("```{r",mypptlist$option[i],",results='asis'}\n")
+        } else if(mypptlist$type[i] =="text"){
+            mycat(mypptlist$code[i],'\n')
+
+        } else if(str_detect(mypptlist$code[i],"ztable")){
+            mycat("```{r",ifelse(shortdata,"",mypptlist$option[i]),",results='asis'}\n")
             mycat(mypptlist$code[i],'\n')
             mycat("```\n\n")
-        } else if(mypptlist$code[i]!=""){
-            mycat("```{r",mypptlist$option[i],"}\n")
+        }  else if(mypptlist$code[i] !=""){
+            mycat("```{r",ifelse(shortdata,"",mypptlist$option[i]),"}\n")
             mycat(mypptlist$code[i],'\n')
             mycat("```\n\n")
         }
@@ -170,7 +182,11 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,r
 }
 
 
-HTML2latex=function(data){
+
+#' Convert HTML table to latex table
+#' @param data a data.frame
+#' @export
+HTMLcode2latex=function(data){
     seek=c("\\{","\\}","_","~")
     replace=c("\\\\{","\\\\}","\\\\_","\\\\~{}")
     code=data.frame(seek,replace,stringsAsFactors = FALSE)
@@ -187,7 +203,59 @@ HTML2latex=function(data){
     data
 }
 
-ztable2=function(data,...){
-    data1=HTML2latex(data)
-    print(ztable(data1,...),include.rownames=FALSE,type="latex")
+#'make latex table with ztable
+#'@param data a data.frame
+#'@param ... further argument to be passed to ztable
+#'@export
+#'@examples
+#'ztable2(sampleData3)
+ztable2=function(data,aim=NULL,type="latex",...){
+    data=sampleData3
+    aim=NULL
+    data1 <- data %>%
+        multiLineData() %>%
+        adjustWidth(aim=aim) %>%
+        lfData() %>%
+        HTMLcode2latex() %>%
+        as.data.frame()
+    data1=data1[-ncol(data1)]
+    print(ztable(data1,...),type=type,longtable=TRUE,include.rownames=FALSE)
+}
+
+
+#' adjust width of data.frame
+#' @param data A data.frame
+#' @param width total desired wdth
+#' @param min minimum width of each column
+#' @importFrom purrr map2_df
+#' @export
+adjustWidth=function(data,width=80,min=10,aim=NULL){
+
+    if(is.null(aim)){
+    current=apply(data,2,function(x) max(nchar(x)))
+    preserveCol=current<min
+    SumCurrent=sum(current[setdiff(1:ncol(data),preserveCol)])
+    aim=current*width/SumCurrent
+    aim[preserveCol]=current[preserveCol]
+    aim[!preserveCol]=ifelse(aim[!preserveCol]<min,min,aim[!preserveCol])
+    A=sum(aim[aim>min])
+    B=width-sum(aim[aim<=min])
+    aim[aim>min]=aim[aim>min]*B/A
+    aim=round(aim)
+    }
+    map2_df(data,aim,tensiSplit2,exdent=0)
+}
+
+#' Split string vectors with desired length with exdent
+#' @param x A string vector
+#' @param ... further argument to be passed to tensiSplit
+#' @export
+tensiSplit2=function(x,...){
+    result=c()
+    for(i in 1:length(x)){
+        temp=tensiSplit(x[i],...)
+        temp=str_flatten(temp,"\n")
+        result=c(result,temp)
+    }
+    result
 }

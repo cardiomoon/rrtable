@@ -1,8 +1,7 @@
 ---
 title: ' R package `rrtable` '
 author: ' Keon-Woong Moon '
-date: "`r Sys.time()`"
-output: pdf_document
+date: '`r Sys.time()`'
 header-includes:
 - \usepackage{multirow}
 - \usepackage{colortbl}
@@ -24,7 +23,6 @@ require(xtable)
 require(ztable)
 require(rrtable)
 require(ggplot2)
-require(stringr)
 options(ztable.type='latex')
 ```
 
@@ -67,31 +65,129 @@ str(sampleData3)
 Or you can make a table of this data 
 
 ```{r  ,results='asis'}
-HTML2latex=function(data){
-    seek=c("\\{","\\}","_","~")
-    replace=c("\\\\{","\\\\}","\\\\_","\\\\~{}")
-    code=data.frame(seek,replace,stringsAsFactors = FALSE)
+ztable2(sampleData3[9,])
  
-    fnr=function(x){
-        
-        for(i in 1:nrow(code)){
-            x=str_replace_all(x,code$seek[i],code$replace[i])
-        }
-        x
-    }     
+```
 
-    data[]=lapply(data,fnr)
-    data
-}
 
-ztable2=function(data,...){
-    data1=HTML2latex(data)
-    print(ztable(data1,...),include.rownames=FALSE,type="latex")
-}
 
-data=sampleData3
-xtable(data)
-#ztable2(data,sidewaystable=TRUE,longtable=TRUE) 
+```{r  ,results='asis'}
+ztable2(sampleData3)
+ 
+```
+
+
+
+### mytable object 
+
+You can add mytable object with the following R code. 
+
+```{r echo=FALSE ,results='asis'}
+ztable2(sampleData3[11,]) 
+```
+
+
+
+```{r,results='asis'}
+result= mytable(Dx~.,data=acs) 
+print(ztable(result,longtable=TRUE),type='latex')
+```
+
+
+
+### Plot 
+
+You can insert a plot into your document. 
+
+```{r echo=FALSE ,results='asis'}
+ztable2(sampleData3[13,])
+ 
+```
+
+
+
+```{r  }
+plot(iris) 
+```
+
+
+
+### ggplot 
+
+You can insert a ggplot into a document 
+
+```{r echo=FALSE ,results='asis'}
+ztable2(sampleData3[15,])
+ 
+```
+
+
+
+```{r  }
+ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width,color=Species))+geom_point() 
+```
+
+
+
+### R code 
+
+You can insert the result of R code. For example, you can insert the result of regression analysis. 
+
+```{r echo=FALSE ,results='asis'}
+ztable2(sampleData3[17,])
+ 
+```
+
+
+
+```{r,echo=TRUE}
+fit=lm(mpg~wt*hp,data=mtcars);summary(fit)
+ 
+```
+
+
+
+### Two ggplots 
+
+You can insert two parallel ggplots with the following code. 
+
+```{r echo=FALSE ,results='asis'}
+ztable2(sampleData3[19,]) 
+```
+
+
+
+```{r,out.width='50%',fig.align='default',fig.show='hold'}
+ggplot(iris,aes(Sepal.Length,Sepal.Width))+geom_point()
+ggplot(iris,aes(Sepal.Length,Sepal.Width,colour=Species))+geom_point()+guides(colour=FALSE) 
+```
+
+
+
+### Two plots 
+
+You can insert two parallel plots with the following code. 
+
+```{r echo=FALSE ,results='asis'}
+ztable2(sampleData3[21,])
+ 
+```
+
+
+
+```{r,out.width='50%',fig.align='default',fig.show='hold'}
+hist(rnorm(1000))
+plot(1:10) 
+```
+
+
+
+## HTML Report 
+
+You can get report with HTML format(this file) by following R command. 
+
+```{r echo=TRUE,eval=FALSE }
+data2HTML(sampleData3) 
 ```
 
 

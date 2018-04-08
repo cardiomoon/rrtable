@@ -25,11 +25,31 @@ data2office=function(data,
     if(preprocessing!="") eval(parse(text=preprocessing))
 
     data$type=tolower(data$type)
+
+    if(ncol(data)==3) {
+        shortdata=1
+    } else {
+        shortdata=0
+    }
+
     if("title" %in% data$type) {
-        mytitle=data[data$type=="title",]$code[1]
+        if(shortdata) {
+            mytitle=data[data$type=="title",]$code[1]
+        } else{
+            mytitle=data[data$type=="title",]$text[1]
+        }
         data=data[data$type!="title",]
     } else{
         mytitle="Web-based Analysis with R"
+    }
+    mysubtitle=""
+    if("subtitle" %in% data$type) {
+        if(shortdata) {
+            mysubtitle=data[data$type=="subtitle",]$code[1]
+        } else{
+            mysubtitle=data[data$type=="subtitle",]$text[1]
+        }
+        data=data[data$type!="subtitle",]
     }
     if("author" %in% data$type) {
         myauthor=data[data$type=="author",]$code[1]
@@ -40,13 +60,25 @@ data2office=function(data,
 
     if(format=="pptx"){
         mydoc <- read_pptx() %>%
-            add_title_slide(title=mytitle,subtitle=myauthor)
+            add_title_slide(title=mytitle,subtitle=ifelse(shortdata,myauthor,mysubtitle))
     } else {
         mydoc <- read_docx()
     }
     #str(data)
     for(i in 1:nrow(data)){
         #cat("data$code[",i,"]=",data$code[i],"\n")
+
+        # if(mypptlist$type[i] == "header2"){
+        #     mycat("##",mypptlist$title[i],"\n\n")
+        # } else if(mypptlist$type[i] == "header3"){
+        #     mycat("###",mypptlist$title[i],"\n\n")
+        # } else {
+        #     if(mypptlist$title[i]!="") mycat("###",mypptlist$title[i],"\n\n")
+        # }
+
+        if(shortdata==0){
+            if(data$text[i]!="") mydoc=add_text(mydoc,title=data$title[i],text=data$text[i])
+        }
 
         if(data$type[i]=="Rcode") eval(parse(text=data$code[i]))
         if(data$type[i]=="data"){
@@ -94,6 +126,12 @@ data2office=function(data,
         } else if(data$type[i] %in% c("emf","EMF")){
 
             mydoc<-add_img(mydoc,data$code[i],title=data$title[i],echo=echo)
+
+        } else if(str_detect(data$code[i],"df2flextable")){
+
+            tempcode=data$code[i]
+            ft=eval(parse(text=tempcode))
+            mydoc=add_flextable(mydoc,ft,data$title[i],data$code[i],echo=echo)
 
         }
 
@@ -189,3 +227,16 @@ html2latex=function(df){
 # sampleData2=result
 # devtools::use_data(sampleData2,overwrite=TRUE)
 # sampleData2
+
+
+#'grep string in all files in subdirectory
+#'@param x string
+#'@export
+mygrep=function(x,file="*"){
+
+    x=substitute(x)
+    temp=paste0("grep -r '",x,"' ",file)
+    system(temp)
+}
+
+# data2docx(sampleData3,echo=TRUE)
