@@ -210,8 +210,8 @@ HTMLcode2latex=function(data){
 #'@examples
 #'ztable2(sampleData3)
 ztable2=function(data,aim=NULL,type="latex",...){
-    data=sampleData3
-    aim=NULL
+    # data=sampleData3
+    # aim=NULL
     data1 <- data %>%
         multiLineData() %>%
         adjustWidth(aim=aim) %>%
