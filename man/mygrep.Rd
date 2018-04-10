@@ -4,10 +4,12 @@
 \alias{mygrep}
 \title{grep string in all files in subdirectory}
 \usage{
-mygrep(x)
+mygrep(x, file = "*")
 }
 \arguments{
 \item{x}{string}
+
+\item{file}{files to seek}
 }
 \description{
 grep string in all files in subdirectory

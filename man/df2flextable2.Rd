@@ -4,10 +4,12 @@
 \alias{df2flextable2}
 \title{make multiline table}
 \usage{
-df2flextable2(data)
+df2flextable2(data, ...)
 }
 \arguments{
 \item{data}{a data.frame}
+
+\item{...}{further arguments to be passed to multiLineTable()}
 }
 \description{
 make multiline table

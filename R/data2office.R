@@ -11,12 +11,21 @@
 #' @param rawDataFile raw Data File
 #' @param vanilla logical. WHether or not make vanilla table
 #' @param echo logical Whether or not show R code
+#' @param showself Logical. Whether or not show R code for the paragraph
 #' @importFrom officer read_docx read_pptx
 #' @export
 data2office=function(data,
                      preprocessing="",
                      filename="Report",format="pptx",width=7,height=5,units="in",
-                     res=300,rawDataName=NULL,rawDataFile="rawData.RDS",vanilla=FALSE,echo=FALSE){
+                     res=300,rawDataName=NULL,rawDataFile="rawData.RDS",vanilla=FALSE,echo=FALSE,
+                     showself=FALSE){
+
+    # require(officer)
+    # data=sampleData3[10,]
+    # preprocessing=""
+    # filename="Report";format="pptx";width=7;height=5;units="in"
+    # res=300;rawDataName=NULL;rawDataFile="rawData.RDS";vanilla=FALSE;echo=TRUE
+    # showself=TRUE
 
     if(!is.null(rawDataName)){
         rawData=readRDS(rawDataFile)
@@ -64,7 +73,9 @@ data2office=function(data,
     } else {
         mydoc <- read_docx()
     }
-    #str(data)
+    # str(data)
+    #
+    # i=1
     for(i in 1:nrow(data)){
         #cat("data$code[",i,"]=",data$code[i],"\n")
 
@@ -75,63 +86,82 @@ data2office=function(data,
         # } else {
         #     if(mypptlist$title[i]!="") mycat("###",mypptlist$title[i],"\n\n")
         # }
+        # data$title[i]
+        # data$text[i]
+        # data$code[i]
+        # echo
+        # showself
+        # shortdata
 
         if(shortdata==0){
-            if(data$text[i]!="") mydoc=add_text(mydoc,title=data$title[i],text=data$text[i])
+            echo1=echo|getCodeOption(data$option[i])
+            eval=getCodeOption(data$option[i],"eval")
+            if(data$type[i]=="rcode") {
+                echo1=TRUE
+                eval=TRUE
+            }
+            if(data$type[i]!="text") {
+                temp=""
+            } else{
+                temp=data$text[i]
+            }
+            mydoc=add_text(mydoc,title=data$title[i],text=temp,
+                                                code=data$code[i],echo=echo1,eval=eval,showself=showself)
         }
 
-        if(data$type[i]=="Rcode") eval(parse(text=data$code[i]))
+        if(data$type[i]=="rcode") eval(parse(text=data$code[i]))
         if(data$type[i]=="data"){
             ft=df2flextable(eval(parse(text=data$code[i])),vanilla=vanilla)
-            mydoc=add_flextable(mydoc,ft,data$title[i],data$code[i],echo=echo)
+            mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo)
         } else if(data$type[i]=="table"){
-            tempcode=set_argument(data$code[i],argument="vanilla",value=vanilla)
-            ft=eval(parse(text=tempcode))
-            mydoc=add_flextable(mydoc,ft,data$title[i],data$code[i],echo=echo)
+            #tempcode=set_argument(data$code[i],argument="vanilla",value=vanilla)
+            ft=eval(parse(text=data$code[i]))
+            mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo)
         } else if(data$type[i]=="mytable"){
             res=eval(parse(text=data$code[i]))
             ft=mytable2flextable(res,vanilla=vanilla)
-            mydoc=add_flextable(mydoc,ft,data$title[i],data$code[i],echo=echo)
+            mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo)
         } else if(data$type[i]=="ggplot"){
-            mydoc=add_ggplot(mydoc,title=data$title[i],code=data$code[i],echo=echo)
+            mydoc=add_ggplot(mydoc,code=data$code[i])
         }else if(data$type[i]=="2ggplots"){
 
             codes=unlist(strsplit(data$code[i],"\n"))
             # codes=unlist(strsplit(sampleData2$code[8],"\n"))
             gg1=codes[1]
             gg2=codes[2]
-            mydoc=add_2ggplots(mydoc,title=data$title[i],plot1=gg1,plot2=gg2,
-                               echo=echo)
+            mydoc=add_2ggplots(mydoc,plot1=gg1,plot2=gg2)
         } else if(data$type[i]=="plot"){
-            mydoc<-add_plot(mydoc,data$code[i],title=data$title[i],echo=echo)
+            mydoc<-add_plot(mydoc,data$code[i])
 
         } else if(data$type[i]=="2plots"){
 
             codes=unlist(strsplit(data$code[i],"\n"))
-            mydoc=add_2plots(mydoc,plotstring1=codes[1],plotstring2=codes[2],title=data$title[i],echo=echo)
+            mydoc=add_2plots(mydoc,plotstring1=codes[1],plotstring2=codes[2])
 
-        } else if(data$type[i]=="rcode"){
+        }
+        # else if(data$type[i]=="rcode"){
+        #
+        #     mydoc=add_Rcode(mydoc,code=data$code[i],
+        #                     preprocessing=preprocessing,format=format)
+        #
+        # }
+        else if(data$type[i]=="text"){
 
-            mydoc=add_Rcode(mydoc,code=data$code[i],title=data$title[i],
-                            preprocessing=preprocessing,format=format)
-
-        } else if(data$type[i]=="text"){
-
-            mydoc=add_text(mydoc,title=data$title[i],text=data$code[i])
+            #mydoc=add_text(mydoc,title=data$title[i],text=data$code[i])
 
         } else if(data$type[i] %in% c("PNG","png")){
 
-            mydoc<-add_img(mydoc,data$code[i],title=data$title[i],format="png",echo=echo)
+            mydoc<-add_img(mydoc,data$code[i],format="png")
 
         } else if(data$type[i] %in% c("emf","EMF")){
 
-            mydoc<-add_img(mydoc,data$code[i],title=data$title[i],echo=echo)
+            mydoc<-add_img(mydoc,data$code[i])
 
         } else if(str_detect(data$code[i],"df2flextable")){
 
             tempcode=data$code[i]
             ft=eval(parse(text=tempcode))
-            mydoc=add_flextable(mydoc,ft,data$title[i],data$code[i],echo=echo)
+            mydoc=add_flextable(mydoc,ft)
 
         }
 
@@ -231,6 +261,7 @@ html2latex=function(df){
 
 #'grep string in all files in subdirectory
 #'@param x string
+#'@param file files to seek
 #'@export
 mygrep=function(x,file="*"){
 

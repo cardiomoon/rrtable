@@ -4,7 +4,7 @@
 \alias{adjustWidth}
 \title{adjust width of data.frame}
 \usage{
-adjustWidth(data, width = 80, min = 10)
+adjustWidth(data, width = 80, min = 10, aim = NULL)
 }
 \arguments{
 \item{data}{A data.frame}
@@ -12,6 +12,8 @@ adjustWidth(data, width = 80, min = 10)
 \item{width}{total desired wdth}
 
 \item{min}{minimum width of each column}
+
+\item{aim}{desired column lengths}
 }
 \description{
 adjust width of data.frame

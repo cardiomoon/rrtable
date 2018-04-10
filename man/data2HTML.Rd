@@ -6,7 +6,7 @@
 \usage{
 data2HTML(data, preprocessing = "", filename = "report.HTML",
   rawDataName = NULL, rawDataFile = "rawData.RDS", vanilla = FALSE,
-  echo = FALSE)
+  echo = TRUE, showself = FALSE)
 }
 \arguments{
 \item{data}{A data.frame}
@@ -22,6 +22,8 @@ data2HTML(data, preprocessing = "", filename = "report.HTML",
 \item{vanilla}{logical. Whether or not make vanilla table}
 
 \item{echo}{Logical. Whether or not show R code of plot and table}
+
+\item{showself}{Logical. Whether or not show R code for the paragraph}
 }
 \description{
 Make a HTML5 file with a data.frame
@@ -31,4 +33,5 @@ library(moonBook)
 library(ztable)
 library(rrtable)
 data2HTML(sampleData3)
+data2HTML(sampleData2)
 }

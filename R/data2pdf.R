@@ -14,6 +14,7 @@ mycat=function(...,file="report2.Rmd"){
 #' @param rawDataFile The name of the rawData file which the data are to be read from.
 #' @param kotex Logical. Whether or not use kotex package of latex
 #' @param echo Logical. Whether or not show R code of plot and table
+#' @param showself Logical. Whether or not show R code for the paragraph
 #' @importFrom rmarkdown render
 #' @importFrom stringr str_replace
 #' @export
@@ -22,7 +23,8 @@ mycat=function(...,file="report2.Rmd"){
 #' library(ztable)
 #' data2pdf(sampleData3)
 #' data2pdf(sampleData2)
-data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,rawDataFile="rawData.RDS",kotex=FALSE,echo=FALSE){
+data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
+                  rawDataFile="rawData.RDS",kotex=FALSE,echo=TRUE,showself=FALSE){
 
     # data=sampleData2[9,]
     # preprocessing="";filename="report.pdf";
@@ -110,6 +112,9 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,r
 
 
 
+        if(mypptlist$type[i] == "mytable"){
+            mycat("\n\\newpage\n\n")
+        }
         if(mypptlist$type[i] == "header2"){
             mycat("##",mypptlist$title[i],"\n\n")
         } else if(mypptlist$type[i] == "header3"){
@@ -119,33 +124,43 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,r
         }
 
         if(shortdata==0){
+            if(showself){
+                if(mypptlist$type[i] %in% c("mytable","table","plot","ggplot","rcode","2ggplots","2plots")){
+                    mycat("\n\n")
+                    mycat("```{r,results='asis',echo=FALSE}\n")
+
+                    mycat("ztable2(data[",i,",])\n")
+                    mycat("```\n\n\n")
+                }
+            }
             if(mypptlist$text[i]!="") mycat(mypptlist$text[i],"\n\n")
         }
 
-        if(mypptlist$type[i]=="table") {
-            mycat("```{r,results='asis'}\n")
-            temp=mypptlist$code[i]
-
-            result<-eval(parse(text=temp))
-            if("flextable" %in% class(result)){
-                mycat("result=",mypptlist$code[i],"\n")
-                mycat("df=result$body$dataset\n")
-                mycat("df=html2latex(df)\n")
-                mycat("class(df)='data.frame'\n")
-                mycat("xtable(df)\n")
-            } else {
-                mycat(mypptlist$code[i],'\n')
-            }
-            mycat("```\n\n")
-
-        } else if(mypptlist$type[i]=="mytable"){
+        # if(mypptlist$type[i]=="table") {
+        #     mycat("```{r,results='asis'}\n")
+        #     temp=mypptlist$code[i]
+        #
+        #     result<-eval(parse(text=temp))
+        #     if("flextable" %in% class(result)){
+        #         mycat("result=",mypptlist$code[i],"\n")
+        #         mycat("df=result$body$dataset\n")
+        #         mycat("df=html2latex(df)\n")
+        #         mycat("class(df)='data.frame'\n")
+        #         mycat("xtable(df)\n")
+        #     } else {
+        #         mycat(mypptlist$code[i],'\n')
+        #     }
+        #     mycat("```\n\n")
+        #
+        # } else
+        if(mypptlist$type[i]=="mytable"){
             mycat("```{r,results='asis'}\n")
             mycat("result=",mypptlist$code[i],"\n")
             mycat("print(ztable(result,longtable=TRUE),type='latex')\n")
             mycat("```\n\n")
         } else if(mypptlist$type[i]=="data"){
             mycat("```{r,results='asis'}\n")
-            mycat("xtable(",mypptlist$code[i],",auto=TRUE)\n")
+            mycat("ztable2(",mypptlist$code[i],")\n")
             mycat("```\n\n")
         } else if(mypptlist$type[i]=="rcode") {
             mycat("```{r,echo=TRUE}\n")
@@ -206,12 +221,15 @@ HTMLcode2latex=function(data){
 #'make latex table with ztable
 #'@param data a data.frame
 #'@param ... further argument to be passed to ztable
+#'@param aim desired column lengths
+#'@param type output type
 #'@export
 #'@examples
 #'ztable2(sampleData3)
 ztable2=function(data,aim=NULL,type="latex",...){
-    # data=sampleData3
+    # data=sampleData2
     # aim=NULL
+    # type="viewer"
     data1 <- data %>%
         multiLineData() %>%
         adjustWidth(aim=aim) %>%
@@ -219,6 +237,7 @@ ztable2=function(data,aim=NULL,type="latex",...){
         HTMLcode2latex() %>%
         as.data.frame()
     data1=data1[-ncol(data1)]
+
     print(ztable(data1,...),type=type,longtable=TRUE,include.rownames=FALSE)
 }
 
@@ -227,6 +246,7 @@ ztable2=function(data,aim=NULL,type="latex",...){
 #' @param data A data.frame
 #' @param width total desired wdth
 #' @param min minimum width of each column
+#' @param aim desired column lengths
 #' @importFrom purrr map2_df
 #' @export
 adjustWidth=function(data,width=80,min=10,aim=NULL){

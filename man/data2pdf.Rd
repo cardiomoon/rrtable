@@ -6,7 +6,7 @@
 \usage{
 data2pdf(data, preprocessing = "", filename = "report.pdf",
   rawDataName = NULL, rawDataFile = "rawData.RDS", kotex = FALSE,
-  echo = FALSE)
+  echo = TRUE, showself = FALSE)
 }
 \arguments{
 \item{data}{A data.frame}
@@ -22,6 +22,8 @@ data2pdf(data, preprocessing = "", filename = "report.pdf",
 \item{kotex}{Logical. Whether or not use kotex package of latex}
 
 \item{echo}{Logical. Whether or not show R code of plot and table}
+
+\item{showself}{Logical. Whether or not show R code for the paragraph}
 }
 \description{
 Make a pdf file with a data.frame
@@ -30,4 +32,5 @@ Make a pdf file with a data.frame
 library(moonBook)
 library(ztable)
 data2pdf(sampleData3)
+data2pdf(sampleData2)
 }

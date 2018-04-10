@@ -4,7 +4,7 @@
 \alias{add_plot}
 \title{Add plot into a document object}
 \usage{
-add_plot(mydoc, plotstring, title = "", vector = TRUE, echo = FALSE)
+add_plot(mydoc, plotstring, title = "", vector = TRUE)
 }
 \arguments{
 \item{mydoc}{A document object}
@@ -14,8 +14,6 @@ add_plot(mydoc, plotstring, title = "", vector = TRUE, echo = FALSE)
 \item{title}{An character string as a plot title}
 
 \item{vector}{A logical. If TRUE, vector graphics are produced instead, PNG images if FALSE.}
-
-\item{echo}{logical Whether or not show R code}
 }
 \value{
 a document object
@@ -28,5 +26,5 @@ require(rrtable)
 require(officer)
 require(rvg)
 require(magrittr)
-read_pptx() \%>\% add_plot("plot(iris)") \%>\% add_plot("plot(iris)",echo=TRUE)
+read_pptx() \%>\% add_text(title="Plot") \%>\% add_plot("plot(iris)")
 }

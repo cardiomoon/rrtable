@@ -4,15 +4,13 @@
 \alias{add_img}
 \title{Add plot into a document object}
 \usage{
-add_img(mydoc, plotstring, title = "", width = 7, height = 5,
-  units = "in", res = 300, format = "emf", echo = FALSE, ...)
+add_img(mydoc, plotstring, width = 7, height = 5, units = "in",
+  res = 300, format = "emf", ...)
 }
 \arguments{
 \item{mydoc}{A document object}
 
 \item{plotstring}{An string of R code encoding plot}
-
-\item{title}{An character string as a plot title}
 
 \item{width}{the width of the device.}
 
@@ -23,8 +21,6 @@ add_img(mydoc, plotstring, title = "", width = 7, height = 5,
 \item{res}{The nominal resolution in ppi which will be recorded in the bitmap file, if a positive integer. Also used for units other than the default, and to convert points to pixels.}
 
 \item{format}{plot format}
-
-\item{echo}{logical Whether or not show R code}
 
 \item{...}{additional arguments passed to png()}
 }
@@ -39,5 +35,5 @@ require(officer)
 require(rrtable)
 require(magrittr)
 require(flextable)
-read_pptx() \%>\% add_img("plot(mtcars)",format="png",res=300)
+read_pptx() \%>\% add_text(title="Add image") \%>\% add_img("plot(mtcars)",format="png",res=300)
 }

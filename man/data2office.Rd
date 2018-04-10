@@ -7,7 +7,7 @@
 data2office(data, preprocessing = "", filename = "Report",
   format = "pptx", width = 7, height = 5, units = "in", res = 300,
   rawDataName = NULL, rawDataFile = "rawData.RDS", vanilla = FALSE,
-  echo = FALSE)
+  echo = FALSE, showself = FALSE)
 }
 \arguments{
 \item{data}{A document object}
@@ -33,6 +33,8 @@ data2office(data, preprocessing = "", filename = "Report",
 \item{vanilla}{logical. WHether or not make vanilla table}
 
 \item{echo}{logical Whether or not show R code}
+
+\item{showself}{Logical. Whether or not show R code for the paragraph}
 }
 \description{
 convert data to pptx file

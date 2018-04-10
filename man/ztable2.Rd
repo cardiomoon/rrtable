@@ -4,10 +4,14 @@
 \alias{ztable2}
 \title{make latex table with ztable}
 \usage{
-ztable2(data, ...)
+ztable2(data, aim = NULL, type = "latex", ...)
 }
 \arguments{
 \item{data}{a data.frame}
+
+\item{aim}{desired column lengths}
+
+\item{type}{output type}
 
 \item{...}{further argument to be passed to ztable}
 }
@@ -15,5 +19,5 @@ ztable2(data, ...)
 make latex table with ztable
 }
 \examples{
-ztable2(sampleData3[17,])
+ztable2(sampleData3)
 }

@@ -6,6 +6,7 @@
 #' @param rawDataFile The name of the rawData file which the data are to be read from.
 #' @param vanilla logical. Whether or not make vanilla table
 #' @param echo Logical. Whether or not show R code of plot and table
+#' @param showself Logical. Whether or not show R code for the paragraph
 #' @importFrom rmarkdown render
 #' @importFrom moonBook mytable
 #' @importFrom ztable ztable print.ztable
@@ -17,7 +18,7 @@
 #' data2HTML(sampleData3)
 #' data2HTML(sampleData2)
 data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL,rawDataFile="rawData.RDS",
-                   vanilla=FALSE,echo=FALSE){
+                   vanilla=FALSE,echo=TRUE,showself=FALSE){
 
 
     if(file.exists("report2.Rmd")) file.remove("report2.Rmd")
@@ -97,6 +98,15 @@ data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL
 
 
         if(shortdata==0){
+            if(showself){
+               if(mypptlist$type[i] %in% c("mytable","table","plot","ggplot","rcode","2ggplots","2plots")){
+                   mycat("\n\n")
+                   mycat("```{r,results='asis',echo=FALSE}\n")
+
+                   mycat("df2flextable2(data[",i,",])\n")
+                   mycat("```\n\n\n")
+               }
+            }
             if(mypptlist$text[i]!="") mycat(mypptlist$text[i],"\n\n")
         }
 
@@ -112,8 +122,7 @@ data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL
 
         } else if(mypptlist$type[i]=="table") {
             mycat("```{r,results='asis'}\n")
-            code=set_argument(mypptlist$code[i],argument="vanilla",value=vanilla)
-            mycat(code,"\n")
+            mycat(mypptlist$code[i],"\n")
             mycat("```\n\n")
         } else if(mypptlist$type[i]=="rcode") {
             mycat("```{r,echo=TRUE}\n")

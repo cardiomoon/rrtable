@@ -14,9 +14,10 @@
 
 #'make multiline table
 #'@param data a data.frame
+#'@param ... further arguments to be passed to multiLineTable()
 #'@export
-df2flextable2=function(data){
-    multiLineTable(data) %>% autofit()
+df2flextable2=function(data,...){
+    multiLineTable(data,...) %>% autofit()
 }
 
 #'make multiline data
@@ -187,6 +188,8 @@ lfData=function(data){
     result
 }
 
+
+#'@importFrom purrr map_df
 stretchData=function(data,max=4){
 
     result=data[0,]

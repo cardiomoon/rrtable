@@ -23,31 +23,64 @@ add_title=function(x,title="",size=20,color=NULL,before=TRUE,after=TRUE){
 #' @param mydoc A document object
 #' @param title An character string as a plot title
 #' @param text text string to be added
+#' @param code An R code string
+#' @param echo logical Whether or not show R code
+#' @param eval logical whether or not evaluuate the R code
+#' @param showself logical
 #' @param style text style
 #' @export
-add_text=function(mydoc,title="",text,style="Normal"){
+add_text=function(mydoc,title="",text="",code="",echo=FALSE,eval=FALSE,showself=FALSE,style="Normal"){
     if(class(mydoc)=="rpptx"){
+        if(text!=""){
         mydoc <- mydoc %>%
             add_slide(layout = "Title and Content", master = "Office Theme") %>%
             ph_with_text(type="title",str=title) %>%
             ph_with_text(type="body",str=text)
+        } else {
+            mydoc <- mydoc %>%
+                add_slide(layout = "Title Only", master = "Office Theme") %>%
+                ph_with_text(type="title",str=title)
+        }
+        pos=1.5
+        if(echo) {
+            if(code!=""){
+            codeft=Rcode2flextable(code,eval=eval,format="pptx")
+            mydoc<-mydoc %>% ph_with_flextable_at(value=codeft,left=1,top=pos)
+            pos=2
+            }
+        }
+        if(showself){
+            df=data.frame(title=title,text=text,code=code)
+            mydoc<-mydoc %>% ph_with_flextable_at(value=df2flextable2(df,3),left=1,top=pos)
+            mydoc <- mydoc %>% add_slide("Blank",master="Office Theme")
+        }
 
     } else{
-        mydoc %>%
-           add_title(title) %>%
-           body_add_par(value=text,style=style)
+        mydoc <- mydoc %>% add_title(title)
+        if(text!="") mydoc<-mydoc %>% body_add_par(value=text,style=style)
+        if(echo) {
+            if(code!=""){
+            codeft=Rcode2flextable(code,eval=eval,format="docx")
+            mydoc<-mydoc %>% body_add_par(value="\n\n",style="Normal")
+            mydoc<-mydoc %>% body_add_flextable(codeft)
+            mydoc<-mydoc %>% body_add_par(value="\n\n",style="Normal")
+            }
+        }
+        if(showself){
+            df=data.frame(title=title,text=text,code=code)
+            mydoc<-mydoc %>% body_add_flextable(df2flextable2(df,3))
+
+        }
     }
     mydoc
 }
 
 #' Add two ggplots into a document object
 #' @param mydoc A document object
-#' @param title An character string as a plot title
 #' @param plot1 An R code encoding the first ggplot
 #' @param plot2 An R code encoding the second ggplot
 #' @param width plot width in inches
 #' @param height plot height in inches
-#' @param echo logical Whether or not show R code
 #' @return a document object
 #' @importFrom officer body_end_section break_column_before
 #' @export
@@ -58,40 +91,31 @@ add_text=function(mydoc,title="",text,style="Normal"){
 #' require(rvg)
 #' plot1 <- "ggplot(data = iris, aes(Sepal.Length, Petal.Length)) + geom_point()"
 #' plot2 <- "ggplot(data = iris, aes(Sepal.Length, Petal.Length, color = Species)) + geom_point()"
-#' read_pptx() %>% add_2ggplots(title="Two plots",plot1=plot1,plot2=plot2,echo=TRUE)
-add_2ggplots=function(mydoc,title="Two plots",plot1,plot2,width=3,height=2.5,
-                      echo=FALSE){
+#' read_pptx() %>% add_text(title="Two ggplots") %>% add_2ggplots(plot1=plot1,plot2=plot2)
+add_2ggplots=function(mydoc,plot1,plot2,width=3,height=2.5){
     gg1<-eval(parse(text=plot1))
     gg2<-eval(parse(text=plot2))
 
     if(class(mydoc)=="rpptx"){
 
-        mydoc<- mydoc %>%
-            add_slide(layout = "Title and Content", master = "Office Theme") %>%
-            ph_with_text(type="title",str=title)
-        pos=1.5
-        if(echo){
-            code=paste0(plot1,"\n",plot2)
-            codeft=Rcode2flextable(code,format="pptx")
-            codeft
+        # mydoc<- mydoc %>%
+        #     add_slide(layout = "Title and Content", master = "Office Theme") %>%
+        #     ph_with_text(type="title",str=title)
+        pos=2
 
-            mydoc<-mydoc %>% ph_with_flextable_at(value=codeft,left=0.5,top=1.5)
-            pos=2
-
-        }
             mydoc<- mydoc %>%
                 ph_with_vg_at(code = print(gg1), left=0.5,top=pos,width=4.5,height=5 ) %>%
                 ph_with_vg_at(code = print(gg2), left=5,top=pos,width=4.5,height=5 )
 
 
     } else{
-        mydoc<-mydoc %>%
-            add_title(title)
-        if(echo){
-            code=paste0(plot1,"\n",plot2)
-            codeft=Rcode2flextable(code,format="docx")
-            mydoc<-mydoc %>% body_add_flextable(codeft)
-          }
+        # mydoc<-mydoc %>%
+        #     add_title(title)
+        # if(echo){
+        #     code=paste0(plot1,"\n",plot2)
+        #     codeft=Rcode2flextable(code,format="docx")
+        #     mydoc<-mydoc %>% body_add_flextable(codeft)
+        #   }
         mydoc <- mydoc %>%
             body_end_section(continuous = TRUE)
         mydoc <-mydoc %>%
@@ -105,7 +129,6 @@ add_2ggplots=function(mydoc,title="Two plots",plot1,plot2,width=3,height=2.5,
 }
 #' Add two plots into a document object
 #' @param mydoc A document object
-#' @param title An character string as a plot title
 #' @param plotstring1 An R code string encoding the first plot
 #' @param plotstring2 An R code string encoding the second plot
 #' @param width plot width in inches
@@ -118,24 +141,24 @@ add_2ggplots=function(mydoc,title="Two plots",plot1,plot2,width=3,height=2.5,
 #' require(officer)
 #' plotstring1="plot(1:10)"
 #' plotstring2="hist(rnorm(100))"
-#' read_pptx() %>% add_2plots(plotstring1,plotstring2,title="Two plots") %>%
-#' add_2plots(plotstring1,plotstring2,title="Two plots",echo=TRUE) %>% print(target="demo.pptx")
-add_2plots=function(mydoc,plotstring1,plotstring2,title="",width=3,height=2.5,echo=FALSE){
+#' read_pptx() %>% add_text(title="Two plots") %>% add_2plots(plotstring1,plotstring2) %>%
+#' print(target="demo.pptx")
+add_2plots=function(mydoc,plotstring1,plotstring2,width=3,height=2.5,echo=FALSE){
 
     if(class(mydoc)=="rpptx"){
 
-        mydoc<- mydoc %>%
-            add_slide(layout = "Title and Content", master = "Office Theme") %>%
-            ph_with_text(type="title",str=title)
+        # mydoc<- mydoc %>%
+        #     add_slide(layout = "Title and Content", master = "Office Theme") %>%
+        #     ph_with_text(type="title",str=title)
 
-        pos=1.5
-        if(echo){
-            code=paste0(plotstring1,"\n",plotstring2)
-            codeft=Rcode2flextable(code,format="pptx")
-
-            mydoc<-mydoc %>% ph_with_flextable_at(value=codeft,left=0.5,top=1.5)
-            pos=2
-        }
+        pos=2
+        # if(echo){
+        #     code=paste0(plotstring1,"\n",plotstring2)
+        #     codeft=Rcode2flextable(code,format="pptx")
+        #
+        #     mydoc<-mydoc %>% ph_with_flextable_at(value=codeft,left=0.5,top=1.5)
+        #     pos=2
+        # }
         temp1=paste0("ph_with_vg_at(mydoc,code=",plotstring1,",left=0.5,top=pos,width=4.5,height=5 )")
         temp2=paste0("ph_with_vg_at(mydoc,code=",plotstring2,",left=5,top=pos,width=4.5,height=5)")
         mydoc=eval(parse(text=temp1))
@@ -147,13 +170,13 @@ add_2plots=function(mydoc,plotstring1,plotstring2,title="",width=3,height=2.5,ec
         temp2=paste0("body_add_vg(mydoc,code=",plotstring2,
                      ",width=",width,",height=",height,")")
 
-        mydoc<-mydoc %>%
-            add_title(title)
-        if(echo){
-            code=paste0(plotstring1,"\n",plotstring2)
-            codeft=Rcode2flextable(code,format="docx")
-            mydoc<-mydoc %>% body_add_flextable(codeft)
-        }
+        # mydoc<-mydoc %>%
+        #     add_title(title)
+        # if(echo){
+        #     code=paste0(plotstring1,"\n",plotstring2)
+        #     codeft=Rcode2flextable(code,format="docx")
+        #     mydoc<-mydoc %>% body_add_flextable(codeft)
+        # }
         mydoc <- mydoc %>%
             body_end_section(continuous = TRUE)
 
@@ -165,6 +188,17 @@ add_2plots=function(mydoc,plotstring1,plotstring2,title="",width=3,height=2.5,ec
     mydoc
 }
 
+
+getCodeOption=function(x,what="echo"){
+    result=FALSE
+    x=unlist(strsplit(x,","))
+    x=x[str_detect(x,what)]
+    if(length(x)>0){
+        x=unlist(strsplit(x,"="))[2]
+        result=eval(parse(text=x))
+    }
+    result
+}
 # plotstring1="plot(1:10)"
 # plotstring2="hist(rnorm(100))"
 #

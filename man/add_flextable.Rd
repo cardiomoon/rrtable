@@ -4,18 +4,16 @@
 \alias{add_flextable}
 \title{Add a flextable or mytable object into a document object}
 \usage{
-add_flextable(mydoc, ftable, title = "", code = "", echo = FALSE)
+add_flextable(mydoc, ftable, echo = FALSE, code = "")
 }
 \arguments{
 \item{mydoc}{A document object}
 
 \item{ftable}{A flextable or mytable object}
 
-\item{title}{An character string as a plot title}
+\item{echo}{whether or not disply R code}
 
-\item{code}{R code for table}
-
-\item{echo}{logical Whether or not show R code}
+\item{code}{R code string}
 }
 \value{
 a document object
@@ -33,13 +31,9 @@ title="mytable Example"
 ft=df2flextable(head(iris))
 title2="df2flextable Example"
 doc=read_docx()
-doc \%>\% add_flextable(ftable,title,code="mytable(Dx~.,data=acs)",echo=TRUE) \%>\%
-        add_flextable(ft,title2,code="df2flextable(head(iris))",echo=TRUE) \%>\%
+doc \%>\% add_text(title=title) \%>\%
+        add_flextable(ftable) \%>\%
+        add_text(title=title2) \%>\%
+        add_flextable(ft) \%>\%
         print(target="mytable.docx")
-read_pptx() \%>\%
-       add_flextable(ftable,title,code="mytable(Dx~.,data=acs)",echo=TRUE) \%>\%
-       add_flextable(ftable,title,code="mytable(Dx~.,data=acs)") \%>\%
-       add_flextable(ft,title2,code="df2flextable(head(iris))",echo=TRUE) \%>\%
-       add_flextable(ft,title2,code="df2flextable(head(iris))") \%>\%
-       print(target="mytable.pptx")
 }

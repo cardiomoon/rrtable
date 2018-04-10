@@ -22,10 +22,11 @@
 #' code="df2flextable( ) "
 #' code="df2flextable(vanilla=TRUE,head(iris[1:10,]))"
 #' code="df2flextable(mtcars)"
+#' code="df2flextable2(sampleData3)"
 #' code="df2flextable(head(iris[1:10,]),vanilla=TRUE)"
 #' set_argument(code,"vanilla",FALSE)
 set_argument=function(code,argument,value=TRUE){
-    argument=as.character(substitute(argument))
+
     if(str_detect(code,argument)){
         temp<-unlist(strsplit(code,"\\("))
         for(i in seq_along(temp)){
@@ -39,6 +40,7 @@ set_argument=function(code,argument,value=TRUE){
     }
     result
 }
+
 
 #' replace argument of a function
 #' @param substring string of function call
@@ -59,6 +61,7 @@ replace_argument=function(substring,argument,value){
 #' @importFrom stringr str_replace_all
 insert_argument=function(code,argument,value){
     code=str_replace_all(code," ","")
+    code=str_replace_all(code,"\n","")
     code=substr(code,1,nchar(code)-1)
     paste0(code,ifelse(substr(code,nchar(code),nchar(code))=="(","",","),
            argument,"=",value,")")

@@ -4,14 +4,12 @@
 \alias{add_Rcode}
 \title{Make a R code slide into a document object}
 \usage{
-add_Rcode(mydoc, code, title = "", preprocessing = "", format = "pptx")
+add_Rcode(mydoc, code, preprocessing = "", format = "pptx")
 }
 \arguments{
 \item{mydoc}{A document object}
 
 \item{code}{A character string encoding R codes}
-
-\item{title}{An character string as a plot title}
 
 \item{preprocessing}{A character string of R code as a preprocessing}
 
@@ -27,6 +25,6 @@ Make a R code slide into a document object
 #library(rrtable)
 #library(magrittr)
 #library(officer)
-#code="fit=lm(mpg~hp+wt,data=mtcars)\\nsummary(fit)"
-#read_pptx() \%>\% add_Rcode(code,title="Regression Analysis") \%>\% print(target="Rcode.pptx")
+#code="fit=lm(mpg~hp+wt,data=mtcars)"
+#read_pptx() \%>\% add_text(title="Regression Analysis") \%>\% add_Rcode(code)
 }
