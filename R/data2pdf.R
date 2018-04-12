@@ -40,7 +40,7 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
     }
 
 
-    data$code=str_replace_all(data$code,"df2flextable[1-9]?","ztable")
+    data$code=str_replace_all(data$code,"df2flextable[1-9]?","ztable2")
 
     data$type=tolower(data$type)
     if("title" %in% data$type) {
@@ -81,7 +81,6 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
 
     mycat("```{r,echo=",echo,",message=FALSE}\n")
     mycat("require(moonBook)\n")
-    mycat("require(xtable)\n")
     mycat("require(ztable)\n")
     mycat("require(rrtable)\n")
     mycat("require(ggplot2)\n")
@@ -112,7 +111,7 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
     for(i in 1:count){
 
 
-        landscape=getCodeOption(data$option[i],"landscape")
+        landscape=FALSE
         if(mypptlist$type[i] == "mytable"){
             mycat("\n\\newpage\n\n")
         }
@@ -182,8 +181,6 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
             mycat("```{r",ifelse(shortdata,"",mypptlist$option[i]),",results='asis'}\n")
             if(landscape==TRUE){
                 temp=mypptlist$code[i]
-                temp=unlist(strsplit(temp,")"))[1]
-                temp=paste0(temp,",sidewaystable=TRUE)")
                 mycat(temp,'\n')
             } else{
                 mycat(mypptlist$code[i],'\n')
@@ -233,19 +230,22 @@ HTMLcode2latex=function(data){
 #'@param type output type
 #'@export
 #'@examples
+#'require(magrittr)
+#'require(ztable)
 #'ztable2(sampleData3)
 ztable2=function(data,aim=NULL,type="latex",...){
-    # data=sampleData2
+    # data=sampleData3
     # aim=NULL
-    # type="viewer"
+    # type="latex"
     data1 <- data %>%
-        # multiLineData() %>%
-        # adjustWidth(aim=aim) %>%
-        # lfData() %>%
-        HTMLcode2latex() %>%
-        as.data.frame()
-    data1=data1[-ncol(data1)]
+         multiLineData() %>%
+         adjustWidth(aim=aim) %>%
+         lfData() %>%
+        HTMLcode2latex()
+    data1=as.data.frame(data1)
 
+    data1=data1[-ncol(data1)]
+    # print(ztable(data1),type="latex",include.rownames=FALSE)
     print(ztable(data1,...),type=type,longtable=TRUE,include.rownames=FALSE)
 }
 

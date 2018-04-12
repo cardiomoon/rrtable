@@ -219,4 +219,3 @@ lfTable=function(data){
 # lfTable(sampleData3)
 # x="You can insert the result of R code. For example, you can insert the result of regression analysis."
 # str_replace_all(x,"\\. ","\\.\n")
-

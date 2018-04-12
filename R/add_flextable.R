@@ -36,8 +36,9 @@ add_flextable=function(mydoc,ftable,echo=FALSE,code="",landscape=FALSE){
               mydoc<-mydoc %>% ph_with_flextable_at(value=ft,left=1,top=pos)
      } else {
           mydoc<-mydoc %>% body_add_flextable(ft)
+          if(landscape) mydoc <- body_end_section(mydoc,continuous = FALSE, landscape = TRUE)
      }
-     if(landscape) mydoc <- body_end_section(mydoc,continuous = FALSE, landscape = TRUE)
+
      mydoc
 }
 

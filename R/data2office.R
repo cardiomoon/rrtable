@@ -111,6 +111,13 @@ data2office=function(data,
             mydoc=add_text(mydoc,title=data$title[i],text=temp,
                            code=data$code[i],echo=echo1,eval=eval,showself=showself,
                            landscape=landscape1)
+        } else{
+            echo1=echo
+            eval=TRUE
+            landscape1=FALSE
+            mydoc=add_text(mydoc,title=data$title[i],text="",
+                           code=data$code[i],echo=echo1,eval=eval,showself=showself,
+                           landscape=landscape1)
         }
 
         if(data$type[i]=="rcode") eval(parse(text=data$code[i]))
