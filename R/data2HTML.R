@@ -10,6 +10,7 @@
 #' @importFrom rmarkdown render
 #' @importFrom moonBook mytable
 #' @importFrom ztable ztable print.ztable
+#' @importFrom flextable width
 #' @export
 #' @examples
 #' library(moonBook)
@@ -103,7 +104,7 @@ data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL
                    mycat("\n\n")
                    mycat("```{r,results='asis',echo=FALSE}\n")
 
-                   mycat("df2flextable2(data[",i,",])\n")
+                   mycat(paste0("df2flextable3(data[",i,",])\n"))
                    mycat("```\n\n\n")
                }
             }

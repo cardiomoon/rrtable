@@ -1,0 +1,32 @@
+---
+title: "Untitled"
+output: pdf_document
+header-includes:
+- \usepackage{multirow}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage[table]{xcolor}
+- \usepackage{tabularx,booktabs}
+- \usepackage{boxedminipage}
+- \usepackage{graphicx}
+- \usepackage{rotating}
+- \usepackage{longtable}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r,results='asis'}
+require(ztable)
+z=ztable(head(iris))
+print(z,sidewaystable=TRUE,type="latex")
+```
+
+```{r,results='asis'}
+require(ztable)
+z=ztable(head(iris),sidewaystable=TRUE)
+print(z,type="latex")
+```

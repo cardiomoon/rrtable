@@ -1,0 +1,154 @@
+---
+title: ' R package `rrtable` '
+author: ' Keon-Woong Moon '
+date: "`r Sys.time()`"
+output: pdf_document
+header-includes:
+- \usepackage{multirow}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage[table]{xcolor}
+- \usepackage{tabularx,booktabs}
+- \usepackage{boxedminipage}
+- \usepackage{graphicx}
+- \usepackage{rotating}
+- \usepackage{longtable}
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE ,message=FALSE,warning=FALSE,comment=NA,
+          fig.width=9,fig.asp=0.618,fig.align='center',out.width='70%')
+```
+```{r,echo= TRUE ,message=FALSE}
+require(moonBook)
+require(xtable)
+require(ztable)
+require(rrtable)
+require(ggplot2)
+options(ztable.type='latex')
+```
+
+### Introduction 
+
+If you are a data scientist or researcher, you will certainly be interested in reproducible research. R package `rrtable` makes it possible to make reports with HTML, LaTex, MS word or MS Powerpoint formats from a table of R codes. 
+
+ 
+
+
+## Package Installation 
+
+You can install R package `rrtable` with the following command. 
+
+```{r echo=TRUE,eval=FALSE }
+if(!require(devtools)){ install.packages("devtools") }
+devtools::install_github("cardiomoon/rrtable") 
+```
+
+
+
+## Package Loading 
+
+You can load the `rrtable` package with the following R command. 
+
+```{r echo=TRUE }
+require(rrtable) 
+```
+
+
+
+## Sample Data 
+
+Sample data sampleData3 is included in rrtable package. You can see the sampleData3 by folllowing R command. 
+
+```{r echo=TRUE,eval=TRUE }
+str(sampleData3) 
+```
+
+
+
+### Paragraph 
+
+You can make a paragraph with this data 
+
+```{r landscape=TRUE ,results='asis'}
+ztable2(sampleData3,sidewaystable=TRUE) 
+```
+
+
+
+
+\newpage
+
+### mytable object 
+
+You can add mytable object with the following R code. 
+
+```{r,results='asis'}
+result= mytable(Dx~.,data=acs) 
+print(ztable(result,longtable=TRUE),type='latex')
+```
+
+
+
+### Plot 
+
+You can insert a plot into your document. 
+
+```{r  }
+plot(iris) 
+```
+
+
+
+### ggplot 
+
+You can insert a ggplot into a document 
+
+```{r  }
+ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width,color=Species))+ geom_point() 
+```
+
+
+
+### R code 
+
+You can insert the result of R code. For example, you can insert the result of regression analysis. 
+
+```{r,echo=TRUE}
+fit=lm(mpg~wt*hp,data=mtcars)
+summary(fit) 
+```
+
+
+
+### Two ggplots 
+
+You can insert two parallel ggplots with the following code. 
+
+```{r,out.width='50%',fig.align='default',fig.show='hold'}
+ggplot(iris,aes(Sepal.Length,Sepal.Width))+geom_point()
+ggplot(iris,aes(Sepal.Length,Sepal.Width,colour=Species))+ geom_point()+guides(colour=FALSE) 
+```
+
+
+
+### Two plots 
+
+You can insert two parallel plots with the following code. 
+
+```{r,out.width='50%',fig.align='default',fig.show='hold'}
+hist(rnorm(1000))
+plot(1:10) 
+```
+
+
+
+## HTML Report 
+
+You can get report with HTML format(this file) by following R command. 
+
+```{r echo=TRUE,eval=FALSE }
+data2HTML(sampleData3) 
+```
+
+
+

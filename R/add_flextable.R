@@ -3,6 +3,7 @@
 #' @param ftable A flextable or mytable object
 #' @param code R code string
 #' @param echo whether or not disply R code
+#' @param landscape Logical. Whether or not make a landscape section.
 #' @importFrom officer add_slide ph_with_text  body_add_par
 #' @importFrom flextable body_add_flextable ph_with_flextable ph_with_flextable_at
 #' @return a document object
@@ -22,7 +23,7 @@
 #'         add_text(title=title2) %>%
 #'         add_flextable(ft) %>%
 #'         print(target="mytable.docx")
-add_flextable=function(mydoc,ftable,echo=FALSE,code=""){
+add_flextable=function(mydoc,ftable,echo=FALSE,code="",landscape=FALSE){
      if("mytable" %in% class(ftable)){
           ft<-mytable2flextable(ftable)
      } else {
@@ -36,6 +37,7 @@ add_flextable=function(mydoc,ftable,echo=FALSE,code=""){
      } else {
           mydoc<-mydoc %>% body_add_flextable(ft)
      }
+     if(landscape) mydoc <- body_end_section(mydoc,continuous = FALSE, landscape = TRUE)
      mydoc
 }
 
@@ -43,7 +45,7 @@ add_flextable=function(mydoc,ftable,echo=FALSE,code=""){
 # require(officer)
 # require(flextable)
 # mydoc=read_docx()
-# ftable=df2flextable2(sampleData3[1:3])
+# ftable=df2flextable(sampleData3[1:3])
 # ftable
 # nrow(sampleData3)
 # sampleData3[15,]

@@ -26,10 +26,11 @@ add_title=function(x,title="",size=20,color=NULL,before=TRUE,after=TRUE){
 #' @param code An R code string
 #' @param echo logical Whether or not show R code
 #' @param eval logical whether or not evaluuate the R code
+#' @param landscape Logical. Whether or not make a landscape section.
 #' @param showself logical
 #' @param style text style
 #' @export
-add_text=function(mydoc,title="",text="",code="",echo=FALSE,eval=FALSE,showself=FALSE,style="Normal"){
+add_text=function(mydoc,title="",text="",code="",echo=FALSE,eval=FALSE,showself=FALSE,style="Normal",landscape=FALSE){
     if(class(mydoc)=="rpptx"){
         if(text!=""){
         mydoc <- mydoc %>%
@@ -51,11 +52,14 @@ add_text=function(mydoc,title="",text="",code="",echo=FALSE,eval=FALSE,showself=
         }
         if(showself){
             df=data.frame(title=title,text=text,code=code)
-            mydoc<-mydoc %>% ph_with_flextable_at(value=df2flextable2(df,3),left=1,top=pos)
+            mydoc<-mydoc %>% ph_with_flextable_at(value=df2flextable(df),left=1,top=pos)
             mydoc <- mydoc %>% add_slide("Blank",master="Office Theme")
         }
 
     } else{
+        if(landscape) {
+            mydoc <- mydoc %>% body_end_section(continuous = FALSE,landscape=FALSE)
+        }
         mydoc <- mydoc %>% add_title(title)
         if(text!="") mydoc<-mydoc %>% body_add_par(value=text,style=style)
         if(echo) {
@@ -68,7 +72,7 @@ add_text=function(mydoc,title="",text="",code="",echo=FALSE,eval=FALSE,showself=
         }
         if(showself){
             df=data.frame(title=title,text=text,code=code)
-            mydoc<-mydoc %>% body_add_flextable(df2flextable2(df,3))
+            mydoc<-mydoc %>% body_add_flextable(df2flextable3(df))
 
         }
     }

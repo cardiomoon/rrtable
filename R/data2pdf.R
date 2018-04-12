@@ -39,7 +39,8 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
         shortdata=0
     }
 
-    data$code=str_replace_all(data$code,"df2flextable[1-9]?","ztable2")
+
+    data$code=str_replace_all(data$code,"df2flextable[1-9]?","ztable")
 
     data$type=tolower(data$type)
     if("title" %in% data$type) {
@@ -111,7 +112,7 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
     for(i in 1:count){
 
 
-
+        landscape=getCodeOption(data$option[i],"landscape")
         if(mypptlist$type[i] == "mytable"){
             mycat("\n\\newpage\n\n")
         }
@@ -179,7 +180,14 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
 
         } else if(str_detect(mypptlist$code[i],"ztable")){
             mycat("```{r",ifelse(shortdata,"",mypptlist$option[i]),",results='asis'}\n")
-            mycat(mypptlist$code[i],'\n')
+            if(landscape==TRUE){
+                temp=mypptlist$code[i]
+                temp=unlist(strsplit(temp,")"))[1]
+                temp=paste0(temp,",sidewaystable=TRUE)")
+                mycat(temp,'\n')
+            } else{
+                mycat(mypptlist$code[i],'\n')
+            }
             mycat("```\n\n")
         }  else if(mypptlist$code[i] !=""){
             mycat("```{r",ifelse(shortdata,"",mypptlist$option[i]),"}\n")
@@ -231,9 +239,9 @@ ztable2=function(data,aim=NULL,type="latex",...){
     # aim=NULL
     # type="viewer"
     data1 <- data %>%
-        multiLineData() %>%
-        adjustWidth(aim=aim) %>%
-        lfData() %>%
+        # multiLineData() %>%
+        # adjustWidth(aim=aim) %>%
+        # lfData() %>%
         HTMLcode2latex() %>%
         as.data.frame()
     data1=data1[-ncol(data1)]

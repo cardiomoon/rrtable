@@ -4,7 +4,7 @@
 \alias{add_flextable}
 \title{Add a flextable or mytable object into a document object}
 \usage{
-add_flextable(mydoc, ftable, echo = FALSE, code = "")
+add_flextable(mydoc, ftable, echo = FALSE, code = "", landscape = FALSE)
 }
 \arguments{
 \item{mydoc}{A document object}
@@ -14,6 +14,8 @@ add_flextable(mydoc, ftable, echo = FALSE, code = "")
 \item{echo}{whether or not disply R code}
 
 \item{code}{R code string}
+
+\item{landscape}{Logical. Whether or not make a landscape section.}
 }
 \value{
 a document object

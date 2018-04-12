@@ -128,7 +128,41 @@ df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=10,
      ft <- ft %>% align(align=align_body,part="body") %>%
           align(align=align_header,part="header") %>%
           padding(padding.left=5,padding.right=5,
-                          padding.top=2,padding.bottom=2,part="all") %>%
-          autofit()
+                          padding.top=2,padding.bottom=2,part="all")
      ft
 }
+
+
+#' Make flextable with limited width
+#' @param df a data.frame
+#' @param mincol minimum column width in inch
+#' @param maxcol maximum column width in inch
+#' @param ... further arguments to be passed to df2flextable()
+#' @export
+df2flextable3=function(df,mincol=0.7,maxcol=4,...){
+
+    cwidth=c()
+    clen=c()
+    for(i in 1:ncol(df)){
+
+        if(is.character(df[[i]])) {
+            len=max(nchar(df[[i]]))
+            clen=c(clen,len)
+            if(len<10) {
+                cwidth=c(cwidth,mincol)
+            } else if(len<=20) {
+                cwidth=c(cwidth,1)
+            } else {
+                temp=len%/%20+1
+                if(temp>maxcol) temp=maxcol
+                cwidth=c(cwidth,temp)
+            }
+        } else{
+            cwidth=c(cwidth,1)
+        }
+    }
+    # str(cwidth)
+    # str(clen)
+    df2flextable(df,...) %>% width(width=cwidth)
+}
+

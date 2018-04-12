@@ -5,7 +5,7 @@
 \title{Add text to document}
 \usage{
 add_text(mydoc, title = "", text = "", code = "", echo = FALSE,
-  eval = FALSE, showself = FALSE, style = "Normal")
+  eval = FALSE, showself = FALSE, style = "Normal", landscape = FALSE)
 }
 \arguments{
 \item{mydoc}{A document object}
@@ -23,6 +23,8 @@ add_text(mydoc, title = "", text = "", code = "", echo = FALSE,
 \item{showself}{logical}
 
 \item{style}{text style}
+
+\item{landscape}{Logical. Whether or not make a landscape section.}
 }
 \description{
 Add text to document

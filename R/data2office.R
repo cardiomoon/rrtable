@@ -11,6 +11,7 @@
 #' @param rawDataFile raw Data File
 #' @param vanilla logical. WHether or not make vanilla table
 #' @param echo logical Whether or not show R code
+#' @param landscape Logical. Whether or not make a landscape section.
 #' @param showself Logical. Whether or not show R code for the paragraph
 #' @importFrom officer read_docx read_pptx
 #' @export
@@ -18,6 +19,7 @@ data2office=function(data,
                      preprocessing="",
                      filename="Report",format="pptx",width=7,height=5,units="in",
                      res=300,rawDataName=NULL,rawDataFile="rawData.RDS",vanilla=FALSE,echo=FALSE,
+                     landscape=FALSE,
                      showself=FALSE){
 
     # require(officer)
@@ -96,6 +98,7 @@ data2office=function(data,
         if(shortdata==0){
             echo1=echo|getCodeOption(data$option[i])
             eval=getCodeOption(data$option[i],"eval")
+            landscape1=landscape|getCodeOption(data$option[i],"landscape")
             if(data$type[i]=="rcode") {
                 echo1=TRUE
                 eval=TRUE
@@ -106,21 +109,22 @@ data2office=function(data,
                 temp=data$text[i]
             }
             mydoc=add_text(mydoc,title=data$title[i],text=temp,
-                                                code=data$code[i],echo=echo1,eval=eval,showself=showself)
+                           code=data$code[i],echo=echo1,eval=eval,showself=showself,
+                           landscape=landscape1)
         }
 
         if(data$type[i]=="rcode") eval(parse(text=data$code[i]))
         if(data$type[i]=="data"){
             ft=df2flextable(eval(parse(text=data$code[i])),vanilla=vanilla)
-            mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo)
+            mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
         } else if(data$type[i]=="table"){
             #tempcode=set_argument(data$code[i],argument="vanilla",value=vanilla)
             ft=eval(parse(text=data$code[i]))
-            mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo)
+            mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
         } else if(data$type[i]=="mytable"){
             res=eval(parse(text=data$code[i]))
             ft=mytable2flextable(res,vanilla=vanilla)
-            mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo)
+            mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
         } else if(data$type[i]=="ggplot"){
             mydoc=add_ggplot(mydoc,code=data$code[i])
         }else if(data$type[i]=="2ggplots"){
@@ -161,7 +165,7 @@ data2office=function(data,
 
             tempcode=data$code[i]
             ft=eval(parse(text=tempcode))
-            mydoc=add_flextable(mydoc,ft)
+            mydoc=add_flextable(mydoc,ft,landscape=landscape1)
 
         }
 
@@ -173,7 +177,7 @@ data2office=function(data,
         target=paste0(filename,".",format)
     }
     #cat("target=",target,"\n")
-    mydoc %>% print(target=target)
+    mydoc %>% print(target=paste0(getwd(),"/",target))
 }
 
 #' convert data to pptx file
