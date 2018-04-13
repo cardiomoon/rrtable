@@ -113,10 +113,20 @@ data2office=function(data,
                            landscape=landscape1)
         } else{
             echo1=echo
-            eval=TRUE
+            if(data$type[i]=="rcode") echo1=TRUE
+
+            eval=ifelse(data$type[i]=="text",FALSE,TRUE)
+            if(data$type[i]=="mytable") eval=FALSE
             landscape1=FALSE
-            mydoc=add_text(mydoc,title=data$title[i],text="",
-                           code=data$code[i],echo=echo1,eval=eval,showself=showself,
+            if(data$type[i]=="text") {
+                temp=data$code[i]
+                tempcode=""
+            } else {
+                temp=""
+                tempcode=data$code[i]
+            }
+            mydoc=add_text(mydoc,title=data$title[i],text=temp,
+                           code=tempcode,echo=echo1,eval=eval,showself=showself,
                            landscape=landscape1)
         }
 
