@@ -4,16 +4,14 @@
 \alias{add_plot}
 \title{Add plot into a document object}
 \usage{
-add_plot(mydoc, plotstring, title = "", vector = TRUE)
+add_plot(mydoc, plotstring, top = 2)
 }
 \arguments{
 \item{mydoc}{A document object}
 
 \item{plotstring}{String of an R code encoding a plot}
 
-\item{title}{An character string as a plot title}
-
-\item{vector}{A logical. If TRUE, vector graphics are produced instead, PNG images if FALSE.}
+\item{top}{top position of plot}
 }
 \value{
 a document object

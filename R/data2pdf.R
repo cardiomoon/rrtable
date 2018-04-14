@@ -40,7 +40,7 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
     }
 
 
-    data$code=str_replace_all(data$code,"df2flextable[1-9]?","ztable2")
+    data$code=str_replace_all(data$code,"df2flextable[1-9]?","ztable3")
 
     data$type=tolower(data$type)
     if("title" %in% data$type) {
@@ -110,6 +110,16 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
     count=nrow(mypptlist)
     for(i in 1:count){
 
+        if(showself){
+
+                mycat("\n\n")
+                mycat("```{r,results='asis',echo=FALSE}\n")
+
+                mycat("ztable3(data[",i,",])\n")
+                mycat("```\n\n\n")
+
+        }
+
 
         landscape=FALSE
         if(mypptlist$type[i] == "mytable"){
@@ -124,15 +134,7 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
         }
 
         if(shortdata==0){
-            if(showself){
-                if(mypptlist$type[i] %in% c("mytable","table","plot","ggplot","rcode","2ggplots","2plots")){
-                    mycat("\n\n")
-                    mycat("```{r,results='asis',echo=FALSE}\n")
 
-                    mycat("ztable2(data[",i,",])\n")
-                    mycat("```\n\n\n")
-                }
-            }
             if(mypptlist$text[i]!="") mycat(mypptlist$text[i],"\n\n")
         }
 
@@ -160,7 +162,7 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
             mycat("```\n\n")
         } else if(mypptlist$type[i]=="data"){
             mycat("```{r,results='asis'}\n")
-            mycat("ztable2(",mypptlist$code[i],")\n")
+            mycat("ztable3(",mypptlist$code[i],")\n")
             mycat("```\n\n")
         } else if(mypptlist$type[i]=="rcode") {
             mycat("```{r,echo=TRUE}\n")
@@ -207,8 +209,8 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
 #' @param data a data.frame
 #' @export
 HTMLcode2latex=function(data){
-    seek=c("\\{","\\}","_","~")
-    replace=c("\\\\{","\\\\}","\\\\_","\\\\~{}")
+    seek=c("\\{","\\}","_","~","\n")
+    replace=c("\\\\{","\\\\}","\\\\_","\\\\~{}","\\\\newline ")
     code=data.frame(seek,replace,stringsAsFactors = FALSE)
 
     fnr=function(x){
@@ -271,6 +273,7 @@ adjustWidth=function(data,width=80,min=10,aim=NULL){
     aim[aim>min]=aim[aim>min]*B/A
     aim=round(aim)
     }
+
     map2_df(data,aim,tensiSplit2,exdent=0)
 }
 

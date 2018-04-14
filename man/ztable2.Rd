@@ -19,5 +19,7 @@ ztable2(data, aim = NULL, type = "latex", ...)
 make latex table with ztable
 }
 \examples{
+require(magrittr)
+require(ztable)
 ztable2(sampleData3)
 }

@@ -158,7 +158,7 @@ separateLF=function(x){
 lfCount=function(data){
     result=c()
     for(i in 1:ncol(data)){
-        temp=str_replace_all(data[[i]],"\\. ","\\.\n")
+        #temp=str_replace_all(data[[i]],"\\. ","\\.\n")
         result=c(result,length(unlist(strsplit(temp,"\n"))))
     }
     result
@@ -195,7 +195,7 @@ stretchData=function(data,max=4){
     result=data[0,]
 
     stretchCol=function(x,max=max){
-        temp=str_replace_all(x,"\\. ","\\.\n")
+        #temp=str_replace_all(x,"\\. ","\\.\n")
         result=unlist(strsplit(temp,"\n"))
         if(length(result)<max) result=c(result,rep("",max-length(result)))
         result
@@ -219,3 +219,48 @@ lfTable=function(data){
 # lfTable(sampleData3)
 # x="You can insert the result of R code. For example, you can insert the result of regression analysis."
 # str_replace_all(x,"\\. ","\\.\n")
+
+#df=lfData(sampleData3)
+
+#' Make ztable with desired width
+#'@param df a data.frame
+#'@param cwidth desired column width
+#'@param width desired table width in column
+#'@export
+ztable3=function(df,cwidth=NULL,width=80,...){
+
+    if(is.null(cwidth)) cwidth=df2cwidth(df,width=width)
+    align=cwidth2align(cwidth)
+    align
+    df=HTMLcode2latex(df)
+    z=ztable(df,align=align,include.rownames=FALSE,...)
+    z
+}
+
+cwidth2align=function(cwidth=NULL){
+       result=c()
+       for(i in seq_along(cwidth)){
+           if(cwidth[i]<=0) {
+               result=c(result,"l")
+           } else{
+               result=c(result,paste0("p{",cwidth[i],"cm}"))
+           }
+       }
+       result=stringr::str_flatten(result,"")
+       result
+}
+
+df2cwidth=function(data,width=80,min=10){
+    current=apply(data,2,function(x) max(nchar(x)))
+    preserveCol=current<min
+    SumCurrent=sum(current[setdiff(1:ncol(data),preserveCol)])
+    aim=current*width/SumCurrent
+    aim[preserveCol]=current[preserveCol]
+    aim[!preserveCol]=ifelse(aim[!preserveCol]<min,min,aim[!preserveCol])
+    A=sum(aim[aim>min])
+    B=width-sum(aim[aim<=min])
+    aim[aim>min]=aim[aim>min]*B/A
+    aim=round(aim) %/% 5
+    aim
+}
+

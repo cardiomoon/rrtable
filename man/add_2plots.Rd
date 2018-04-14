@@ -5,7 +5,7 @@
 \title{Add two plots into a document object}
 \usage{
 add_2plots(mydoc, plotstring1, plotstring2, width = 3, height = 2.5,
-  echo = FALSE)
+  echo = FALSE, top = 2)
 }
 \arguments{
 \item{mydoc}{A document object}

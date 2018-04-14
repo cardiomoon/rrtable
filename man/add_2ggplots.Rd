@@ -4,7 +4,7 @@
 \alias{add_2ggplots}
 \title{Add two ggplots into a document object}
 \usage{
-add_2ggplots(mydoc, plot1, plot2, width = 3, height = 2.5)
+add_2ggplots(mydoc, plot1, plot2, width = 3, height = 2.5, top = 2)
 }
 \arguments{
 \item{mydoc}{A document object}

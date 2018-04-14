@@ -91,6 +91,16 @@ data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL
     count=nrow(mypptlist)
     for(i in 1:count){
 
+        if(showself){
+
+                mycat("\n\n")
+                mycat("```{r,results='asis',echo=FALSE}\n")
+                mycat(paste0("df2flextable3(data[",i,",])\n"))
+                mycat("```\n\n\n")
+
+        }
+
+
         if(mypptlist$type[i] %in% c("##","###")){
             mycat(mypptlist$type[i],mypptlist$title[i],"\n\n")
         } else {
@@ -99,15 +109,6 @@ data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL
 
 
         if(shortdata==0){
-            if(showself){
-               if(mypptlist$type[i] %in% c("mytable","table","plot","ggplot","rcode","2ggplots","2plots")){
-                   mycat("\n\n")
-                   mycat("```{r,results='asis',echo=FALSE}\n")
-
-                   mycat(paste0("df2flextable3(data[",i,",])\n"))
-                   mycat("```\n\n\n")
-               }
-            }
             if(mypptlist$text[i]!="") mycat(mypptlist$text[i],"\n\n")
         }
 

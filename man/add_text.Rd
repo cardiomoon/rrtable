@@ -5,7 +5,7 @@
 \title{Add text to document}
 \usage{
 add_text(mydoc, title = "", text = "", code = "", echo = FALSE,
-  eval = FALSE, showself = FALSE, style = "Normal", landscape = FALSE)
+  eval = FALSE, style = "Normal", landscape = FALSE)
 }
 \arguments{
 \item{mydoc}{A document object}
@@ -19,8 +19,6 @@ add_text(mydoc, title = "", text = "", code = "", echo = FALSE,
 \item{echo}{logical Whether or not show R code}
 
 \item{eval}{logical whether or not evaluuate the R code}
-
-\item{showself}{logical}
 
 \item{style}{text style}
 

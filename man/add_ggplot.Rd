@@ -4,12 +4,14 @@
 \alias{add_ggplot}
 \title{Add ggplot into a document object}
 \usage{
-add_ggplot(mydoc, code = "")
+add_ggplot(mydoc, code = "", top = 2)
 }
 \arguments{
 \item{mydoc}{A document object}
 
 \item{code}{R code for table}
+
+\item{top}{top position of plot}
 }
 \value{
 a document object

@@ -94,6 +94,9 @@ data2office=function(data,
         # echo
         # showself
         # shortdata
+        if(showself){
+            mydoc=add_self(mydoc,data[i,])
+        }
 
         if(shortdata==0){
             echo1=echo|getCodeOption(data$option[i])
@@ -109,14 +112,14 @@ data2office=function(data,
                 temp=data$text[i]
             }
             mydoc=add_text(mydoc,title=data$title[i],text=temp,
-                           code=data$code[i],echo=echo1,eval=eval,showself=showself,
+                           code=data$code[i],echo=echo1,eval=eval,
                            landscape=landscape1)
         } else{
             echo1=echo
             if(data$type[i]=="rcode") echo1=TRUE
 
             eval=ifelse(data$type[i]=="text",FALSE,TRUE)
-            if(data$type[i]=="mytable") eval=FALSE
+            if(data$type[i] %in% c("mytable","data","plot","table","2plots")) eval=FALSE
             landscape1=FALSE
             if(data$type[i]=="text") {
                 temp=data$code[i]
@@ -126,9 +129,10 @@ data2office=function(data,
                 tempcode=data$code[i]
             }
             mydoc=add_text(mydoc,title=data$title[i],text=temp,
-                           code=tempcode,echo=echo1,eval=eval,showself=showself,
+                           code=tempcode,echo=echo1,eval=eval,
                            landscape=landscape1)
         }
+
 
         if(data$type[i]=="rcode") eval(parse(text=data$code[i]))
         if(data$type[i]=="data"){
@@ -143,32 +147,21 @@ data2office=function(data,
             ft=mytable2flextable(res,vanilla=vanilla)
             mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
         } else if(data$type[i]=="ggplot"){
-            mydoc=add_ggplot(mydoc,code=data$code[i])
+            mydoc=add_ggplot(mydoc,code=data$code[i],top=ifelse(echo1,2,1.5))
         }else if(data$type[i]=="2ggplots"){
 
             codes=unlist(strsplit(data$code[i],"\n"))
             # codes=unlist(strsplit(sampleData2$code[8],"\n"))
             gg1=codes[1]
             gg2=codes[2]
-            mydoc=add_2ggplots(mydoc,plot1=gg1,plot2=gg2)
+            mydoc=add_2ggplots(mydoc,plot1=gg1,plot2=gg2,top=ifelse(echo1,2,1.5))
         } else if(data$type[i]=="plot"){
-            mydoc<-add_plot(mydoc,data$code[i])
+            mydoc<-add_plot(mydoc,data$code[i],top=ifelse(echo1,2,1.5))
 
         } else if(data$type[i]=="2plots"){
 
             codes=unlist(strsplit(data$code[i],"\n"))
-            mydoc=add_2plots(mydoc,plotstring1=codes[1],plotstring2=codes[2])
-
-        }
-        # else if(data$type[i]=="rcode"){
-        #
-        #     mydoc=add_Rcode(mydoc,code=data$code[i],
-        #                     preprocessing=preprocessing,format=format)
-        #
-        # }
-        else if(data$type[i]=="text"){
-
-            #mydoc=add_text(mydoc,title=data$title[i],text=data$code[i])
+            mydoc=add_2plots(mydoc,plotstring1=codes[1],plotstring2=codes[2],top=ifelse(echo1,2,1.5))
 
         } else if(data$type[i] %in% c("PNG","png")){
 
