@@ -22,7 +22,7 @@ mycat=function(...,file="report2.Rmd"){
 #' library(moonBook)
 #' library(ztable)
 #' data2pdf(sampleData3)
-#' data2pdf(sampleData2)
+#' #data2pdf(sampleData2)
 data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
                   rawDataFile="rawData.RDS",kotex=FALSE,echo=TRUE,showself=FALSE){
 
@@ -40,11 +40,12 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
     }
 
 
-    data$code=str_replace_all(data$code,"df2flextable[1-9]?","ztable3")
+    data$code=str_replace_all(data$code,"df2flextable[1-9]?","ztable2")
 
     data$type=tolower(data$type)
     if("title" %in% data$type) {
         mytitle=data[data$type=="title",]$text[1]
+        if(shortdata) mytitle=data[data$type=="title",]$code[1]
         data=data[data$type!="title",]
     } else{
         mytitle="Web-based Analysis with R"
@@ -52,10 +53,12 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
     mysubtitle=""
     if("subtitle" %in% data$type) {
         mysubtitle=data[data$type=="subtitle",]$text[1]
+        if(shortdata) mysubtitle=data[data$type=="subtitle",]$code[1]
         data=data[data$type!="subtitle",]
     }
     if("author" %in% data$type) {
         myauthor=data[data$type=="author",]$text[1]
+        if(shortdata) myauthor=data[data$type=="author",]$code[1]
         data=data[data$type!="author",]
     } else{
         myauthor="prepared by web-r.org"
@@ -64,6 +67,7 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
 
 
     mycat("---\ntitle: '",mytitle,"'\n")
+    mycat("subtitle: '",mysubtitle,"'\n")
     mycat("author: '",myauthor,"'\n")
     mycat("date: '`r Sys.time()`'\n")
 
@@ -115,7 +119,7 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
                 mycat("\n\n")
                 mycat("```{r,results='asis',echo=FALSE}\n")
 
-                mycat("ztable3(data[",i,",])\n")
+                mycat("ztable2(data[",i,",])\n")
                 mycat("```\n\n\n")
 
         }
@@ -162,7 +166,7 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
             mycat("```\n\n")
         } else if(mypptlist$type[i]=="data"){
             mycat("```{r,results='asis'}\n")
-            mycat("ztable3(",mypptlist$code[i],")\n")
+            mycat("ztable2(",mypptlist$code[i],")\n")
             mycat("```\n\n")
         } else if(mypptlist$type[i]=="rcode") {
             mycat("```{r,echo=TRUE}\n")
@@ -223,70 +227,4 @@ HTMLcode2latex=function(data){
 
     data[]=lapply(data,fnr)
     data
-}
-
-#'make latex table with ztable
-#'@param data a data.frame
-#'@param ... further argument to be passed to ztable
-#'@param aim desired column lengths
-#'@param type output type
-#'@export
-#'@examples
-#'require(magrittr)
-#'require(ztable)
-#'ztable2(sampleData3)
-ztable2=function(data,aim=NULL,type="latex",...){
-    # data=sampleData3
-    # aim=NULL
-    # type="latex"
-    data1 <- data %>%
-         multiLineData() %>%
-         adjustWidth(aim=aim) %>%
-         lfData() %>%
-        HTMLcode2latex()
-    data1=as.data.frame(data1)
-
-    data1=data1[-ncol(data1)]
-    # print(ztable(data1),type="latex",include.rownames=FALSE)
-    print(ztable(data1,...),type=type,longtable=TRUE,include.rownames=FALSE)
-}
-
-
-#' adjust width of data.frame
-#' @param data A data.frame
-#' @param width total desired wdth
-#' @param min minimum width of each column
-#' @param aim desired column lengths
-#' @importFrom purrr map2_df
-#' @export
-adjustWidth=function(data,width=80,min=10,aim=NULL){
-
-    if(is.null(aim)){
-    current=apply(data,2,function(x) max(nchar(x)))
-    preserveCol=current<min
-    SumCurrent=sum(current[setdiff(1:ncol(data),preserveCol)])
-    aim=current*width/SumCurrent
-    aim[preserveCol]=current[preserveCol]
-    aim[!preserveCol]=ifelse(aim[!preserveCol]<min,min,aim[!preserveCol])
-    A=sum(aim[aim>min])
-    B=width-sum(aim[aim<=min])
-    aim[aim>min]=aim[aim>min]*B/A
-    aim=round(aim)
-    }
-
-    map2_df(data,aim,tensiSplit2,exdent=0)
-}
-
-#' Split string vectors with desired length with exdent
-#' @param x A string vector
-#' @param ... further argument to be passed to tensiSplit
-#' @export
-tensiSplit2=function(x,...){
-    result=c()
-    for(i in 1:length(x)){
-        temp=tensiSplit(x[i],...)
-        temp=str_flatten(temp,"\n")
-        result=c(result,temp)
-    }
-    result
 }

@@ -25,11 +25,11 @@ add_title=function(x,title="",size=20,color=NULL,before=TRUE,after=TRUE){
 add_self=function(mydoc,data){
     if(class(mydoc)=="rpptx"){
         mydoc <- mydoc %>% add_slide("Blank",master="Office Theme")
-        mydoc<-mydoc %>% ph_with_flextable_at(value=df2flextable3(data),left=1,top=2)
+        mydoc<-mydoc %>% ph_with_flextable_at(value=df2flextable2(data),left=1,top=2)
     } else{
         mydoc<-mydoc %>% body_add_par(value="\n\n",style="Normal")
-        df=data.frame(title=title,text=text,code=code)
-        mydoc<-mydoc %>% body_add_flextable(df2flextable3(data))
+        #df=data.frame(title=title,text=text,code=code)
+        mydoc<-mydoc %>% body_add_flextable(df2flextable2(data))
         mydoc<-mydoc %>% body_add_par(value="\n\n",style="Normal")
     }
     mydoc
@@ -93,6 +93,7 @@ add_text=function(mydoc,title="",text="",code="",echo=FALSE,eval=FALSE,style="No
 #' @param plot2 An R code encoding the second ggplot
 #' @param width plot width in inches
 #' @param height plot height in inches
+#' @param top top plot position ininches
 #' @return a document object
 #' @importFrom officer body_end_section break_column_before
 #' @export
@@ -135,6 +136,7 @@ add_2ggplots=function(mydoc,plot1,plot2,width=3,height=2.5,top=2){
 #' @param width plot width in inches
 #' @param height plot height in inches
 #' @param echo logical Whether or not show R code
+#' @param top top plot position ininches
 #' @return a document object
 #' @export
 #' @examples

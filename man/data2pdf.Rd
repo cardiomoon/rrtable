@@ -32,5 +32,5 @@ Make a pdf file with a data.frame
 library(moonBook)
 library(ztable)
 data2pdf(sampleData3)
-data2pdf(sampleData2)
+#data2pdf(sampleData2)
 }

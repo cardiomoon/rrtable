@@ -136,7 +136,7 @@ data2office=function(data,
 
         if(data$type[i]=="rcode") eval(parse(text=data$code[i]))
         if(data$type[i]=="data"){
-            ft=df2flextable(eval(parse(text=data$code[i])),vanilla=vanilla)
+            ft=df2flextable2(eval(parse(text=data$code[i])),vanilla=vanilla)
             mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
         } else if(data$type[i]=="table"){
             #tempcode=set_argument(data$code[i],argument="vanilla",value=vanilla)
@@ -187,7 +187,8 @@ data2office=function(data,
         target=paste0(filename,".",format)
     }
     #cat("target=",target,"\n")
-    mydoc %>% print(target=paste0(getwd(),"/",target))
+    #mydoc %>% print(target=paste0(getwd(),"/",target))
+    mydoc %>% print(target=target)
 }
 
 #' convert data to pptx file

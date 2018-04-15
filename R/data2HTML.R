@@ -17,7 +17,7 @@
 #' library(ztable)
 #' library(rrtable)
 #' data2HTML(sampleData3)
-#' data2HTML(sampleData2)
+#' #data2HTML(sampleData2)
 data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL,rawDataFile="rawData.RDS",
                    vanilla=FALSE,echo=TRUE,showself=FALSE){
 
@@ -35,6 +35,7 @@ data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL
     data$type=tolower(data$type)
     if("title" %in% data$type) {
         mytitle=data[data$type=="title",]$text[1]
+        if(shortdata) mytitle=data[data$type=="title",]$code[1]
         data=data[data$type!="title",]
     } else{
         mytitle="Web-based Analysis with R"
@@ -42,10 +43,12 @@ data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL
     mysubtitle=""
     if("subtitle" %in% data$type) {
         mysubtitle=data[data$type=="subtitle",]$text[1]
+        if(shortdata) mysubtitle=data[data$type=="subtitle",]$code[1]
         data=data[data$type!="subtitle",]
     }
     if("author" %in% data$type) {
         myauthor=data[data$type=="author",]$text[1]
+        if(shortdata) myauthor=data[data$type=="author",]$code[1]
         data=data[data$type!="author",]
     } else{
         myauthor="prepared by web-r.org"
@@ -95,7 +98,7 @@ data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL
 
                 mycat("\n\n")
                 mycat("```{r,results='asis',echo=FALSE}\n")
-                mycat(paste0("df2flextable3(data[",i,",])\n"))
+                mycat(paste0("df2flextable2(data[",i,",])\n"))
                 mycat("```\n\n\n")
 
         }
@@ -119,7 +122,7 @@ data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL
 
         } else if(mypptlist$type[i]=="data"){
             mycat("```{r,results='asis'}\n")
-            mycat("df2flextable(",mypptlist$code[i],",vanilla=",vanilla,")\n")
+            mycat("df2flextable2(",mypptlist$code[i],",vanilla=",vanilla,")\n")
             mycat("```\n\n")
 
         } else if(mypptlist$type[i]=="table") {

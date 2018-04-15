@@ -139,14 +139,14 @@ df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=10,
 #' @param maxcol maximum column width in inch
 #' @param ... further arguments to be passed to df2flextable()
 #' @export
-df2flextable3=function(df,mincol=0.7,maxcol=4,...){
+df2flextable2=function(df,mincol=0.7,maxcol=4,...){
 
     cwidth=c()
     clen=c()
     for(i in 1:ncol(df)){
 
         if(is.character(df[[i]])) {
-            len=max(nchar(df[[i]]))
+            len=max(max(nchar(df[[i]])),nchar(colnames(df)[i]))
             clen=c(clen,len)
             if(len<10) {
                 cwidth=c(cwidth,mincol)
@@ -163,6 +163,10 @@ df2flextable3=function(df,mincol=0.7,maxcol=4,...){
     }
     # str(cwidth)
     # str(clen)
-    df2flextable(df,...) %>% width(width=cwidth)
+    ft=df2flextable(df,...) %>% width(width=cwidth) %>% align()
+    for(i in 1:ncol(df)){
+        if(is.numeric(df[[i]])) ft<-ft %>% align(j=i,align="right")
+    }
+    ft
 }
 
