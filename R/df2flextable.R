@@ -140,7 +140,10 @@ df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=10,
 #' @param ... further arguments to be passed to df2flextable()
 #' @export
 df2flextable2=function(df,mincol=0.7,maxcol=4,...){
-
+    # df=sampleData3
+    # mincol=0.7
+    # maxcol=4
+    # max(nchar(df[[5]]))
     cwidth=c()
     clen=c()
     for(i in 1:ncol(df)){
@@ -150,10 +153,10 @@ df2flextable2=function(df,mincol=0.7,maxcol=4,...){
             clen=c(clen,len)
             if(len<10) {
                 cwidth=c(cwidth,mincol)
-            } else if(len<=20) {
+            } else if(len<=21) {
                 cwidth=c(cwidth,1)
             } else {
-                temp=len%/%20+1
+                temp=len%/%21+1
                 if(temp>maxcol) temp=maxcol
                 cwidth=c(cwidth,temp)
             }
@@ -161,6 +164,7 @@ df2flextable2=function(df,mincol=0.7,maxcol=4,...){
             cwidth=c(cwidth,1)
         }
     }
+    cwidth
     # str(cwidth)
     # str(clen)
     ft=df2flextable(df,...) %>% width(width=cwidth) %>% align()
