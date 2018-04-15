@@ -3,7 +3,7 @@
 \docType{data}
 \name{sampleData3}
 \alias{sampleData3}
-\title{Sample data for pptxList
+\title{Sample data for PPTxList
 A dataset containing five objects for reproducible research}
 \format{A data frame with 5 rows and three columns
 \describe{
@@ -17,7 +17,7 @@ A dataset containing five objects for reproducible research}
 sampleData3
 }
 \description{
-Sample data for pptxList
+Sample data for PPTxList
 A dataset containing five objects for reproducible research
 }
 \keyword{datasets}

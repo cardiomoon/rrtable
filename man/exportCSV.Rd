@@ -2,7 +2,7 @@
 % Please edit documentation in R/exportCSV.R
 \name{exportCSV}
 \alias{exportCSV}
-\title{Export pptxList file to desired format}
+\title{Export pptList file to desired format}
 \usage{
 exportCSV(file, format = "HTML", rawDataName = NULL,
   rawDataFile = "rawData.RDS")
@@ -10,12 +10,12 @@ exportCSV(file, format = "HTML", rawDataName = NULL,
 \arguments{
 \item{file}{The name of the file which the data are to be read from.}
 
-\item{format}{desired output format. Possible choices are one of the c("HTML","pdf","word","pptx","plotzip")}
+\item{format}{desired ouput format. Possible choices are one of the c("HTML","pdf","word","pptx","plotzip")}
 
 \item{rawDataName}{The name of the rawData}
 
 \item{rawDataFile}{The name of the rawData file which the data are to be read from.}
 }
 \description{
-Export pptxList file to desired format
+Export pptList file to desired format
 }
