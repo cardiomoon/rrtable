@@ -17,7 +17,7 @@ add_2ggplots(mydoc, plot1, plot2, width = 3, height = 2.5, top = 2)
 
 \item{height}{plot height in inches}
 
-\item{top}{top plot position ininches}
+\item{top}{top plot position in inches}
 }
 \value{
 a document object

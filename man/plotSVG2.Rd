@@ -15,7 +15,7 @@ plotSVG2(fun, file, width = 7, height = 7, ggplot = FALSE)
 
 \item{height}{A plot height}
 
-\item{ggplot}{A logical. Set this argument true if th R code is for ggplot}
+\item{ggplot}{A logical. Set this argument true if the R code is for ggplot}
 }
 \description{
 Make SVG file with a plot code

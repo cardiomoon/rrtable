@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_Rcode.R
 \name{df2RcodeTable}
 \alias{df2RcodeTable}
-\title{Make a FlexTable with a data.frame}
+\title{Make a flextable with a data.frame}
 \usage{
 df2RcodeTable(df, bordercolor = "gray", format = "pptx", eval = TRUE)
 }
@@ -19,5 +19,5 @@ df2RcodeTable(df, bordercolor = "gray", format = "pptx", eval = TRUE)
 A FlexTable object
 }
 \description{
-Make a FlexTable with a data.frame
+Make a flextable with a data.frame
 }

@@ -44,7 +44,7 @@ df2flextable(df, vanilla = FALSE, fontname = NULL, fontsize = 10,
 
 \item{pcol}{An integer indicating p value. If specified, convert value less than 0.01 to "< 0.001" in given column.}
 
-\item{...}{further argumants to be passed to flextable}
+\item{...}{further arguments to be passed to flextable}
 }
 \description{
 Convert data.frame to flextable

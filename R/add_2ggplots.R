@@ -41,7 +41,7 @@ add_self=function(mydoc,data){
 #' @param text text string to be added
 #' @param code An R code string
 #' @param echo logical Whether or not show R code
-#' @param eval logical whether or not evaluuate the R code
+#' @param eval logical whether or not evaluate the R code
 #' @param landscape Logical. Whether or not make a landscape section.
 #' @param style text style
 #' @export
@@ -93,7 +93,7 @@ add_text=function(mydoc,title="",text="",code="",echo=FALSE,eval=FALSE,style="No
 #' @param plot2 An R code encoding the second ggplot
 #' @param width plot width in inches
 #' @param height plot height in inches
-#' @param top top plot position ininches
+#' @param top top plot position in inches
 #' @return a document object
 #' @importFrom officer body_end_section break_column_before
 #' @export
@@ -136,7 +136,7 @@ add_2ggplots=function(mydoc,plot1,plot2,width=3,height=2.5,top=2){
 #' @param width plot width in inches
 #' @param height plot height in inches
 #' @param echo logical Whether or not show R code
-#' @param top top plot position ininches
+#' @param top top plot position in inches
 #' @return a document object
 #' @export
 #' @examples

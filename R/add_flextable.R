@@ -2,7 +2,7 @@
 #' @param mydoc A document object
 #' @param ftable A flextable or mytable object
 #' @param code R code string
-#' @param echo whether or not disply R code
+#' @param echo whether or not display R code
 #' @param landscape Logical. Whether or not make a landscape section.
 #' @importFrom officer add_slide ph_with_text  body_add_par
 #' @importFrom flextable body_add_flextable ph_with_flextable ph_with_flextable_at

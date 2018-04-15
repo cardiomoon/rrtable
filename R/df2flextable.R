@@ -49,7 +49,7 @@ roundDf=function(df,digits=2){
 #' @param align_body alignment of body. Expected value is one of 'left', 'right', 'center', 'justify'.
 #' @param NA2space A logical. If true, convert NA value to space
 #' @param pcol An integer indicating p value. If specified, convert value less than 0.01 to "< 0.001" in given column.
-#' @param ... further argumants to be passed to flextable
+#' @param ... further arguments to be passed to flextable
 #' @importFrom flextable regulartable set_formatter_type set_header_df theme_zebra vline vline_left align autofit padding hline hline_top hline_bottom border_remove font fontsize color
 #' @importFrom officer fp_border
 #' @importFrom magrittr "%>%"

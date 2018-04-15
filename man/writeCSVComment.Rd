@@ -2,7 +2,7 @@
 % Please edit documentation in R/writeCSVComment.R
 \name{writeCSVComment}
 \alias{writeCSVComment}
-\title{Write a cav file with comment}
+\title{Write a csv file with comment}
 \usage{
 writeCSVComment(data, file, metadata = "", comment = "#")
 }
@@ -16,5 +16,5 @@ writeCSVComment(data, file, metadata = "", comment = "#")
 \item{comment}{A string used to identify comments}
 }
 \description{
-Write a cav file with comment
+Write a csv file with comment
 }

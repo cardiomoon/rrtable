@@ -60,7 +60,7 @@ tensiSplit <- function(string,size=82,exdent=3) {
 }
 
 
-#' Make a FlexTable with a data.frame
+#' Make a flextable with a data.frame
 #' @param df A data.frame
 #' @param bordercolor A border color name
 #' @param format desired format. choices are "pptx" or "docx"

@@ -79,7 +79,7 @@ plotPDF2=function(fun,file,width=7,height=5,units="in",res=300,ggplot=FALSE){
 #' @param file A path of destination file
 #' @param width A plot width
 #' @param height A plot height
-#' @param ggplot A logical. Set this argument true if th R code is for ggplot
+#' @param ggplot A logical. Set this argument true if the R code is for ggplot
 #' @importFrom grDevices svg
 plotSVG2=function(fun,file,width=7,height=7,ggplot=FALSE){
 
@@ -100,7 +100,7 @@ plotSVG2=function(fun,file,width=7,height=7,ggplot=FALSE){
 #' @param height A plot height
 #' @param units The units in which height and width are given. Can be px (pixels, the default), in (inches), cm or mm.
 #' @param res The nominal resolution in ppi
-#' @param ggplot A logical. Set this argument true if th R code is for ggplot
+#' @param ggplot A logical. Set this argument true if the R code is for ggplot
 #' @importFrom grDevices png
 #' @importFrom ggplot2 ggsave
 plotPNG2=function(fun,file,width=7,height=7,units="in",res=300,ggplot=FALSE){

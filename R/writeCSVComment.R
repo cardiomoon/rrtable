@@ -1,4 +1,4 @@
-#' Write a cav file with comment
+#' Write a csv file with comment
 #' @param data A data.frame
 #' @param file A path for destination file
 #' @param metadata A character string representing R codes as a preprocessing

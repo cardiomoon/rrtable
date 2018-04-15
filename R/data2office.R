@@ -9,7 +9,7 @@
 #' @param res The nominal resolution in ppi which will be recorded in the bitmap file, if a positive integer. Also used for units other than the default, and to convert points to pixels.
 #' @param rawDataName raw Data Name
 #' @param rawDataFile raw Data File
-#' @param vanilla logical. WHether or not make vanilla table
+#' @param vanilla logical. Whether or not make vanilla table
 #' @param echo logical Whether or not show R code
 #' @param landscape Logical. Whether or not make a landscape section.
 #' @param showself Logical. Whether or not show R code for the paragraph

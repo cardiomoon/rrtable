@@ -20,7 +20,7 @@ add_2plots(mydoc, plotstring1, plotstring2, width = 3, height = 2.5,
 
 \item{echo}{logical Whether or not show R code}
 
-\item{top}{top plot position ininches}
+\item{top}{top plot position in inches}
 }
 \value{
 a document object

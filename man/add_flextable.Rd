@@ -11,7 +11,7 @@ add_flextable(mydoc, ftable, echo = FALSE, code = "", landscape = FALSE)
 
 \item{ftable}{A flextable or mytable object}
 
-\item{echo}{whether or not disply R code}
+\item{echo}{whether or not display R code}
 
 \item{code}{R code string}
 

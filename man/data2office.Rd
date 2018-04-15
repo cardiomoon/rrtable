@@ -30,7 +30,7 @@ data2office(data, preprocessing = "", filename = "Report",
 
 \item{rawDataFile}{raw Data File}
 
-\item{vanilla}{logical. WHether or not make vanilla table}
+\item{vanilla}{logical. Whether or not make vanilla table}
 
 \item{echo}{logical Whether or not show R code}
 

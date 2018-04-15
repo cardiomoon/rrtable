@@ -18,7 +18,7 @@ add_text(mydoc, title = "", text = "", code = "", echo = FALSE,
 
 \item{echo}{logical Whether or not show R code}
 
-\item{eval}{logical whether or not evaluuate the R code}
+\item{eval}{logical whether or not evaluate the R code}
 
 \item{style}{text style}
 
