@@ -32,6 +32,6 @@ Make a HTML5 file with a data.frame
 library(moonBook)
 library(ztable)
 library(rrtable)
-data2HTML(sampleData3)
+#data2HTML(sampleData3)
 #data2HTML(sampleData2)
 }
