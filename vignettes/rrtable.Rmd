@@ -9,10 +9,12 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE ,message=FALSE,warning=FALSE,comment=NA,
           fig.width=9,fig.asp=0.618,fig.align='center',out.width='70%')
 ```
+
 ```{r,echo= TRUE ,message=FALSE}
 require(moonBook)
 require(ztable)
