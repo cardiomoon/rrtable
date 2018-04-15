@@ -3,18 +3,14 @@ title: ' R package `rrtable` '
 subtitle: ' Reproducible Research with a Table of R codes '
 author: ' Keon-Woong Moon '
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{R package rrtable}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output:  
+    html_document:
+        keep_md: true
 ---
-
-
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE ,message=FALSE,warning=FALSE,comment=NA,
-          fig.width=9,fig.asp=0.618,fig.align='center',out.width='70%')
+          fig.width=9,fig.asp=0.618,fig.align='center',out.width='70%',
+          fig.path = "README_figs/README-")
 ```
 ```{r,echo= TRUE ,message=FALSE}
 require(moonBook)

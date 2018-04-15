@@ -2,6 +2,7 @@
 title: ' R package `rrtable` '
 subtitle: ' Reproducible Research with a Table of R codes '
 author: ' Keon-Woong Moon '
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{R package rrtable}
@@ -112,7 +113,7 @@ summary(fit)
 
 You can insert two parallel ggplots with the following code. 
 
-```{r,out.width='50%',fig.align='default',fig.show='hold'}
+```{r,out.width='45%',fig.align='default',fig.show='hold'}
 ggplot(iris,aes(Sepal.Length,Sepal.Width))+geom_point()
 ggplot(iris,aes(Sepal.Length,Sepal.Width,colour=Species))+ geom_point()+guides(colour=FALSE) 
 ```
@@ -123,7 +124,7 @@ ggplot(iris,aes(Sepal.Length,Sepal.Width,colour=Species))+ geom_point()+guides(c
 
 You can insert two parallel plots with the following code. 
 
-```{r,out.width='50%',fig.align='default',fig.show='hold'}
+```{r,out.width='45%',fig.align='default',fig.show='hold'}
 hist(rnorm(1000))
 plot(1:10) 
 ```
