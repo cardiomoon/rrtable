@@ -3,7 +3,7 @@
 \docType{data}
 \name{acs}
 \alias{acs}
-\title{A dataset containing demographic data and laboratory data of 857 pateints with
+\title{A dataset containing demographic data and laboratory data of 857 patients with
 acute coronary syndrome(ACS).}
 \format{A data frame with 857 rows and 17 variables:
 \describe{
@@ -29,7 +29,7 @@ acute coronary syndrome(ACS).}
 acs
 }
 \description{
-A dataset containing demographic data and laboratory data of 857 pateints with
+A dataset containing demographic data and laboratory data of 857 patients with
 acute coronary syndrome(ACS).
 }
 \keyword{datasets}

@@ -16,7 +16,7 @@ df2RcodeTable(df, bordercolor = "gray", format = "pptx", eval = TRUE)
 \item{eval}{logical. Whether or not evaluate the code}
 }
 \value{
-A FlexTable object
+A flextable object
 }
 \description{
 Make a flextable with a data.frame

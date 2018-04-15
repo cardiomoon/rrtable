@@ -20,7 +20,7 @@ plotPDF2(fun, file, width = 7, height = 5, units = "in", res = 300,
 
 \item{res}{The nominal resolution in ppi}
 
-\item{ggplot}{A logical. Set this argument true if th R code is for ggplot}
+\item{ggplot}{A logical. Set this argument true if the R code is for ggplot}
 }
 \description{
 Make pdf file with a plot code

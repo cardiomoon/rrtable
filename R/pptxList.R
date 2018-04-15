@@ -1,4 +1,4 @@
-#' Sample data for PPTxList
+#' Sample data for pptxList
 #' A dataset containing five objects for reproducible research
 #'
 #' @format A data frame with 5 rows and three columns
@@ -9,7 +9,7 @@
 #' }
 "sampleData2"
 
-#' Sample data for PPTxList
+#' Sample data for pptxList
 #' A dataset containing five objects for reproducible research
 #'
 #' @format A data frame with 5 rows and three columns
@@ -23,7 +23,7 @@
 "sampleData3"
 
 
-#'A dataset containing demographic data and laboratory data of 857 pateints with
+#'A dataset containing demographic data and laboratory data of 857 patients with
 #'acute coronary syndrome(ACS).
 #'
 #'
