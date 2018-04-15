@@ -139,8 +139,6 @@ You can get report with HTML format(this file) by following R command.
 data2HTML(sampleData3) 
 ```
 
-You can download sample data: [rrtable.html](https://github.com/cardiomoon/rrtable/raw/master/inst/doc/rrtable.html)
-
 
 ### MS word document
 
