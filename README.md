@@ -107,7 +107,7 @@ You can insert a plot into your document.
 plot(iris) 
 ```
 
-<img src="README_figs/README-unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="README_figs/7-1.png" width="70%" style="display: block; margin: auto;" />
 
 
 
