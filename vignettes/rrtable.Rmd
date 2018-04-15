@@ -15,6 +15,7 @@ knitr::opts_chunk$set(echo = TRUE ,message=FALSE,warning=FALSE,comment=NA,
           fig.width=9,fig.asp=0.618,fig.align='center',out.width='70%')
 ```
 
+
 ```{r,echo= TRUE ,message=FALSE}
 require(moonBook)
 require(ztable)
@@ -85,7 +86,7 @@ mytable2flextable( mytable(Dx~.,data=acs) ,vanilla= FALSE )
 You can insert a plot into your document. 
 
 ```{r  }
-plot(iris) 
+plot(Sepal.Width~Sepal.Length,data=iris)
 ```
 
 
