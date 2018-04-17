@@ -86,7 +86,7 @@ mytable2flextable( mytable(Dx~.,data=acs) ,vanilla= FALSE )
 You can insert a plot into your document. 
 
 ```{r  }
-plot(Sepal.Width~Sepal.Length,data=iris)
+plot(rnorm(1000))
 ```
 
 

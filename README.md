@@ -104,10 +104,10 @@ You can insert a plot into your document.
 
 
 ```r
-plot(Sepal.Width~Sepal.Length,data=iris)
+hist(rnorm(1000))
 ```
 
-<img src="README_figs/README-unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="README_figs/README-unnamed-chunk-11-1.png" width="70%" style="display: block; margin: auto;" />
 
 
 
