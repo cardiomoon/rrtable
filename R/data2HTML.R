@@ -9,7 +9,7 @@
 #' @param showself Logical. Whether or not show R code for the paragraph
 #' @importFrom rmarkdown render
 #' @importFrom moonBook mytable
-#' @importFrom ztable ztable print.ztable
+#' @importFrom ztable ztable
 #' @importFrom flextable width
 #' @export
 #' @examples
