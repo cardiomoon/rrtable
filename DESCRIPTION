@@ -1,6 +1,6 @@
 Package: rrtable
 Type: Package
-Title: Reproducible Research with a Table of R codes
+Title: Reproducible Research with A Table of R codes
 Version: 0.1.0
 Imports:
    stringr,
