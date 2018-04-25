@@ -107,7 +107,7 @@ You can insert a plot into your document.
 hist(rnorm(1000))
 ```
 
-<img src="README_figs/README-unnamed-chunk-11-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="man/README_figs/README-unnamed-chunk-11-1.png" width="70%" style="display: block; margin: auto;" />
 
 
 
@@ -120,7 +120,7 @@ You can insert a ggplot into a document
 ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width,color=Species))+ geom_point() 
 ```
 
-<img src="README_figs/README-unnamed-chunk-8-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="man/README_figs/README-unnamed-chunk-8-1.png" width="70%" style="display: block; margin: auto;" />
 
 
 
@@ -169,7 +169,7 @@ ggplot(iris,aes(Sepal.Length,Sepal.Width))+geom_point()
 ggplot(iris,aes(Sepal.Length,Sepal.Width,colour=Species))+ geom_point()+guides(colour=FALSE) 
 ```
 
-<img src="README_figs/README-unnamed-chunk-10-1.png" width="45%" /><img src="README_figs/README-unnamed-chunk-10-2.png" width="45%" />
+<img src="man/README_figs/README-unnamed-chunk-10-1.png" width="45%" /><img src="man/README_figs/README-unnamed-chunk-10-2.png" width="45%" />
 
 
 
@@ -183,7 +183,7 @@ hist(rnorm(1000))
 plot(1:10) 
 ```
 
-<img src="README_figs/README-unnamed-chunk-11-1.png" width="45%" /><img src="README_figs/README-unnamed-chunk-11-2.png" width="45%" />
+<img src="man/README_figs/README-unnamed-chunk-11-1.png" width="45%" /><img src="man/README_figs/README-unnamed-chunk-11-2.png" width="45%" />
 
 
 
