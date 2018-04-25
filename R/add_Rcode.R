@@ -67,7 +67,7 @@ tensiSplit <- function(string,size=82,exdent=3) {
 #' @param eval logical. Whether or not evaluate the code
 #' @importFrom flextable delete_part flextable height_all void
 #' @importFrom stringr str_split str_wrap
-#' @return A FlexTable object
+#' @return A flextable object
 df2RcodeTable=function(df,bordercolor="gray",format="pptx",eval=TRUE){
     # df
     #bordercolor="gray";maxlen=80

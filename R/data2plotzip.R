@@ -57,7 +57,7 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,p
 #' @param height A plot height
 #' @param units The units in which height and width are given. Can be px (pixels, the default), in (inches), cm or mm.
 #' @param res The nominal resolution in ppi
-#' @param ggplot A logical. Set this argument true if th R code is for ggplot
+#' @param ggplot A logical. Set this argument true if the R code is for ggplot
 #' @importFrom grDevices cairo_pdf dev.off
 plotPDF2=function(fun,file,width=7,height=5,units="in",res=300,ggplot=FALSE){
 
