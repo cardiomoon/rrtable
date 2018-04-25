@@ -10,7 +10,7 @@ exportCSV(file, format = "HTML", rawDataName = NULL,
 \arguments{
 \item{file}{The name of the file which the data are to be read from.}
 
-\item{format}{desired ouput format. Possible choices are one of the c("HTML","pdf","word","pptx","plotzip")}
+\item{format}{desired output format. Possible choices are one of the c("HTML","pdf","word","pptx","plotzip")}
 
 \item{rawDataName}{The name of the rawData}
 
