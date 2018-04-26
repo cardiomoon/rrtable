@@ -1,4 +1,4 @@
-#' Export pptList file to desired format
+#' Export pptxList file to desired format
 #' @param file The name of the file which the data are to be read from.
 #' @param format desired output format. Possible choices are one of the c("HTML","pdf","word","pptx","plotzip")
 #' @param rawDataName The name of the rawData
