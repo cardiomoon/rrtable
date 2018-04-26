@@ -1,6 +1,6 @@
 ---
 title: ' R package `rrtable` '
-subtitle: ' Reproducible Research with a Table of R codes '
+subtitle: ' Reproducible Research with a Table of R Codes '
 author: ' Keon-Woong Moon '
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
