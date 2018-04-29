@@ -13,6 +13,8 @@ data2pptx(...)
 convert data to pptx file
 }
 \examples{
-#library(rrtable)
-#data2pptx(sampleData2)
+\donttest{
+library(rrtable)
+data2pptx(sampleData2)
+}
 }

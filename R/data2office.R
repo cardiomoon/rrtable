@@ -195,8 +195,10 @@ data2office=function(data,
 #' @param ... arguments to be passed to data2office()
 #' @export
 #' @examples
-#' #library(rrtable)
-#' #data2pptx(sampleData2)
+#' \donttest{
+#' library(rrtable)
+#' data2pptx(sampleData2)
+#' }
 data2pptx=function(...){
     data2office(...)
 }
@@ -205,8 +207,10 @@ data2pptx=function(...){
 #' @param ... arguments to be passed to data2office()
 #' @export
 #' @examples
-#' #library(rrtable)
-#' #data2docx(sampleData2)
+#' \donttest{
+#' library(rrtable)
+#' data2docx(sampleData2)
+#' }
 data2docx=function(...){
     data2office(...,format="docx")
 }

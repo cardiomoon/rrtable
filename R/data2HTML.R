@@ -16,8 +16,10 @@
 #' library(moonBook)
 #' library(ztable)
 #' library(rrtable)
-#' #data2HTML(sampleData3)
-#' #data2HTML(sampleData2)
+#' \donttest{
+#' data2HTML(sampleData3)
+#' data2HTML(sampleData2)
+#' }
 data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL,rawDataFile="rawData.RDS",
                    vanilla=FALSE,echo=TRUE,showself=FALSE){
 

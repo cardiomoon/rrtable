@@ -21,8 +21,10 @@ mycat=function(...,file="report2.Rmd"){
 #' @examples
 #' library(moonBook)
 #' library(ztable)
-#' #data2pdf(sampleData3)
-#' #data2pdf(sampleData2)
+#' \donttest{
+#' data2pdf(sampleData3)
+#' data2pdf(sampleData2)
+#' }
 data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
                   rawDataFile="rawData.RDS",kotex=FALSE,echo=TRUE,showself=FALSE){
 

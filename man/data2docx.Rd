@@ -13,6 +13,8 @@ data2docx(...)
 convert data to docx file
 }
 \examples{
-#library(rrtable)
-#data2docx(sampleData2)
+\donttest{
+library(rrtable)
+data2docx(sampleData2)
+}
 }
