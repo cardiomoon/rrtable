@@ -168,6 +168,52 @@ add_2ggplots=function(mydoc,plot1,plot2,width=3,height=2.5,top=2){
     mydoc
 
 }
+
+#' Add two flextables into a document object
+#' @param mydoc A document object
+#' @param ft1 The first flextable
+#' @param ft2 The second flextable
+#' @param echo whether or not display R code
+#' @param width plot width in inches
+#' @param code R code string
+#' @return a document object
+#' @export
+#' @examples
+#' require(rrtable)
+#' require(officer)
+#' require(magrittr)
+#' title="Two Tables"
+#' ft1=df2flextable(head(iris[1:4]))
+#' ft2=df2flextable(tail(iris[1:4]))
+#' doc=read_docx()
+#' doc %>% add_text(title=title) %>%
+#'         add_2flextables(ft1,ft2) %>%
+#'         print(target="2tables.docx")
+add_2flextables=function(mydoc,ft1,ft2,echo=FALSE,width=3,code=""){
+
+    pos=1.5
+    if(echo & (code!="")) pos=2
+    if(class(mydoc)=="rpptx"){
+
+        mydoc<-mydoc %>%
+            ph_with_flextable_at(value=ft1,left=0.5,top=pos) %>%
+            ph_with_flextable_at(value=ft2,left=5,top=pos)
+    } else {
+
+        # if(landscape) mydoc <- body_end_section_portrait(mydoc)
+
+        mydoc <- mydoc %>%
+            body_end_section_continuous()
+        mydoc <-mydoc %>%
+            body_add_flextable(ft1) %>%
+            body_add_flextable(ft2) %>%
+            body_end_section_columns(widths = c(width, width), space = .05, sep = FALSE)
+        # if(landscape) mydoc <- body_end_section_landscape(mydoc)
+    }
+
+    mydoc
+}
+
 #' Add two plots into a document object
 #' @param mydoc A document object
 #' @param plotstring1 An R code string encoding the first plot

@@ -2,6 +2,7 @@
 
 export(HTMLcode2latex)
 export(Rcode2flextable)
+export(add_2flextables)
 export(add_2ggplots)
 export(add_2plots)
 export(add_Rcode)
