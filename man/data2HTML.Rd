@@ -29,10 +29,10 @@ data2HTML(data, preprocessing = "", filename = "report.HTML",
 Make a HTML5 file with a data.frame
 }
 \examples{
+\donttest{
 library(moonBook)
 library(ztable)
 library(rrtable)
-\donttest{
 data2HTML(sampleData3)
 data2HTML(sampleData2)
 }

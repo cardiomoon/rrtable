@@ -29,30 +29,14 @@ add_img=function(mydoc,plotstring,width=7,height=5,units="in",
     eval(parse(text=plotstring))
     dev.off()
     if(class(mydoc)=="rpptx"){
-        # mydoc<- mydoc %>%
-        #     add_slide(layout = "Title and Content", master = "Office Theme") %>%
-        #     ph_with_text(type="title",str=title)
-        # if(echo){
-        #     codeft=Rcode2flextable(plotstring,eval=FALSE,format="pptx")
-        #     mydoc<-mydoc %>% ph_with_flextable_at(value=codeft,left=1,top=2)
-        #     temp=paste0("ph_with_img_at(mydoc,src=filename,left=1,top=2.3,width=8,height=5)")
-        #     mydoc=eval(parse(text=temp))
-        # } else{
+
             temp=paste0("ph_with_img_at(mydoc,src=filename,left=1,top=2,width=8,height=5)")
             mydoc=eval(parse(text=temp))
-        # }
+
     } else{
-        # mydoc <- mydoc %>% add_title(title)
-        # if(echo){
-        #     codeft=Rcode2flextable(plotstring,eval=FALSE,format="docx")
-        #     mydoc<-mydoc %>% body_add_flextable(codeft)
-        # }
+
         mydoc <- body_add_img(mydoc,src=filename,
                               width=width,height=height)
     }
     mydoc
 }
-
-# read_docx() %>% add_img(plot(mtcars),title="plot(mtcars)",format="png",res=300) %>%
-#      print(target="png.docx")
-

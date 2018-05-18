@@ -1,16 +1,3 @@
-# require(editData)
-# result=editData(sampleData2)
-# sampleData3<-result
-# sampleData3
-#
-#
-#data2pdf(sampleData3)
-# data2HTML(sampleData3,vanilla=FALSE)
-#data2HTML(sampleData3)
-# data2docx(sampleData3)
-# data2docx(sampleData3,vanilla=TRUE)
-
-
 #' set argument of a function
 #' @param code string of function call
 #' @param argument argument of function to be set

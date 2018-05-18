@@ -267,22 +267,4 @@ getCodeOption=function(x,what="echo"){
     }
     result
 }
-# plotstring1="plot(1:10)"
-# plotstring2="hist(rnorm(100))"
-#
-# read_docx() %>% add_2plots(plotstring1="plot(1:10)",plotstring2="hist(rnorm(100))",title="Two plots") %>% print(target="test.docx")
 
-# gg1 <- ggplot(data = iris, aes(Sepal.Length, Petal.Length)) +
-#     geom_point()
-# gg2 <- ggplot(data = iris, aes(Sepal.Length, Petal.Length, color = Species)) +
-#     geom_point()
-#
-# text1="This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-# When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:"
-#
-# my_doc <- read_pptx()  %>%
-#     add_text("Text1",text=text1) %>%
-#     add_2ggplots(title="Two plots",plot1=gg1,plot2=gg2) %>%
-#     add_text("Text2",text=text1)
-#
-# print(my_doc, target = "section.pptx")

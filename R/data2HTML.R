@@ -13,10 +13,10 @@
 #' @importFrom flextable width
 #' @export
 #' @examples
+#' \donttest{
 #' library(moonBook)
 #' library(ztable)
 #' library(rrtable)
-#' \donttest{
 #' data2HTML(sampleData3)
 #' data2HTML(sampleData2)
 #' }
