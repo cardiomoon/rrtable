@@ -4,7 +4,7 @@
 \alias{data2HTML}
 \title{Make a HTML5 file with a data.frame}
 \usage{
-data2HTML(data, preprocessing = "", filename = "report.HTML",
+data2HTML(data, preprocessing = "", path = NULL, filename = "report.HTML",
   rawDataName = NULL, rawDataFile = "rawData.RDS", vanilla = FALSE,
   echo = TRUE, showself = FALSE)
 }
@@ -13,7 +13,9 @@ data2HTML(data, preprocessing = "", filename = "report.HTML",
 
 \item{preprocessing}{A character string of R code}
 
-\item{filename}{A path of destination file}
+\item{path}{A name of destination file path}
+
+\item{filename}{A name of destination file}
 
 \item{rawDataName}{The name of the rawData}
 
@@ -33,7 +35,7 @@ Make a HTML5 file with a data.frame
 library(moonBook)
 library(ztable)
 library(rrtable)
-data2HTML(sampleData3)
-data2HTML(sampleData2)
+data2HTML(sampleData3,path="tmp")
+data2HTML(sampleData2,path="tmp")
 }
 }

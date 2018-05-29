@@ -4,7 +4,7 @@
 \alias{data2pdf}
 \title{Make a pdf file with a data.frame}
 \usage{
-data2pdf(data, preprocessing = "", filename = "report.pdf",
+data2pdf(data, preprocessing = "", path = NULL, filename = "report.pdf",
   rawDataName = NULL, rawDataFile = "rawData.RDS", kotex = FALSE,
   echo = TRUE, showself = FALSE)
 }
@@ -12,6 +12,8 @@ data2pdf(data, preprocessing = "", filename = "report.pdf",
 \item{data}{A data.frame}
 
 \item{preprocessing}{A character string of R code}
+
+\item{path}{A name of destination file path}
 
 \item{filename}{A path of destination file}
 
@@ -32,7 +34,7 @@ Make a pdf file with a data.frame
 library(moonBook)
 library(ztable)
 \donttest{
-data2pdf(sampleData3)
-data2pdf(sampleData2)
+data2pdf(sampleData3,path="tmp")
+data2pdf(sampleData2,path="tmp")
 }
 }

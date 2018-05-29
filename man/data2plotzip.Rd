@@ -4,12 +4,14 @@
 \alias{data2plotzip}
 \title{Make zipped plot file with a data.frame}
 \usage{
-data2plotzip(data, filename = "Plot.zip", format = "PNG", width = 8,
-  height = 6, units = "in", res = 300, start = 0, preprocessing = "",
-  rawDataName = NULL, rawDataFile = "rawData.RDS")
+data2plotzip(data, path = NULL, filename = "Plot.zip", format = "PNG",
+  width = 8, height = 6, units = "in", res = 300, start = 0,
+  preprocessing = "", rawDataName = NULL, rawDataFile = "rawData.RDS")
 }
 \arguments{
 \item{data}{A data.frame}
+
+\item{path}{A name of destination file path}
 
 \item{filename}{A path of destination file}
 
@@ -39,5 +41,5 @@ library(moonBook)
 library(ztable)
 library(rrtable)
 library(ggplot2)
-data2plotzip(sampleData2)
+data2plotzip(sampleData2,path="tmp")
 }

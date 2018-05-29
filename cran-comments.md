@@ -32,9 +32,14 @@ Swetlana Herbrandt
 
 ## Resubmission comment
 
+
 I have inserted quotation mark in Description text: 'MS Powerpoint'
 
 I have added blanks between 
-"pdf('LaTex')", "docx('MS Word')" and "pptx('MS powerpoint)".
+"pdf('LaTex')", "docx('MS Word')" and "pptx('MS powerpoint')".
 
-I have deleted comment in my examples.
+I have deleted comments in my examples.
+
+Now, my functions write files in tempdir() by default.
+
+Thank you very much.

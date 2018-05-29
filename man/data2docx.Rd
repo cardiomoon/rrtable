@@ -15,6 +15,6 @@ convert data to docx file
 \examples{
 \donttest{
 library(rrtable)
-data2docx(sampleData2)
+data2docx(sampleData2,path="tmp")
 }
 }

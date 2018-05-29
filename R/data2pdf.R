@@ -9,6 +9,7 @@ mycat=function(...,file="report2.Rmd"){
 #' Make a pdf file with a data.frame
 #' @param data A data.frame
 #' @param preprocessing A character string of R code
+#' @param path A name of destination file path
 #' @param filename A path of destination file
 #' @param rawDataName The name of the rawData
 #' @param rawDataFile The name of the rawData file which the data are to be read from.
@@ -22,17 +23,30 @@ mycat=function(...,file="report2.Rmd"){
 #' library(moonBook)
 #' library(ztable)
 #' \donttest{
-#' data2pdf(sampleData3)
-#' data2pdf(sampleData2)
+#' data2pdf(sampleData3,path="tmp")
+#' data2pdf(sampleData2,path="tmp")
 #' }
-data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
+data2pdf=function(data,preprocessing="",path=NULL,filename="report.pdf",rawDataName=NULL,
                   rawDataFile="rawData.RDS",kotex=FALSE,echo=TRUE,showself=FALSE){
 
     # data=sampleData2[9,]
     # preprocessing="";filename="report.pdf";
     # rawDataName=NULL;rawDataFile="rawData.RDS";kotex=FALSE;echo=FALSE
 
-    if(file.exists("report2.Rmd")) file.remove("report2.Rmd")
+    mode=0
+    owd=getwd()
+    if (is.null(path)) {
+        path=tempdir()
+        setwd(path)
+        mode=1
+
+    } else{
+        if(!file.exists(path)) dir.create(path)
+        setwd(path)
+    }
+
+    file.create("report2.Rmd")
+
     tempReport <-  "report2.Rmd"
 
     if(ncol(data)==3) {
@@ -206,7 +220,9 @@ data2pdf=function(data,preprocessing="",filename="report.pdf",rawDataName=NULL,
     out <- rmarkdown::render('report2.Rmd', params=list(format="PDF"),rmarkdown::pdf_document())
     result=file.rename(out, filename)
     #file.remove("report2.Rmd")
-    invisible(result)
+    setwd(owd)
+    if(mode) result=file.copy(paste0(path,"/",filename),filename,overwrite=TRUE)
+    ifelse(mode==1,filename,paste0(path,"/",filename))
 }
 
 

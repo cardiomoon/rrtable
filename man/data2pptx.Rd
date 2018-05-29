@@ -15,6 +15,6 @@ convert data to pptx file
 \examples{
 \donttest{
 library(rrtable)
-data2pptx(sampleData2)
+data2pptx(sampleData2,path="tmp")
 }
 }

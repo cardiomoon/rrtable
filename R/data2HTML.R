@@ -1,7 +1,8 @@
 #' Make a HTML5 file with a data.frame
 #' @param data A data.frame
 #' @param preprocessing A character string of R code
-#' @param filename A path of destination file
+#' @param path A name of destination file path
+#' @param filename A name of destination file
 #' @param rawDataName The name of the rawData
 #' @param rawDataFile The name of the rawData file which the data are to be read from.
 #' @param vanilla logical. Whether or not make vanilla table
@@ -17,15 +18,27 @@
 #' library(moonBook)
 #' library(ztable)
 #' library(rrtable)
-#' data2HTML(sampleData3)
-#' data2HTML(sampleData2)
+#' data2HTML(sampleData3,path="tmp")
+#' data2HTML(sampleData2,path="tmp")
 #' }
-data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL,rawDataFile="rawData.RDS",
+data2HTML=function(data,preprocessing="",path=NULL,filename="report.HTML",rawDataName=NULL,rawDataFile="rawData.RDS",
                    vanilla=FALSE,echo=TRUE,showself=FALSE){
 
+    mode=0
+    owd=getwd()
+    if (is.null(path)) {
+        path=tempdir()
+        setwd(path)
+        mode=1
 
-    if(file.exists("report2.Rmd")) file.remove("report2.Rmd")
+    } else{
+        if(!file.exists(path)) dir.create(path)
+        setwd(path)
+    }
 
+
+
+    file.create("report2.Rmd")
     tempReport <-  "report2.Rmd"
 
     if(ncol(data)==3) {
@@ -163,5 +176,8 @@ data2HTML=function(data,preprocessing="",filename="report.HTML",rawDataName=NULL
     out <- rmarkdown::render('report2.Rmd', rmarkdown::html_document())
     result=file.rename(out, filename)
     #file.remove("report2.Rmd")
-    invisible(result)
+
+    setwd(owd)
+    if(mode) result=file.copy(paste0(path,"/",filename),filename,overwrite=TRUE)
+    ifelse(mode==1,filename,paste0(path,"/",filename))
 }

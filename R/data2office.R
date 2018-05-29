@@ -1,6 +1,7 @@
 #' convert data to pptx file
 #' @param data A document object
 #' @param preprocessing A string
+#' @param path A name of destination file path
 #' @param filename File name
 #' @param format desired format. choices are "pptx" or "docx"
 #' @param width the width of the device.
@@ -17,7 +18,7 @@
 #' @export
 data2office=function(data,
                      preprocessing="",
-                     filename="Report",format="pptx",width=7,height=5,units="in",
+                     path=NULL,filename="Report",format="pptx",width=7,height=5,units="in",
                      res=300,rawDataName=NULL,rawDataFile="rawData.RDS",vanilla=FALSE,echo=FALSE,
                      landscape=FALSE,
                      showself=FALSE){
@@ -28,6 +29,18 @@ data2office=function(data,
     # filename="Report";format="pptx";width=7;height=5;units="in"
     # res=300;rawDataName=NULL;rawDataFile="rawData.RDS";vanilla=FALSE;echo=TRUE
     # showself=TRUE
+
+    mode=0
+    owd=getwd()
+    if (is.null(path)) {
+        path=tempdir()
+        setwd(path)
+        mode=1
+
+    } else{
+        if(!file.exists(path)) dir.create(path)
+        setwd(path)
+    }
 
     if(!is.null(rawDataName)){
         rawData=readRDS(rawDataFile)
@@ -189,6 +202,10 @@ data2office=function(data,
     #cat("target=",target,"\n")
     #mydoc %>% print(target=paste0(getwd(),"/",target))
     mydoc %>% print(target=target)
+
+    setwd(owd)
+    if(mode) result=file.copy(paste0(path,"/",target),target,overwrite=TRUE)
+    ifelse(mode==1,target,paste0(path,"/",target))
 }
 
 #' convert data to pptx file
@@ -197,7 +214,7 @@ data2office=function(data,
 #' @examples
 #' \donttest{
 #' library(rrtable)
-#' data2pptx(sampleData2)
+#' data2pptx(sampleData2,path="tmp")
 #' }
 data2pptx=function(...){
     data2office(...)
@@ -209,7 +226,7 @@ data2pptx=function(...){
 #' @examples
 #' \donttest{
 #' library(rrtable)
-#' data2docx(sampleData2)
+#' data2docx(sampleData2,path="tmp")
 #' }
 data2docx=function(...){
     data2office(...,format="docx")

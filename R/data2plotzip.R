@@ -118,6 +118,7 @@ plotPNG2=function(fun,file,width=7,height=7,units="in",res=300,ggplot=FALSE){
 
 #' Make zipped plot file with a data.frame
 #' @param data A data.frame
+#' @param path A name of destination file path
 #' @param filename A path of destination file
 #' @param format Plot format. Choices are c("PNG","SVG","PDF")
 #' @param width A plot width
@@ -135,14 +136,31 @@ plotPNG2=function(fun,file,width=7,height=7,units="in",res=300,ggplot=FALSE){
 #' library(ztable)
 #' library(rrtable)
 #' library(ggplot2)
-#' data2plotzip(sampleData2)
-data2plotzip=function(data,filename="Plot.zip",format="PNG",width=8,height=6,units="in",res=300,start=0,preprocessing="",
+#' data2plotzip(sampleData2,path="tmp")
+data2plotzip=function(data,path=NULL,filename="Plot.zip",format="PNG",width=8,height=6,units="in",res=300,start=0,preprocessing="",
                       rawDataName=NULL,rawDataFile="rawData.RDS"){
+
+    mode=0
+    owd=getwd()
+    if (is.null(path)) {
+        path=tempdir()
+        setwd(path)
+        mode=1
+
+    } else{
+        if(!file.exists(path)) dir.create(path)
+        setwd(path)
+    }
 
     data=data2to1(data)
     fs=myplot2(data,format=format,width=width,height=height,units=units,res=res,start=start,preprocessing=preprocessing,
                rawDataName=rawDataName,rawDataFile=rawDataFile)
     zip(zipfile=filename, files=fs)
+    setwd(owd)
+    if(mode) result=file.copy(paste0(path,"/",filename),filename,overwrite=TRUE)
+    ifelse(mode==1,filename,paste0(path,"/",filename))
+
+
 }
 
 data2to1=function(data){
