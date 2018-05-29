@@ -15,6 +15,7 @@ convert data to pptx file
 \examples{
 \donttest{
 library(rrtable)
+library(moonBook)
 data2pptx(sampleData2,path="tmp")
 }
 }

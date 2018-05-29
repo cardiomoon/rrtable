@@ -15,6 +15,7 @@ convert data to docx file
 \examples{
 \donttest{
 library(rrtable)
+library(moonBook)
 data2docx(sampleData2,path="tmp")
 }
 }
