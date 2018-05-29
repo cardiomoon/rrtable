@@ -16,6 +16,7 @@ convert data to docx file
 \donttest{
 library(rrtable)
 library(moonBook)
+library(ggplot2)
 data2docx(sampleData2,path="tmp")
 }
 }

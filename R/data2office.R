@@ -215,6 +215,7 @@ data2office=function(data,
 #' \donttest{
 #' library(rrtable)
 #' library(moonBook)
+#' library(ggplot2)
 #' data2pptx(sampleData2,path="tmp")
 #' }
 data2pptx=function(...){
@@ -228,6 +229,7 @@ data2pptx=function(...){
 #' \donttest{
 #' library(rrtable)
 #' library(moonBook)
+#' library(ggplot2)
 #' data2docx(sampleData2,path="tmp")
 #' }
 data2docx=function(...){

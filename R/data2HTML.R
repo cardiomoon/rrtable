@@ -18,6 +18,7 @@
 #' library(moonBook)
 #' library(ztable)
 #' library(rrtable)
+#' library(ggplot2)
 #' data2HTML(sampleData3,path="tmp")
 #' data2HTML(sampleData2,path="tmp")
 #' }

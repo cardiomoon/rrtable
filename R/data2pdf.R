@@ -22,6 +22,7 @@ mycat=function(...,file="report2.Rmd"){
 #' @examples
 #' library(moonBook)
 #' library(ztable)
+#' library(ggplot2)
 #' \donttest{
 #' data2pdf(sampleData3,path="tmp")
 #' data2pdf(sampleData2,path="tmp")
