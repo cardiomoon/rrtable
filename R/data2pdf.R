@@ -24,7 +24,6 @@ mycat=function(...,file="report2.Rmd"){
 #' library(ztable)
 #' library(ggplot2)
 #' \donttest{
-#' data2pdf(sampleData3,path="tmp")
 #' data2pdf(sampleData2,path="tmp")
 #' }
 data2pdf=function(data,preprocessing="",path=NULL,filename="report.pdf",rawDataName=NULL,

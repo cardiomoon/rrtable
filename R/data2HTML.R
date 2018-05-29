@@ -19,7 +19,6 @@
 #' library(ztable)
 #' library(rrtable)
 #' library(ggplot2)
-#' data2HTML(sampleData3,path="tmp")
 #' data2HTML(sampleData2,path="tmp")
 #' }
 data2HTML=function(data,preprocessing="",path=NULL,filename="report.HTML",rawDataName=NULL,rawDataFile="rawData.RDS",
