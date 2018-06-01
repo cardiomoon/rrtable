@@ -43,3 +43,31 @@ I have deleted comments in my examples.
 Now, my functions write files in tempdir() by default.
 
 Thank you very much.
+
+
+## CRAN submission comment by Uwe Ligges(29-May-2018)
+
+But in your examples you still have code such as
+
+require(rrtable)
+require(officer)
+require(magrittr)
+title="Two Tables"
+ft1=df2flextable(head(iris[1:4]))
+ft2=df2flextable(tail(iris[1:4]))
+doc=read_docx()
+doc \%>\% add_text(title=title) \%>\%
+       add_2flextables(ft1,ft2) \%>\%
+       print(target="2tables.docx")
+
+that write to the current directory, i.e. the user filespace which is not permitted. Use tempdir() instead (also in examples and tests).
+
+Also, please specify version dependencies on the other packages as your package dailed to install on a rather outdated system.
+
+## Resubmission comment
+
+I have rewritten all the examples. 
+
+I have added specific versions of packages in my description.
+
+Thank you very much.

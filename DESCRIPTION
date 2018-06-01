@@ -4,19 +4,19 @@ Title: Reproducible Research with a Table of R Codes
 Version: 0.1.0
 Imports:
    stringr,
-   ggplot2,
-   officer,
-   purrr,
-   flextable,
+   ggplot2 (>= 2.2.0),
+   officer (>= 0.3.0),
+   purrr (>= 0.2.4),
+   flextable (>= 0.4.4),
    rvg,
    magrittr,
    devEMF,
-   moonBook,
+   moonBook (>= 0.1.8),
    rmarkdown,
    shiny,
    editData,
-   readr,
-   ztable
+   readr (>= 1.1.1), 
+   ztable (>= 0.1.8)
 Authors@R: person("Keon-Woong", "Moon", email = "cardiomoon@gmail.com",
     role = c("aut", "cre"))
 Description: Makes documents containing plots and tables from a table of R codes. 

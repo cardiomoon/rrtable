@@ -288,7 +288,7 @@ html2latex=function(df){
 #      eval(parse(text=data$code[i]))
 # mydoc=add_plot(mydoc,data$code[i],title=data$title[i])
 # }
-# mydoc %>% print(target="plot.pptx")
+# mydoc %>% print(target="plot.pptx",path="tmp")
 #
 #
 # require(editData)

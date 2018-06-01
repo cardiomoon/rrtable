@@ -19,5 +19,5 @@ Add title slide
 \examples{
 require(magrittr)
 require(officer)
-read_pptx() \%>\% add_title_slide(title="Web-based analysis with R") \%>\% print(target="title.pptx")
+read_pptx() \%>\% add_title_slide(title="Web-based analysis with R")
 }

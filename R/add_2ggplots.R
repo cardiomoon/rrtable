@@ -188,7 +188,7 @@ add_2ggplots=function(mydoc,plot1,plot2,width=3,height=2.5,top=2){
 #' doc=read_docx()
 #' doc %>% add_text(title=title) %>%
 #'         add_2flextables(ft1,ft2) %>%
-#'         print(target="2tables.docx")
+#'         print(target="2tables.docx",path="tmp")
 add_2flextables=function(mydoc,ft1,ft2,echo=FALSE,width=3,code=""){
 
     pos=1.5
@@ -230,7 +230,7 @@ add_2flextables=function(mydoc,ft1,ft2,echo=FALSE,width=3,code=""){
 #' plotstring1="plot(1:10)"
 #' plotstring2="hist(rnorm(100))"
 #' read_pptx() %>% add_text(title="Two plots") %>% add_2plots(plotstring1,plotstring2) %>%
-#' print(target="demo.pptx")
+#' print(target="demo.pptx",path="tmp")
 add_2plots=function(mydoc,plotstring1,plotstring2,width=3,height=2.5,echo=FALSE,top=2){
 
     if(class(mydoc)=="rpptx"){
