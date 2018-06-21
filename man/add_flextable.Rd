@@ -37,5 +37,5 @@ doc \%>\% add_text(title=title) \%>\%
         add_flextable(ftable) \%>\%
         add_text(title=title2) \%>\%
         add_flextable(ft) \%>\%
-        print(target="mytable.docx",path="tmp")
+        print(target=paste0(tempdir(),"/","mytable.docx"))
 }

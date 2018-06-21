@@ -71,3 +71,26 @@ I have rewritten all the examples.
 I have added specific versions of packages in my description.
 
 Thank you very much.
+
+## CRAN submission comment by Swetlana Herbrandt(4-June-2018)
+
+Thanks, but you still have:
+
+doc \%>\% add_text(title=title) \%>\%
+       add_2flextables(ft1,ft2) \%>\%
+       print(target="2tables.docx",path="tmp")
+
+
+Please write to file.path(tempdir(), "2tables.docx").
+
+Please fix and resubmit.
+
+## Resubmission comment
+
+I have fix the code as the followings:
+
+doc \%>\% add_text(title=title) \%>\%
+     add_2flextables(ft1,ft2) \%>\%
+     print(target=paste0(tempdir(),"/","2tables.docx"))
+
+Thank you very much.

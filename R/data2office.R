@@ -23,13 +23,6 @@ data2office=function(data,
                      landscape=FALSE,
                      showself=FALSE){
 
-    # require(officer)
-    # data=sampleData3[10,]
-    # preprocessing=""
-    # filename="Report";format="pptx";width=7;height=5;units="in"
-    # res=300;rawDataName=NULL;rawDataFile="rawData.RDS";vanilla=FALSE;echo=TRUE
-    # showself=TRUE
-
     mode=0
     owd=getwd()
     if (is.null(path)) {
@@ -88,25 +81,9 @@ data2office=function(data,
     } else {
         mydoc <- read_docx()
     }
-    # str(data)
-    #
-    # i=1
-    for(i in 1:nrow(data)){
-        #cat("data$code[",i,"]=",data$code[i],"\n")
 
-        # if(mypptlist$type[i] == "header2"){
-        #     mycat("##",mypptlist$title[i],"\n\n")
-        # } else if(mypptlist$type[i] == "header3"){
-        #     mycat("###",mypptlist$title[i],"\n\n")
-        # } else {
-        #     if(mypptlist$title[i]!="") mycat("###",mypptlist$title[i],"\n\n")
-        # }
-        # data$title[i]
-        # data$text[i]
-        # data$code[i]
-        # echo
-        # showself
-        # shortdata
+    for(i in 1:nrow(data)){
+
         if(showself){
             mydoc=add_self(mydoc,data[i,])
         }
@@ -199,13 +176,13 @@ data2office=function(data,
     } else{
         target=paste0(filename,".",format)
     }
-    #cat("target=",target,"\n")
-    #mydoc %>% print(target=paste0(getwd(),"/",target))
+
     mydoc %>% print(target=target)
 
     setwd(owd)
-    if(mode) result=file.copy(paste0(path,"/",target),target,overwrite=TRUE)
-    ifelse(mode==1,target,paste0(path,"/",target))
+
+    path=str_replace(path,"//","/")
+    paste0(path,"/",target)
 }
 
 #' convert data to pptx file
@@ -216,7 +193,7 @@ data2office=function(data,
 #' library(rrtable)
 #' library(moonBook)
 #' library(ggplot2)
-#' data2pptx(sampleData2,path="tmp")
+#' data2pptx(sampleData2,target="tmp")
 #' }
 data2pptx=function(...){
     data2office(...)
@@ -230,7 +207,7 @@ data2pptx=function(...){
 #' library(rrtable)
 #' library(moonBook)
 #' library(ggplot2)
-#' data2docx(sampleData2,path="tmp")
+#' data2docx(sampleData2,target="tmp")
 #' }
 data2docx=function(...){
     data2office(...,format="docx")
@@ -249,54 +226,6 @@ html2latex=function(df){
     df
 }
 
-
-
-#
-# data=rrtable::sampleData2
-# data[2,3]="df2flextable(iris[1:10,])"
-# data<-rbind(data,data[3,])
-# data<-rbind(data,data[3,])
-# data$type[6]="png"
-# data$type[7]="emf"
-# data
-# library(magrittr)
-# library(officer)
-# library(flextable)
-# library(moonBook)
-# library(rvg)
-# library(ggplot2)
-#
-# data2pptx(data[5:7,])
-# data[6,]
-# data2pptx(data)
-# data1=data[3,]
-# data1
-# data=data1
-# filename="Report.pptx"
-# data2office(data)
-# data2office(data,format="docx")
-# data2pptx(data)
-# data2docx(data)
-# # data=data[3,]
-# # data
-#
-# str(data)
-#
-# mydoc=read_pptx()
-#
-# for(i in 1:nrow(data)){
-#      eval(parse(text=data$code[i]))
-# mydoc=add_plot(mydoc,data$code[i],title=data$title[i])
-# }
-# mydoc %>% print(target="plot.pptx",path="tmp")
-#
-#
-# require(editData)
-# result=editData(sampleData2)
-# result
-# sampleData2=result
-# devtools::use_data(sampleData2,overwrite=TRUE)
-# sampleData2
 
 
 #'grep string in all files in subdirectory

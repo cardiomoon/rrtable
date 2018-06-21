@@ -135,7 +135,7 @@ Rcode2flextable=function(result,preprocessing="",format="pptx",eval=TRUE){
 #' library(officer)
 #' code="summary(lm(mpg~hp+wt,data=mtcars))"
 #' read_pptx() %>% add_text(title="Regression Analysis") %>%
-#'    add_Rcode(code) %>% print(target="test.pptx",path="tmp")
+#'    add_Rcode(code) %>% print(target=paste0(tempdir(),"/","test.pptx"))
 add_Rcode=function(mydoc,code,preprocessing="",format="pptx"){
 
     ft <- Rcode2flextable(code,preprocessing=preprocessing,format=format)

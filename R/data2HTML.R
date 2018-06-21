@@ -178,6 +178,6 @@ data2HTML=function(data,preprocessing="",path=NULL,filename="report.HTML",rawDat
     #file.remove("report2.Rmd")
 
     setwd(owd)
-    if(mode) result=file.copy(paste0(path,"/",filename),filename,overwrite=TRUE)
-    ifelse(mode==1,filename,paste0(path,"/",filename))
+    path=str_replace(path,"//","/")
+    paste0(path,"/",filename)
 }
