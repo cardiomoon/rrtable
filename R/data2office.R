@@ -193,7 +193,7 @@ data2office=function(data,
 #' library(rrtable)
 #' library(moonBook)
 #' library(ggplot2)
-#' data2pptx(sampleData2,target="tmp")
+#' data2pptx(sampleData2)
 #' }
 data2pptx=function(...){
     data2office(...)
@@ -207,7 +207,7 @@ data2pptx=function(...){
 #' library(rrtable)
 #' library(moonBook)
 #' library(ggplot2)
-#' data2docx(sampleData2,target="tmp")
+#' data2docx(sampleData2)
 #' }
 data2docx=function(...){
     data2office(...,format="docx")
