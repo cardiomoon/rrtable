@@ -32,6 +32,7 @@ data2office=function(data,
 
     } else{
         if(!file.exists(path)) dir.create(path)
+        path=paste0(owd,"/",path)
         setwd(path)
     }
 
@@ -131,6 +132,9 @@ data2office=function(data,
         } else if(data$type[i]=="table"){
             #tempcode=set_argument(data$code[i],argument="vanilla",value=vanilla)
             ft=eval(parse(text=data$code[i]))
+            if("ztable" %in% class(ft)){
+                ft<-ztable2flextable(ft,add.rownames=TRUE)
+            }
             mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
         } else if(data$type[i]=="mytable"){
             res=eval(parse(text=data$code[i]))

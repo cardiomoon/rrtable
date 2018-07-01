@@ -33,6 +33,7 @@ data2HTML=function(data,preprocessing="",path=NULL,filename="report.HTML",rawDat
 
     } else{
         if(!file.exists(path)) dir.create(path)
+        path=paste0(owd,"/",path)
         setwd(path)
     }
 
@@ -86,6 +87,7 @@ data2HTML=function(data,preprocessing="",path=NULL,filename="report.HTML",rawDat
     mycat("require(ztable)\n")
     mycat("require(rrtable)\n")
     mycat("require(ggplot2)\n")
+    mycat("options(ztable.type='HTML')\n")
     mycat("```\n\n")
 
     if(!is.null(rawDataName)){

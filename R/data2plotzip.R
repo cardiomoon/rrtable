@@ -149,6 +149,7 @@ data2plotzip=function(data,path=NULL,filename="Plot.zip",format="PNG",width=8,he
 
     } else{
         if(!file.exists(path)) dir.create(path)
+        path=paste0(owd,"/",path)
         setwd(path)
     }
 
@@ -158,7 +159,8 @@ data2plotzip=function(data,path=NULL,filename="Plot.zip",format="PNG",width=8,he
     zip(zipfile=filename, files=fs)
     setwd(owd)
     if(mode) result=file.copy(paste0(path,"/",filename),filename,overwrite=TRUE)
-    ifelse(mode==1,filename,paste0(path,"/",filename))
+    path=str_replace(path,"//","/")
+    paste0(path,"/",filename)
 
 
 }

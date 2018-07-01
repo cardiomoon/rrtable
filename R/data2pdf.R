@@ -35,6 +35,7 @@ data2pdf=function(data,preprocessing="",path=NULL,filename="report.pdf",rawDataN
 
     mode=0
     owd=getwd()
+    # cat("owd=",owd,"\n")
     if (is.null(path)) {
         path=tempdir()
         setwd(path)
@@ -42,6 +43,7 @@ data2pdf=function(data,preprocessing="",path=NULL,filename="report.pdf",rawDataN
 
     } else{
         if(!file.exists(path)) dir.create(path)
+        path=paste0(owd,"/",path)
         setwd(path)
     }
 
@@ -209,8 +211,14 @@ data2pdf=function(data,preprocessing="",path=NULL,filename="report.pdf",rawDataN
             }
             mycat("```\n\n")
         }  else if(mypptlist$code[i] !=""){
-            mycat("```{r",ifelse(shortdata,"",mypptlist$option[i]),"}\n")
-            mycat(mypptlist$code[i],'\n')
+            result=eval(parse(text=mypptlist$code[i]))
+            if("flextable" %in% class(result)){
+                mycat("```{r",ifelse(shortdata,"",mypptlist$option[i]),",results='asis'}\n")
+                mycat(paste0('flextable2ztable(',mypptlist$code[i],')\n'))
+            } else{
+               mycat("```{r",ifelse(shortdata,"",mypptlist$option[i]),"}\n")
+               mycat(mypptlist$code[i],'\n')
+            }
             mycat("```\n\n")
         }
         mycat("\n\n")
@@ -222,7 +230,8 @@ data2pdf=function(data,preprocessing="",path=NULL,filename="report.pdf",rawDataN
     #file.remove("report2.Rmd")
     setwd(owd)
     if(mode) result=file.copy(paste0(path,"/",filename),filename,overwrite=TRUE)
-    ifelse(mode==1,filename,paste0(path,"/",filename))
+    path=str_replace(path,"//","/")
+    paste0(path,"/",filename)
 }
 
 
