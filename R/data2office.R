@@ -15,6 +15,7 @@
 #' @param landscape Logical. Whether or not make a landscape section.
 #' @param showself Logical. Whether or not show R code for the paragraph
 #' @importFrom officer read_docx read_pptx
+#' @importFrom ztable ztable2flextable
 #' @export
 data2office=function(data,
                      preprocessing="",
@@ -133,7 +134,7 @@ data2office=function(data,
             #tempcode=set_argument(data$code[i],argument="vanilla",value=vanilla)
             ft=eval(parse(text=data$code[i]))
             if("ztable" %in% class(ft)){
-                ft<-ztable2flextable(ft,add.rownames=TRUE)
+                ft<-ztable2flextable(ft)
             }
             mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
         } else if(data$type[i]=="mytable"){
