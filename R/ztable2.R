@@ -9,7 +9,7 @@ ztable2=function(df,cwidth=NULL,width=80,...){
     if(is.null(cwidth)) cwidth=df2cwidth(df,width=width)
     align=cwidth2align(cwidth)
     df=HTMLcode2latex(df)
-    z=ztable(df,align=align,include.rownames=FALSE,...)
+    z=ztable(df,align=align,include.rownames=FALSE,longtable=TRUE,...)
     z
 }
 
