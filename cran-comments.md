@@ -93,4 +93,21 @@ doc \%>\% add_text(title=title) \%>\%
      add_2flextables(ft1,ft2) \%>\%
      print(target=paste0(tempdir(),"/","2tables.docx"))
 
+
+## CRAN submission comment by Uwe Ligges(27-JUNE-2018)
+
+No, reason was:
+
+
+Package has a VignetteBuilder field but no prebuilt vignette index.
+
+Please fix and resubmit.
+
+
+## Resubmission comment
+
+I have added the vignette.
+
 Thank you very much.
+
+Keon-Woong Moon
