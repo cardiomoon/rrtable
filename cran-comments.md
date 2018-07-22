@@ -1,7 +1,7 @@
 This is the Resubmission of the package 'rrtable'
 
 ## Test environments
-* local OS X install, R 3.5.0
+* local OS X install, R 3.5.1
 * win-builder (devel and release)
 
 ## R CMD check results
