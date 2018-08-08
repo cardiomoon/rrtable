@@ -246,25 +246,31 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
      # })
 
 
+     resetPPT=function(){
+             savedPPT$type=c()
+             savedPPT$title=c()
+             savedPPT$code=c()
 
+             updateTextAreaInput(session,"preprocessing",value="")
+     }
 
      observeEvent(input$ResetPPT,{
 
-          savedPPT$type=c()
-          savedPPT$title=c()
-          savedPPT$code=c()
-
-          updateTextAreaInput(session,"preprocessing",value="")
+          resetPPT()
 
      })
 
+     loadSample=function(){
+             savedPPT$type=rrtable::sampleData2$type
+             savedPPT$title=rrtable::sampleData2$title
+             savedPPT$code=rrtable::sampleData2$code
+
+             updateTextAreaInput(session,"preprocessing",value="")
+     }
+
      observeEvent(input$loadSample,{
 
-         savedPPT$type=rrtable::sampleData2$type
-         savedPPT$title=rrtable::sampleData2$title
-         savedPPT$code=rrtable::sampleData2$code
-
-         updateTextAreaInput(session,"preprocessing",value="")
+         loadSample()
 
      })
 
@@ -379,8 +385,11 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
      )
 
      pptdf3<-reactive({
+
+          input$resetPPT
+
           result<-NULL
-          result<-pptdf2()
+          try(result<-pptdf2())
           if(input$preprocessing!="") {
                attr(result,"preprocessing")=input$preprocessing
           }
