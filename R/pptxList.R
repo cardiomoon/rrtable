@@ -62,7 +62,7 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
      pptdf=reactive({
 
           input$pptfile
-          input$resetPPT
+          input$ResetPPT
 
           df<-data.frame(type=savedPPT$type,title=savedPPT$title,code=savedPPT$code,
                          stringsAsFactors = FALSE)
@@ -246,17 +246,14 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
      # })
 
 
-     resetPPT=function(){
+     observeEvent(input$ResetPPT,{
+
              savedPPT$type=c()
              savedPPT$title=c()
              savedPPT$code=c()
 
              updateTextAreaInput(session,"preprocessing",value="")
-     }
-
-     observeEvent(input$ResetPPT,{
-
-          resetPPT()
+             # pptdf2<-callModule(editableDT,"PPTxListTable",data=reactive(pptdf()))
 
      })
 
@@ -276,6 +273,7 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
 
 
      pptdf2=callModule(editableDT,"PPTxListTable",data=reactive(pptdf()))
+
 
 
      output$downloadPPTxHTML<- downloadHandler(
@@ -386,13 +384,14 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
 
      pptdf3<-reactive({
 
-          input$resetPPT
+          input$ResetPPT
 
           result<-NULL
           try(result<-pptdf2())
           if(input$preprocessing!="") {
                attr(result,"preprocessing")=input$preprocessing
           }
+          str(pptdf2())
           result
      })
 
