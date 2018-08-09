@@ -62,10 +62,29 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
      pptdf=reactive({
 
           input$pptfile
-          input$ResetPPT
 
-          df<-data.frame(type=savedPPT$type,title=savedPPT$title,code=savedPPT$code,
+
+          # defaultmode=0
+          #
+          # if(length(savedPPT$type)==0){
+          #       defaultmode=1
+          #       savedPPT$type="plot"
+          #       savePPT$title="title"
+          #       savePPT$code="plot(1:10)"
+          # }
+
+          df<-data.frame(type=savedPPT$type,
+                         title=savedPPT$title,
+                         code=savedPPT$code,
                          stringsAsFactors = FALSE)
+
+          # if(defaultmode==1){
+          #         savedPPT$type=c()
+          #         savedPPT$title=c()
+          #         savedPPT$code=c()
+          #         df=df[-1,]
+          #         defaultmode=0
+          # }
           df
      })
 
@@ -107,10 +126,6 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
                     column(3,
                            h4("Load sampleData "),
                            actionButton(ns("loadSample"),"load sampleData")
-                    ),
-                    column(5,
-                           h4("Reset PPT List "),
-                           actionButton(ns("ResetPPT"),"reset PPT List")
                     )
                ),
 
@@ -246,16 +261,16 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
      # })
 
 
-     observeEvent(input$ResetPPT,{
-
-             savedPPT$type=c()
-             savedPPT$title=c()
-             savedPPT$code=c()
-
-             updateTextAreaInput(session,"preprocessing",value="")
-             # pptdf2<-callModule(editableDT,"PPTxListTable",data=reactive(pptdf()))
-
-     })
+     # observeEvent(input$ResetPPT,{
+     #
+     #         savedPPT$type=c()
+     #         savedPPT$title=c()
+     #         savedPPT$code=c()
+     #
+     #         updateTextAreaInput(session,"preprocessing",value="")
+     #         # pptdf2<-callModule(editableDT,"PPTxListTable",data=reactive(pptdf()))
+     #
+     # })
 
      loadSample=function(){
              savedPPT$type=rrtable::sampleData2$type
@@ -384,7 +399,6 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
 
      pptdf3<-reactive({
 
-          input$ResetPPT
 
           result<-NULL
           try(result<-pptdf2())

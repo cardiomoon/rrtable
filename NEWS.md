@@ -1,3 +1,9 @@
+# rrtable version 0.1.1
+=======================
+(9-Aug-2018)
+
+* compatible with editData 0.1.5
+
 # rrtable version 0.1.0
 =======================
 (15-Apr-2018)
