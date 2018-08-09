@@ -54,7 +54,8 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
           }
      })
      observe({
-          if(preprocessing()!=""){
+             temp=preprocessing
+          if(length(temp)!=0){
                updateTextAreaInput(session,"preprocessing",value=preprocessing())
           }
      })
