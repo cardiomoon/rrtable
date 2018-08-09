@@ -405,7 +405,7 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
           if(input$preprocessing!="") {
                attr(result,"preprocessing")=input$preprocessing
           }
-          str(pptdf2())
+          # str(pptdf2())
           result
      })
 
