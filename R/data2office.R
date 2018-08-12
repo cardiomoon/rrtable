@@ -24,7 +24,7 @@ data2office=function(data,
                      landscape=FALSE,
                      showself=FALSE){
 
-    # path=NULL;filename="Report";format="pptx";width=7;height=5;units="in"
+    # path=".";filename="Report";format="pptx";width=7;height=5;units="in"
     # res=300;rawDataName=NULL;rawDataFile="rawData.RDS";vanilla=FALSE;echo=FALSE
     # landscape=FALSE;
     # showself=FALSE
@@ -46,11 +46,11 @@ data2office=function(data,
         rawData=readRDS(rawDataFile)
         assign(rawDataName,rawData)
     }
+
     if(preprocessing!="") {
-        print(preprocessing)
+
         eval(parse(text=preprocessing))
     }
-
     data$type=tolower(data$type)
 
     if(ncol(data)==3) {
@@ -152,7 +152,7 @@ data2office=function(data,
             ft=mytable2flextable(res,vanilla=vanilla)
             mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
         } else if(data$type[i]=="ggplot"){
-            mydoc=add_ggplot(mydoc,code=data$code[i],top=ifelse(echo1,2,1.5))
+            mydoc=add_ggplot(mydoc,code=data$code[i],preprocessing=preprocessing,top=ifelse(echo1,2,1.5))
         }else if(data$type[i]=="2ggplots"){
 
             codes=unlist(strsplit(data$code[i],"\n"))

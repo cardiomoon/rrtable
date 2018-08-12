@@ -20,6 +20,7 @@ writeCSVComment=function(data,file,metadata="",comment="#"){
 
 #' Read a csv file with comment
 #' @param file A path for destination file
+#' @export
 readCSVComment=function(file){
     data=readr::read_csv(file,comment="#")
     data[is.na(data)]=""
