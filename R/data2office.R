@@ -24,6 +24,11 @@ data2office=function(data,
                      landscape=FALSE,
                      showself=FALSE){
 
+    # path=NULL;filename="Report";format="pptx";width=7;height=5;units="in"
+    # res=300;rawDataName=NULL;rawDataFile="rawData.RDS";vanilla=FALSE;echo=FALSE
+    # landscape=FALSE;
+    # showself=FALSE
+    #
     mode=0
     owd=getwd()
     if (is.null(path)) {
@@ -41,7 +46,10 @@ data2office=function(data,
         rawData=readRDS(rawDataFile)
         assign(rawDataName,rawData)
     }
-    if(preprocessing!="") eval(parse(text=preprocessing))
+    if(preprocessing!="") {
+        print(preprocessing)
+        eval(parse(text=preprocessing))
+    }
 
     data$type=tolower(data$type)
 
@@ -128,7 +136,9 @@ data2office=function(data,
 
         if(data$type[i]=="rcode") eval(parse(text=data$code[i]))
         if(data$type[i]=="data"){
-            ft=df2flextable2(eval(parse(text=data$code[i])),vanilla=vanilla)
+            # ft=df2flextable2(eval(parse(text=data$code[i])),vanilla=vanilla)
+
+            ft=eval(parse(text=paste0("df2flextable2(",data$code[i],",vanilla=",vanilla,")")))
             mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
         } else if(data$type[i]=="table"){
             #tempcode=set_argument(data$code[i],argument="vanilla",value=vanilla)

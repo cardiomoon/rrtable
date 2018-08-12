@@ -4,9 +4,10 @@
 \alias{data2pdf}
 \title{Make a pdf file with a data.frame}
 \usage{
-data2pdf(data, preprocessing = "", path = NULL, filename = "report.pdf",
-  rawDataName = NULL, rawDataFile = "rawData.RDS", kotex = FALSE,
-  echo = TRUE, showself = FALSE)
+data2pdf(data, preprocessing = "", path = NULL,
+  filename = "report.pdf", rawDataName = NULL,
+  rawDataFile = "rawData.RDS", kotex = FALSE, echo = TRUE,
+  showself = FALSE)
 }
 \arguments{
 \item{data}{A data.frame}

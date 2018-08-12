@@ -4,7 +4,8 @@
 \alias{add_flextable}
 \title{Add a flextable or mytable object into a document object}
 \usage{
-add_flextable(mydoc, ftable, echo = FALSE, code = "", landscape = FALSE)
+add_flextable(mydoc, ftable, echo = FALSE, code = "",
+  landscape = FALSE)
 }
 \arguments{
 \item{mydoc}{A document object}

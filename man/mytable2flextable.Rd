@@ -4,7 +4,8 @@
 \alias{mytable2flextable}
 \title{Convert mytable object to flextable}
 \usage{
-mytable2flextable(result, vanilla = TRUE, fontname = NULL, fontsize = 10)
+mytable2flextable(result, vanilla = TRUE, fontname = NULL,
+  fontsize = 10)
 }
 \arguments{
 \item{result}{An object of class "mytable"}

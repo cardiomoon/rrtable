@@ -4,9 +4,10 @@
 \alias{data2HTML}
 \title{Make a HTML5 file with a data.frame}
 \usage{
-data2HTML(data, preprocessing = "", path = NULL, filename = "report.HTML",
-  rawDataName = NULL, rawDataFile = "rawData.RDS", vanilla = FALSE,
-  echo = TRUE, showself = FALSE)
+data2HTML(data, preprocessing = "", path = NULL,
+  filename = "report.HTML", rawDataName = NULL,
+  rawDataFile = "rawData.RDS", vanilla = FALSE, echo = TRUE,
+  showself = FALSE)
 }
 \arguments{
 \item{data}{A data.frame}

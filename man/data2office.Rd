@@ -4,10 +4,11 @@
 \alias{data2office}
 \title{convert data to pptx file}
 \usage{
-data2office(data, preprocessing = "", path = NULL, filename = "Report",
-  format = "pptx", width = 7, height = 5, units = "in", res = 300,
-  rawDataName = NULL, rawDataFile = "rawData.RDS", vanilla = FALSE,
-  echo = FALSE, landscape = FALSE, showself = FALSE)
+data2office(data, preprocessing = "", path = NULL,
+  filename = "Report", format = "pptx", width = 7, height = 5,
+  units = "in", res = 300, rawDataName = NULL,
+  rawDataFile = "rawData.RDS", vanilla = FALSE, echo = FALSE,
+  landscape = FALSE, showself = FALSE)
 }
 \arguments{
 \item{data}{A document object}
