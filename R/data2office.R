@@ -28,7 +28,7 @@ data2office=function(data,
     # res=300;rawDataName=NULL;rawDataFile="rawData.RDS";vanilla=FALSE;echo=FALSE
     # landscape=FALSE;
     # showself=FALSE
-    #
+
     mode=0
     owd=getwd()
     if (is.null(path)) {
@@ -194,6 +194,7 @@ data2office=function(data,
 
     mydoc %>% print(target=target)
 
+    # mydoc %>% print(target=".")
     setwd(owd)
 
     path=str_replace(path,"//","/")

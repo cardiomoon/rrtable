@@ -93,6 +93,7 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
           if(!is.null(input$pptfile)){
 
                mypptlist<-readr::read_csv(input$pptfile$datapath,comment="#")
+               mypptlist[is.na(mypptlist)]=""
                savedPPT$type=mypptlist$type
                savedPPT$title=mypptlist$title
                savedPPT$code=mypptlist$code

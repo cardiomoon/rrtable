@@ -4,7 +4,7 @@
 \alias{flextable2ztable}
 \title{Convert flextable to ztable}
 \usage{
-flextable2ztable(ft, ...)
+flextable2ztable(ft)
 }
 \arguments{
 \item{ft}{An object of classs flextable}
