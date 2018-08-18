@@ -5,7 +5,7 @@
 #'@param ... further argument to be passed to ztable()
 #'@export
 ztable2=function(df,cwidth=NULL,width=80,...){
-
+    df[is.na(df)]=""
     if(is.null(cwidth)) cwidth=df2cwidth(df,width=width)
     align=cwidth2align(cwidth)
     df=HTMLcode2latex(df)

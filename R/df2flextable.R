@@ -50,7 +50,7 @@ roundDf=function(df,digits=2){
 #' @param NA2space A logical. If true, convert NA value to space
 #' @param pcol An integer indicating p value. If specified, convert value less than 0.01 to "< 0.001" in given column.
 #' @param ... further arguments to be passed to flextable
-#' @importFrom flextable regulartable set_formatter_type set_header_df theme_zebra vline vline_left align autofit padding hline hline_top hline_bottom border_remove font fontsize color
+#' @importFrom flextable flextable set_formatter_type set_header_df theme_zebra vline vline_left align autofit padding hline hline_top hline_bottom border_remove font fontsize color
 #' @importFrom officer fp_border
 #' @importFrom magrittr "%>%"
 #' @export
@@ -68,20 +68,31 @@ df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
                       even_body="#EFEFEF",odd_body="transparent",
                       vlines=TRUE,colorheader=FALSE,digits=2,
                       align_header="center",align_body="right",
-                      NA2space=FALSE,pcol=NULL,...){
+                      NA2space=TRUE,pcol=NULL,...){
 
+    # vanilla=FALSE;fontname=NULL;fontsize=12
+    # add.rownames=FALSE
+    # even_header="transparent";odd_header="#5B7778"
+    # even_body="#EFEFEF";odd_body="transparent"
+    # vlines=TRUE;colorheader=FALSE;digits=2
+    # align_header="center";align_body="right"
+    # NA2space=FALSE;pcol=NULL
 
     if(!is.null(pcol)){
         for(i in 1:length(pcol)){
             df[[pcol]][df[[pcol]]<0.001]="< 0.001"
         }
     }
-    if(NA2space) df[is.na(df)]=""
+
     if(add.rownames){
         df<-cbind(rowname=rownames(df),df)
         if(length(digits)!=1) digits=c(0,digits)
     }
     df<-roundDf(df,digits)
+    if(NA2space) {
+        df[is.na(df)]=""
+        df[df=="NA"]=""
+    }
      if(!colorheader){
           headercolor=ifelse(vanilla,"black","white")
      } else{
@@ -93,9 +104,12 @@ df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
      if(vanilla) std_color="black"
      std_border=fp_border(color=std_color,width=1)
 
-     fmt_double=paste0("%0.0",sprintf("%df",digits))
+     # fmt_double=paste0("%0.0",sprintf("%df",digits))
 
-     ft <- regulartable(df,...) %>% set_formatter_type(fmt_double=fmt_double)
+     # ft <- regulartable(df,...) %>% set_formatter_type(fmt_double=fmt_double)
+     # ft <- flextable(df) %>% set_formatter_type(fmt_double=fmt_double)
+     ft=flextable(df)
+
      odd_header=ifelse(vanilla,"transparent","#5B7778")
      if(!vanilla)
           ft<- ft %>% theme_zebra(even_body=even_body,odd_body=odd_body,
@@ -129,6 +143,9 @@ df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
           align(align=align_header,part="header") %>%
           padding(padding.left=5,padding.right=5,
                           padding.top=2,padding.bottom=2,part="all")
+     if(add.rownames) {
+         ft=ft %>% color(i=1,j=1,color=ifelse(vanilla,"white","#5B7778"),part="header")
+     }
      ft
 }
 
@@ -141,8 +158,7 @@ df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
 #' @export
 df2flextable2=function(df,mincol=0.7,maxcol=4,...){
     # df=sampleData3
-    # mincol=0.7
-    # maxcol=4
+     # mincol=0.7;maxcol=4
     # max(nchar(df[[5]]))
     cwidth=c()
     clen=c()
@@ -168,6 +184,8 @@ df2flextable2=function(df,mincol=0.7,maxcol=4,...){
     # str(cwidth)
     # str(clen)
     ft=df2flextable(df,...) %>% width(width=cwidth) %>% align()
+    ft=df2flextable(df) %>% width(width=cwidth) %>% align()
+    ft
     for(i in 1:ncol(df)){
         if(is.numeric(df[[i]])) ft<-ft %>% align(j=i,align="right")
     }

@@ -30,6 +30,27 @@ Rcode2df=function(result,preprocessing,eval=TRUE){
 
 }
 
+#' Make a data.frame with character strings encoding R code
+#' @param result character strings encoding R code
+#' @param preprocessing character strings encoding R code as a preprocessing
+#' @param eval logical. Whether or not evaluate the code
+#' @importFrom utils capture.output
+Rcode2df2=function(result,preprocessing,eval=TRUE){
+    if(preprocessing!="") eval(parse(text=preprocessing))
+    res=result
+    if(eval){
+        temp=capture.output(eval(parse(text=result)))
+        if(length(temp)==0) temp1=""
+        else  {
+                temp1=Reduce(pastelf,temp)
+                temp1=paste0(temp1,"\n ")
+        }
+        res=c(res,temp1)
+    }
+    data.frame(result=res,stringsAsFactors = FALSE)
+
+}
+
 pastelf=function(...){
     paste(...,sep="\n")
 }
@@ -115,7 +136,11 @@ df2RcodeTable=function(df,bordercolor="gray",format="pptx",eval=TRUE){
 #' Rcode2flextable("str(mtcars)\nsummary(mtcars)",eval=FALSE)
 Rcode2flextable=function(result,preprocessing="",format="pptx",eval=TRUE){
 
-    df=Rcode2df(result,preprocessing=preprocessing,eval=eval)
+    df=tryCatch(Rcode2df(result,preprocessing=preprocessing,eval=eval),
+                error=function(e) "error")
+    if("character" %in% class(df)) {
+        df<-Rcode2df2(result,preprocessing=preprocessing,eval=eval)
+    }
     df2RcodeTable(df,format=format,eval=eval)
 
 }

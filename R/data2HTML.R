@@ -139,7 +139,7 @@ data2HTML=function(data,preprocessing="",path=NULL,filename="report.HTML",rawDat
 
         } else if(mypptlist$type[i]=="data"){
             mycat("```{r,results='asis'}\n")
-            mycat("df2flextable2(",mypptlist$code[i],",vanilla=",vanilla,")\n")
+            mycat("df2flextable(",mypptlist$code[i],",vanilla=",vanilla,")\n")
             mycat("```\n\n")
 
         } else if(mypptlist$type[i]=="table") {

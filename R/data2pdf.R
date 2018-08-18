@@ -58,7 +58,7 @@ data2pdf=function(data,preprocessing="",path=NULL,filename="report.pdf",rawDataN
     }
 
 
-    data$code=str_replace_all(data$code,"df2flextable[1-9]?","ztable2")
+    # data$code=str_replace_all(data$code,"df2flextable[1-9]?","ztable2")
 
     data$type=tolower(data$type)
     if("title" %in% data$type) {
@@ -184,7 +184,7 @@ data2pdf=function(data,preprocessing="",path=NULL,filename="report.pdf",rawDataN
             mycat("```\n\n")
         } else if(mypptlist$type[i]=="data"){
             mycat("```{r,results='asis'}\n")
-            mycat("ztable2(",mypptlist$code[i],")\n")
+            mycat("ztable(",mypptlist$code[i],")\n")
             mycat("```\n\n")
         } else if(mypptlist$type[i]=="rcode") {
             mycat("```{r,echo=TRUE}\n")
