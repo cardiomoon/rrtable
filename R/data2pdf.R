@@ -17,7 +17,7 @@ mycat=function(...,file="report2.Rmd"){
 #' @param echo Logical. Whether or not show R code of plot and table
 #' @param showself Logical. Whether or not show R code for the paragraph
 #' @importFrom rmarkdown render
-#' @importFrom stringr str_replace
+#' @importFrom stringr str_replace str_detect
 #' @export
 #' @examples
 #' library(moonBook)
@@ -211,8 +211,7 @@ data2pdf=function(data,preprocessing="",path=NULL,filename="report.pdf",rawDataN
             }
             mycat("```\n\n")
         }  else if(mypptlist$type[i] %in% c("table","Table")){
-            result=eval(parse(text=mypptlist$code[i]))
-            if("flextable" %in% class(result)){
+            if(stringr::str_detect(mypptlist$code[i],"flextable")){
                 mycat("```{r",ifelse(shortdata,"",mypptlist$option[i]),",results='asis'}\n")
                 mycat(paste0('flextable2ztable(',mypptlist$code[i],')\n'))
             } else{
