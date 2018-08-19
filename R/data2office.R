@@ -140,6 +140,11 @@ data2office=function(data,
 
             ft=eval(parse(text=paste0("df2flextable2(",data$code[i],",vanilla=",vanilla,")")))
             mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
+        } else if(data$type[i]=="ztable"){
+            #tempcode=set_argument(data$code[i],argument="vanilla",value=vanilla)
+            ft=eval(parse(text=data$code[i]))
+            ft<-ztable2flextable(ft)
+            mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
         } else if(data$type[i]=="table"){
             #tempcode=set_argument(data$code[i],argument="vanilla",value=vanilla)
             ft=eval(parse(text=data$code[i]))

@@ -98,7 +98,8 @@ df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
      } else{
           headercolor=ifelse(vanilla,"#007FA6","white")
      }
-     big_border=fp_border(color=headercolor,width=2)
+    df
+    big_border=fp_border(color=headercolor,width=2)
      header_border=fp_border(color="black",width=1)
      std_color="#EDBD3E"
      if(vanilla) std_color="black"
@@ -108,8 +109,9 @@ df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
 
      # ft <- regulartable(df,...) %>% set_formatter_type(fmt_double=fmt_double)
      # ft <- flextable(df) %>% set_formatter_type(fmt_double=fmt_double)
-     ft<-tryCatch(flextable(df),error=function(e) "error")
-     if("character" %in% class(ft)) ft=regulartable(df)
+     df
+     ft<-tryCatch(regulartable(df),error=function(e) "error")
+     if("character" %in% class(ft)) ft=flextable(df)
 
      odd_header=ifelse(vanilla,"transparent","#5B7778")
      if(!vanilla)

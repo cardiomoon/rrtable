@@ -210,7 +210,12 @@ data2pdf=function(data,preprocessing="",path=NULL,filename="report.pdf",rawDataN
                 mycat(mypptlist$code[i],'\n')
             }
             mycat("```\n\n")
-        }  else if(mypptlist$type[i] %in% c("table","Table")){
+        }  else if(mypptlist$type[i] == "flextable"){
+
+            mycat("```{r",ifelse(shortdata,"",mypptlist$option[i]),",results='asis'}\n")
+            mycat(paste0('flextable2ztable(',mypptlist$code[i],')\n'))
+            mycat("```\n\n")
+        } else if(mypptlist$type[i] %in% c("table","Table")){
             if(stringr::str_detect(mypptlist$code[i],"flextable")){
                 mycat("```{r",ifelse(shortdata,"",mypptlist$option[i]),",results='asis'}\n")
                 mycat(paste0('flextable2ztable(',mypptlist$code[i],')\n'))
