@@ -1,6 +1,7 @@
 library(shiny)
 library(rrtable)
 library(ggplot2)
+library(webr)
 
 ui=fluidPage(
     pptxListInput("pptxlist"),
