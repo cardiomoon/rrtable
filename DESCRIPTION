@@ -1,7 +1,7 @@
 Package: rrtable
 Type: Package
 Title: Reproducible Research with a Table of R Codes
-Version: 0.1.1.2
+Version: 0.1.2
 Imports:
    stringr,
    ggplot2 (>= 2.2.0),
@@ -9,6 +9,7 @@ Imports:
    purrr (>= 0.2.4),
    flextable (>= 0.4.4),
    rvg,
+   webr,
    magrittr,
    devEMF,
    moonBook (>= 0.1.8),

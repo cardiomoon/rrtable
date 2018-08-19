@@ -1,8 +1,10 @@
-# rrtable version 0.1.1.1
+# rrtable version 0.1.2
 =========================
-(12-Aug-2018)
+(19-Aug-2018)
 
 * bug-fixed 
+
+* shiny module pptxList() can select data with webr::chooserInput()
 
 # rrtable version 0.1.1
 =======================
