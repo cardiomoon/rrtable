@@ -4,8 +4,8 @@
 \alias{add_2plots}
 \title{Add two plots into a document object}
 \usage{
-add_2plots(mydoc, plotstring1, plotstring2, width = 3, height = 2.5,
-  echo = FALSE, top = 2)
+add_2plots(mydoc, plotstring1, plotstring2, preprocessing = "",
+  width = 3, height = 2.5, echo = FALSE, top = 2)
 }
 \arguments{
 \item{mydoc}{A document object}
@@ -13,6 +13,8 @@ add_2plots(mydoc, plotstring1, plotstring2, width = 3, height = 2.5,
 \item{plotstring1}{An R code string encoding the first plot}
 
 \item{plotstring2}{An R code string encoding the second plot}
+
+\item{preprocessing}{preprocessing}
 
 \item{width}{plot width in inches}
 

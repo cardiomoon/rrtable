@@ -111,8 +111,13 @@ df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
      # ft <- flextable(df) %>% set_formatter_type(fmt_double=fmt_double)
      df
      ft<-tryCatch(regulartable(df),error=function(e) "error")
-     if("character" %in% class(ft)) ft=flextable(df)
-
+     if("character" %in% class(ft)) {
+         ft=flextable(df)
+     } else{
+         result=tryCatch(print(ft),error=function(e) "error")
+         if("character" %in% class(result)) ft=flextable(df)
+     }
+     ft
      odd_header=ifelse(vanilla,"transparent","#5B7778")
      if(!vanilla)
           ft<- ft %>% theme_zebra(even_body=even_body,odd_body=odd_body,

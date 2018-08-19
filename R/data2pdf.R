@@ -183,8 +183,10 @@ data2pdf=function(data,preprocessing="",path=NULL,filename="report.pdf",rawDataN
             mycat("print(ztable(result,longtable=TRUE),type='latex')\n")
             mycat("```\n\n")
         } else if(mypptlist$type[i]=="data"){
-            mycat("```{r,results='asis'}\n")
-            mycat("ztable(",mypptlist$code[i],")\n")
+            mycat("```{r,echo=FALSE,results='asis'}\n")
+            mycat("df=",mypptlist$code[i],"\n")
+            mycat("colnames(df)[colnames(df)=='\U03B2']='beta'\n")
+            mycat("ztable(df)\n")
             mycat("```\n\n")
         } else if(mypptlist$type[i]=="rcode") {
             mycat("```{r,echo=TRUE}\n")

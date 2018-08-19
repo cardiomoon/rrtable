@@ -131,6 +131,7 @@ add_text=function(mydoc,title="",text="",code="",echo=FALSE,eval=FALSE,style="No
 #' @param mydoc A document object
 #' @param plot1 An R code encoding the first ggplot
 #' @param plot2 An R code encoding the second ggplot
+#' @param preprocessing preprocessing
 #' @param width plot width in inches
 #' @param height plot height in inches
 #' @param top top plot position in inches
@@ -145,7 +146,12 @@ add_text=function(mydoc,title="",text="",code="",echo=FALSE,eval=FALSE,style="No
 #' plot1 <- "ggplot(data = iris, aes(Sepal.Length, Petal.Length)) + geom_point()"
 #' plot2 <- "ggplot(data = iris, aes(Sepal.Length, Petal.Length, color = Species)) + geom_point()"
 #' read_pptx() %>% add_text(title="Two ggplots") %>% add_2ggplots(plot1=plot1,plot2=plot2)
-add_2ggplots=function(mydoc,plot1,plot2,width=3,height=2.5,top=2){
+add_2ggplots=function(mydoc,plot1,plot2,preprocessing="",width=3,height=2.5,top=2){
+
+    if(preprocessing!="") {
+        eval(parse(text=preprocessing))
+    }
+
     gg1<-eval(parse(text=plot1))
     gg2<-eval(parse(text=plot2))
 
@@ -218,6 +224,7 @@ add_2flextables=function(mydoc,ft1,ft2,echo=FALSE,width=3,code=""){
 #' @param mydoc A document object
 #' @param plotstring1 An R code string encoding the first plot
 #' @param plotstring2 An R code string encoding the second plot
+#' @param preprocessing preprocessing
 #' @param width plot width in inches
 #' @param height plot height in inches
 #' @param echo logical Whether or not show R code
@@ -231,7 +238,11 @@ add_2flextables=function(mydoc,ft1,ft2,echo=FALSE,width=3,code=""){
 #' plotstring2="hist(rnorm(100))"
 #' read_pptx() %>% add_text(title="Two plots") %>% add_2plots(plotstring1,plotstring2) %>%
 #' print(target=paste0(tempdir(),"/","demo.pptx"))
-add_2plots=function(mydoc,plotstring1,plotstring2,width=3,height=2.5,echo=FALSE,top=2){
+add_2plots=function(mydoc,plotstring1,plotstring2,preprocessing="",width=3,height=2.5,echo=FALSE,top=2){
+    if(preprocessing!="") {
+        eval(parse(text=preprocessing))
+    }
+
 
     if(class(mydoc)=="rpptx"){
 

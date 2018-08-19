@@ -145,6 +145,10 @@ data2office=function(data,
             ft=eval(parse(text=data$code[i]))
             ft<-ztable2flextable(ft)
             mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
+        } else if(data$type[i]=="flextable"){
+
+            ft=eval(parse(text=data$code[i]))
+            mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
         } else if(data$type[i]=="table"){
             #tempcode=set_argument(data$code[i],argument="vanilla",value=vanilla)
             ft=eval(parse(text=data$code[i]))
@@ -164,14 +168,14 @@ data2office=function(data,
             # codes=unlist(strsplit(sampleData2$code[8],"\n"))
             gg1=codes[1]
             gg2=codes[2]
-            mydoc=add_2ggplots(mydoc,plot1=gg1,plot2=gg2,top=ifelse(echo1,2,1.5))
+            mydoc=add_2ggplots(mydoc,plot1=gg1,plot2=gg2,preprocessing=preprocessing,top=ifelse(echo1,2,1.5))
         } else if(data$type[i]=="plot"){
-            mydoc<-add_plot(mydoc,data$code[i],top=ifelse(echo1,2,1.5))
+            mydoc<-add_plot(mydoc,data$code[i],preprocessing=preprocessing,top=ifelse(echo1,2,1.5))
 
         } else if(data$type[i]=="2plots"){
 
             codes=unlist(strsplit(data$code[i],"\n"))
-            mydoc=add_2plots(mydoc,plotstring1=codes[1],plotstring2=codes[2],top=ifelse(echo1,2,1.5))
+            mydoc=add_2plots(mydoc,plotstring1=codes[1],plotstring2=codes[2],preprocessing=preprocessing,top=ifelse(echo1,2,1.5))
 
         } else if(data$type[i] %in% c("PNG","png")){
 

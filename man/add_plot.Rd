@@ -4,12 +4,14 @@
 \alias{add_plot}
 \title{Add plot into a document object}
 \usage{
-add_plot(mydoc, plotstring, top = 2)
+add_plot(mydoc, plotstring, preprocessing = "", top = 2)
 }
 \arguments{
 \item{mydoc}{A document object}
 
 \item{plotstring}{String of an R code encoding a plot}
+
+\item{preprocessing}{preprocessing}
 
 \item{top}{top position of plot}
 }
