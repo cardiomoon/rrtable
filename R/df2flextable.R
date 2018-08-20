@@ -28,9 +28,6 @@ roundDf=function(df,digits=2){
 
 
 
-
-
-
 #' Convert data.frame to flextable
 #'
 #' @param df A data.frame

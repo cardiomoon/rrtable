@@ -35,7 +35,6 @@
 #' @importFrom shiny htmlOutput imageOutput plotOutput renderImage renderPlot renderPrint tableOutput updateCheckboxInput
 #' @importFrom editData numericInput3 radioButtons3 editableDT editableDTUI selectInput3
 #' @importFrom readr read_csv
-#' @importFrom webr chooserInput
 #' @export
 pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive(""))
 {
@@ -147,23 +146,23 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
                if(count>0) numericInput3(ns("plotHeight"),"plotHeight",value=5,step=0.5,width=70),
                if(count>0) radioButtons3(ns('plotformat'), 'Format As', c('PNG', 'SVG','PDF'),
                                          inline = TRUE,selected='PNG'),
-               hr(),
-               if(count>0) h4("Select Slide Numbers"),
-               if(count>0) fluidRow(
-                   column(4,
-                          chooserInput(ns("pptchooser"), "All", "Selected",1:count, c(),
-                                       size = count, multiple = TRUE,width=100)),
-                   column(8,
-                          h4("With Selected"),
-                          actionButton(ns("deleteRow"),"Delete Selected",width=150),
-                          actionButton(ns("deleteRow2"),"Delete Not Selected",width=150),
-                          hr(),
-                          downloadButton(ns("savePPTxList2"),"download as csv"),
-                          downloadButton(ns("downloadPPTxList2"),"download as PPTx"),
-                          downloadButton(ns("downloadPPTxListWord2"),"download as Word")
-                   )
-               ),
-               if(count==0) p("There is no saved data.")
+               hr()
+               # ,if(count>0) h4("Select Slide Numbers"),
+               # if(count>0) fluidRow(
+               #     column(4,
+               #            chooserInput(ns("pptchooser"), "All", "Selected",1:count, c(),
+               #                         size = count, multiple = TRUE,width=100)),
+               #     column(8,
+               #            h4("With Selected"),
+               #            actionButton(ns("deleteRow"),"Delete Selected",width=150),
+               #            actionButton(ns("deleteRow2"),"Delete Not Selected",width=150),
+               #            hr(),
+               #            downloadButton(ns("savePPTxList2"),"download as csv"),
+               #            downloadButton(ns("downloadPPTxList2"),"download as PPTx"),
+               #            downloadButton(ns("downloadPPTxListWord2"),"download as Word")
+               #     )
+               # ),
+               # if(count==0) p("There is no saved data.")
                # if(count>0) hr(),
                # if(count>0) actionButton(ns("showPPTList"),"show/hide saved List")
                # ,
@@ -187,34 +186,34 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
      })
 
 
-     observeEvent(input$deleteRow2,{
-         selected=input$pptchooser$left
-         selected=as.numeric(selected)
-
-         savedPPT$type=savedPPT$type[-selected]
-         savedPPT$title=savedPPT$title[-selected]
-         savedPPT$code=savedPPT$code[-selected]
-     })
-
-     output$savePPTxList2 = downloadHandler(
-         filename="PPTxList.csv",
-         content=function(file){
-
-             # temporarily switch to the temp dir, in case you do not have write
-             # permission to the current working directory
-             owd <- setwd(tempdir())
-             on.exit(setwd(owd))
-
-             selected=input$pptchooser$right
-             selected=as.numeric(selected)
-
-             data<-data.frame(type=savedPPT$type[selected],title=savedPPT$title[selected],code=savedPPT$code[selected],
-                              stringsAsFactors = FALSE)
-             writeCSVComment(data,file=file,metadata=input$preprocessing)
-
-         },
-         contentType="text/csv"
-     )
+     # observeEvent(input$deleteRow2,{
+     #     selected=input$pptchooser$left
+     #     selected=as.numeric(selected)
+     #
+     #     savedPPT$type=savedPPT$type[-selected]
+     #     savedPPT$title=savedPPT$title[-selected]
+     #     savedPPT$code=savedPPT$code[-selected]
+     # })
+     #
+     # output$savePPTxList2 = downloadHandler(
+     #     filename="PPTxList.csv",
+     #     content=function(file){
+     #
+     #         # temporarily switch to the temp dir, in case you do not have write
+     #         # permission to the current working directory
+     #         owd <- setwd(tempdir())
+     #         on.exit(setwd(owd))
+     #
+     #         selected=input$pptchooser$right
+     #         selected=as.numeric(selected)
+     #
+     #         data<-data.frame(type=savedPPT$type[selected],title=savedPPT$title[selected],code=savedPPT$code[selected],
+     #                          stringsAsFactors = FALSE)
+     #         writeCSVComment(data,file=file,metadata=input$preprocessing)
+     #
+     #     },
+     #     contentType="text/csv"
+     # )
 
 
 
@@ -404,28 +403,28 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
           contentType="application/vnd-ms-powerpoint"
      )
 
-     output$downloadPPTxList2=downloadHandler(
-         filename="report.pptx",
-         content=function(file){
-
-             # temporarily switch to the temp dir, in case you do not have write
-             # permission to the current working directory
-             owd <- setwd(tempdir())
-             on.exit(setwd(owd))
-
-             selected=input$pptchooser$right
-             selected=as.numeric(selected)
-
-             data<-data.frame(type=savedPPT$type[selected],title=savedPPT$title[selected],code=savedPPT$code[selected],stringsAsFactors = FALSE)
-
-             data2pptx(data,
-                       preprocessing=input$preprocessing,
-                       filename=file,width=input$width,height=input$height,units=input$units,res=input$res,echo=input$showCode)
-
-         },
-         contentType="application/vnd-ms-powerpoint"
-     )
-
+     # output$downloadPPTxList2=downloadHandler(
+     #     filename="report.pptx",
+     #     content=function(file){
+     #
+     #         # temporarily switch to the temp dir, in case you do not have write
+     #         # permission to the current working directory
+     #         owd <- setwd(tempdir())
+     #         on.exit(setwd(owd))
+     #
+     #         selected=input$pptchooser$right
+     #         selected=as.numeric(selected)
+     #
+     #         data<-data.frame(type=savedPPT$type[selected],title=savedPPT$title[selected],code=savedPPT$code[selected],stringsAsFactors = FALSE)
+     #
+     #         data2pptx(data,
+     #                   preprocessing=input$preprocessing,
+     #                   filename=file,width=input$width,height=input$height,units=input$units,res=input$res,echo=input$showCode)
+     #
+     #     },
+     #     contentType="application/vnd-ms-powerpoint"
+     # )
+     #
 
 
 
@@ -448,27 +447,27 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
           contentType="application/vnd-ms-word"
      )
 
-     output$downloadPPTxListWord2=downloadHandler(
-         filename="report.docx",
-         content=function(file){
-
-             owd <- setwd(tempdir())
-             on.exit(setwd(owd))
-
-             selected=input$pptchooser$right
-             selected=as.numeric(selected)
-
-             data<-data.frame(type=savedPPT$type[selected],title=savedPPT$title[selected],code=savedPPT$code[selected],stringsAsFactors = FALSE)
-
-             data2docx(data,
-                       preprocessing=input$preprocessing,
-                       filename=file,width=input$plotWidth,height=input$plotHeight,
-                       units=input$plotUnit,res=input$plotRes,echo=input$showCode)
-
-
-         },
-         contentType="application/vnd-ms-word"
-     )
+     # output$downloadPPTxListWord2=downloadHandler(
+     #     filename="report.docx",
+     #     content=function(file){
+     #
+     #         owd <- setwd(tempdir())
+     #         on.exit(setwd(owd))
+     #
+     #         selected=input$pptchooser$right
+     #         selected=as.numeric(selected)
+     #
+     #         data<-data.frame(type=savedPPT$type[selected],title=savedPPT$title[selected],code=savedPPT$code[selected],stringsAsFactors = FALSE)
+     #
+     #         data2docx(data,
+     #                   preprocessing=input$preprocessing,
+     #                   filename=file,width=input$plotWidth,height=input$plotHeight,
+     #                   units=input$plotUnit,res=input$plotRes,echo=input$showCode)
+     #
+     #
+     #     },
+     #     contentType="application/vnd-ms-word"
+     # )
 
 
 
