@@ -9,6 +9,7 @@ Rcode2df=function(result,preprocessing,eval=TRUE){
     if(preprocessing!="") eval(parse(text=preprocessing))
     res=c()
     codes=unlist(strsplit(result,"\n",fixed=TRUE))
+    final=c()
     for(i in 1:length(codes)){
         #if(codes[i]=="") next
         if(length(grep("cat",codes[i]))==1) {
@@ -16,7 +17,11 @@ Rcode2df=function(result,preprocessing,eval=TRUE){
         }
         res=c(res,codes[i])
         if(eval){
-            temp=capture.output(eval(parse(text=codes[i])))
+            temp=tryCatch(capture.output(eval(parse(text=codes[i]))),error=function(e) "error")
+            if(temp[1]=="error") {
+                final="error"
+                break
+            }
             if(length(temp)==0) temp1=""
             else  {
                 temp1=Reduce(pastelf,temp)
@@ -26,7 +31,8 @@ Rcode2df=function(result,preprocessing,eval=TRUE){
         }
 
     }
-    data.frame(result=res,stringsAsFactors = FALSE)
+    if(is.null(final)) final=data.frame(result=res,stringsAsFactors = FALSE)
+    final
 
 }
 
@@ -40,8 +46,10 @@ Rcode2df2=function(result,preprocessing,eval=TRUE){
     res=result
     if(eval){
         temp=capture.output(eval(parse(text=result)))
-        if(length(temp)==0) temp1=""
-        else  {
+        temp
+        if(length(temp)==0) {
+            temp1=""
+        } else  {
                 temp1=Reduce(pastelf,temp)
                 temp1=paste0(temp1,"\n ")
         }

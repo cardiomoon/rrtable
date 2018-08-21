@@ -4,8 +4,9 @@
 \alias{add_text}
 \title{Add text to document}
 \usage{
-add_text(mydoc, title = "", text = "", code = "", echo = FALSE,
-  eval = FALSE, style = "Normal", landscape = FALSE)
+add_text(mydoc, title = "", text = "", code = "",
+  preprocessing = "", echo = FALSE, eval = FALSE, style = "Normal",
+  landscape = FALSE)
 }
 \arguments{
 \item{mydoc}{A document object}
@@ -15,6 +16,8 @@ add_text(mydoc, title = "", text = "", code = "", echo = FALSE,
 \item{text}{text string to be added}
 
 \item{code}{An R code string}
+
+\item{preprocessing}{preprocessing}
 
 \item{echo}{logical Whether or not show R code}
 

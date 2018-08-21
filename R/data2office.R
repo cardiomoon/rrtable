@@ -129,7 +129,7 @@ data2office=function(data,
                 tempcode=data$code[i]
             }
             mydoc=add_text(mydoc,title=data$title[i],text=temp,
-                           code=tempcode,echo=echo1,eval=eval,
+                           code=tempcode,preprocessing=preprocessing,echo=echo1,eval=eval,
                            landscape=landscape1)
         }
 

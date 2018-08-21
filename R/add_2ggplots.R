@@ -79,13 +79,14 @@ add_text2hyperlink=function(mydoc,text){
 #' @param title An character string as a plot title
 #' @param text text string to be added
 #' @param code An R code string
+#' @param preprocessing preprocessing
 #' @param echo logical Whether or not show R code
 #' @param eval logical whether or not evaluate the R code
 #' @param landscape Logical. Whether or not make a landscape section.
 #' @param style text style
 #' @importFrom officer body_end_section_portrait
 #' @export
-add_text=function(mydoc,title="",text="",code="",echo=FALSE,eval=FALSE,style="Normal",landscape=FALSE){
+add_text=function(mydoc,title="",text="",code="",preprocessing="",echo=FALSE,eval=FALSE,style="Normal",landscape=FALSE){
     if(class(mydoc)=="rpptx"){
 
          if(text!=""){
@@ -101,7 +102,7 @@ add_text=function(mydoc,title="",text="",code="",echo=FALSE,eval=FALSE,style="No
         pos=1.5
         if(echo) {
             if(code!=""){
-            codeft=Rcode2flextable(code,eval=eval,format="pptx")
+            codeft=Rcode2flextable(code,preprocessing=preprocessing,eval=eval,format="pptx")
             mydoc<-mydoc %>% ph_with_flextable_at(value=codeft,left=1,top=pos)
             pos=2
             }
