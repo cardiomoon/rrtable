@@ -4,15 +4,11 @@ library(ggplot2)
 library(webr)
 
 ui=fluidPage(
-    pptxListInput("pptxlist"),
-    tableOutput("table1")
+    pptxListInput("pptxlist")
 )
 server=function(input,output,session){
 
      mydf<-callModule(pptxList,"pptxlist")
-
-     output$table1=renderTable(mydf())
-
 
 }
 shinyApp(ui,server)

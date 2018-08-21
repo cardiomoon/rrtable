@@ -1,5 +1,11 @@
+# rrtable version 0.1.3
+=======================
+(21-Aug-2018)
+
+* new functions file2HTML(), file2pdf(), file2pptx() and file2word() added for reproducible research
+
 # rrtable version 0.1.2
-=========================
+=======================
 (19-Aug-2018)
 
 * bug-fixed 
