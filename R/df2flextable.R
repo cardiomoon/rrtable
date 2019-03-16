@@ -110,11 +110,12 @@ df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
      ft<-tryCatch(regulartable(df),error=function(e) "error")
      if("character" %in% class(ft)) {
          ft=flextable(df)
-     } else{
-         result=tryCatch(print(ft),error=function(e) "error")
-         if("character" %in% class(result)) ft=flextable(df)
      }
-     ft
+     # } else{
+     #     result=tryCatch(print(ft),error=function(e) "error")
+     #     if("character" %in% class(result)) ft=flextable(df)
+     # }
+
      odd_header=ifelse(vanilla,"transparent","#5B7778")
      if(!vanilla)
           ft<- ft %>% theme_zebra(even_body=even_body,odd_body=odd_body,
@@ -149,7 +150,7 @@ df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
           padding(padding.left=5,padding.right=5,
                           padding.top=2,padding.bottom=2,part="all")
      if(add.rownames) {
-         ft=ft %>% color(i=1,j=1,color=ifelse(vanilla,"white","#5B7778"),part="header")
+         ft<-ft %>% color(i=1,j=1,color=ifelse(vanilla,"white","#5B7778"),part="header")
      }
      ft
 }
