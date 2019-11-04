@@ -4,8 +4,6 @@
 #' @param preprocessing preprocessing
 #' @param top top position of plot
 #' @return a document object
-#' @importFrom officer ph_with_text
-#' @importFrom rvg ph_with_vg_at
 #' @export
 #' @examples
 #' require(rrtable)
@@ -20,7 +18,7 @@ add_plot=function(mydoc,plotstring,preprocessing="",top=2){
     }
 
     if(class(mydoc)=="rpptx"){
-        temp=paste0("ph_with_vg_at(mydoc,code=",plotstring,",left=1,top=",top,",width=8,height=5)")
+        temp=paste0("ph_with(mydoc,dml(code=",plotstring,"), location = ph_location(left=1,top=",top,",width=8,height=5))")
         mydoc=eval(parse(text=temp))
 
     } else{
