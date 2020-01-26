@@ -10,7 +10,7 @@
 add_title_slide=function(mydoc,title="",subtitle=""){
     mydoc <- mydoc %>%
         add_slide(layout="Title Slide",master="Office Theme") %>%
-        ph_with_text(type="ctrTitle",str=title) %>%
-        ph_with_text(type="subTitle",str=subtitle)
+        ph_with(value=title, location = ph_location_type(type="ctrTitle")) %>%
+        ph_with(value=subtitle, location = ph_location_type(type="subTitle"))
     mydoc
 }

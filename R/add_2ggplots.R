@@ -5,7 +5,7 @@
 #' @param color font color
 #' @param before Whether or not add blank paragraph before title
 #' @param after Whether or not add blank paragraph after title
-#' @importFrom officer shortcuts fpar ftext body_add_fpar
+#' @importFrom officer shortcuts fpar ftext body_add_fpar ph_location_type ph_location
 #' @importFrom stats update
 #' @export
 add_title=function(x,title="",size=20,color=NULL,before=TRUE,after=TRUE){
@@ -25,7 +25,7 @@ add_title=function(x,title="",size=20,color=NULL,before=TRUE,after=TRUE){
 add_self=function(mydoc,data){
     if(class(mydoc)=="rpptx"){
         mydoc <- mydoc %>% add_slide("Blank",master="Office Theme")
-        mydoc<-mydoc %>% ph_with_flextable_at(value=df2flextable2(data),left=1,top=2)
+        mydoc<-mydoc %>% ph_with(value=df2flextable2(data), location = ph_location(left=1,top=2))
     } else{
         mydoc<-mydoc %>% body_add_par(value="\n\n",style="Normal")
         #df=data.frame(title=title,text=text,code=code)
@@ -58,7 +58,7 @@ add_text2hyperlink=function(mydoc,text){
 
         for(i in 1:length(result[[1]]$text)){
             if(i==1) {
-                mydoc=ph_with_text(mydoc,str=result[[1]]$text[i],type="body")
+                mydoc=ph_with(mydoc,str=result[[1]]$text[i],location = ph_location_type(type="body"))
             } else{
                 mydoc=ph_add_text(mydoc,type="body",str=result[[1]]$text[i])
             }
@@ -69,7 +69,7 @@ add_text2hyperlink=function(mydoc,text){
 
 
     } else{
-        mydoc=ph_with_text(mydoc,type="body",text)
+        mydoc=ph_with(mydoc, text, location = ph_location_type(type="body"))
     }
     mydoc
 }
@@ -92,18 +92,18 @@ add_text=function(mydoc,title="",text="",code="",preprocessing="",echo=FALSE,eva
          if(text!=""){
         mydoc <- mydoc %>%
             add_slide(layout = "Title and Content", master = "Office Theme") %>%
-            ph_with_text(type="title",str=title) %>%
+            ph_with(value=title, location = ph_location_type(type="title")) %>%
             add_text2hyperlink(text=text)
         } else {
             mydoc <- mydoc %>%
                 add_slide(layout = "Title Only", master = "Office Theme") %>%
-                ph_with_text(type="title",str=title)
+                ph_with(value=title, location = ph_location(type="title"))
         }
         pos=1.5
         if(echo) {
             if(code!=""){
             codeft=Rcode2flextable(code,preprocessing=preprocessing,eval=eval,format="pptx")
-            mydoc<-mydoc %>% ph_with_flextable_at(value=codeft,left=1,top=pos)
+            mydoc<-mydoc %>% ph_with(value=codeft, location = ph_location(left=1,top=pos))
             pos=2
             }
         }
@@ -159,8 +159,8 @@ add_2ggplots=function(mydoc,plot1,plot2,preprocessing="",width=3,height=2.5,top=
     if(class(mydoc)=="rpptx"){
 
         mydoc<- mydoc %>%
-            ph_with_vg_at(code = print(gg1), left=0.5,top=top,width=4.5,height=5 ) %>%
-            ph_with_vg_at(code = print(gg2), left=5,top=top,width=4.5,height=5 )
+            ph_with(dml(code = print(gg1)), location = ph_location(left=0.5,top=top,width=4.5,height=5) ) %>%
+            ph_with(dml(code = print(gg2)), location = ph_location(left=5,top=top,width=4.5,height=5 ))
 
 
     } else{
@@ -203,8 +203,8 @@ add_2flextables=function(mydoc,ft1,ft2,echo=FALSE,width=3,code=""){
     if(class(mydoc)=="rpptx"){
 
         mydoc<-mydoc %>%
-            ph_with_flextable_at(value=ft1,left=0.5,top=pos) %>%
-            ph_with_flextable_at(value=ft2,left=5,top=pos)
+            ph_with(value=ft1, location = ph_location(left=0.5,top=pos)) %>%
+            ph_with(value=ft2,, location = ph_location(left=5,top=pos))
     } else {
 
         # if(landscape) mydoc <- body_end_section_portrait(mydoc)
@@ -247,8 +247,8 @@ add_2plots=function(mydoc,plotstring1,plotstring2,preprocessing="",width=3,heigh
 
     if(class(mydoc)=="rpptx"){
 
-        temp1=paste0("ph_with_vg_at(mydoc,code=",plotstring1,",left=0.5,top=top,width=4.5,height=5 )")
-        temp2=paste0("ph_with_vg_at(mydoc,code=",plotstring2,",left=5,top=top,width=4.5,height=5)")
+        temp1=paste0("ph_with(mydoc, value = dml(code=",plotstring1,"), location = ph_location(left=0.5,top=top,width=4.5,height=5) )")
+        temp2=paste0("ph_with(mydoc, value = dml(code=",plotstring2,"),location = ph_location(left=5,top=top,width=4.5,height=5))")
         mydoc=eval(parse(text=temp1))
         mydoc=eval(parse(text=temp2))
 

@@ -9,7 +9,7 @@
 #' @param ... additional arguments passed to png()
 #' @return a document object
 #' @importFrom devEMF emf
-#' @importFrom officer ph_with_img body_add_img ph_with_img_at
+#' @importFrom officer body_add_img
 #' @export
 #' @examples
 #' require(officer)
@@ -30,7 +30,7 @@ add_img=function(mydoc,plotstring,width=7,height=5,units="in",
     dev.off()
     if(class(mydoc)=="rpptx"){
 
-            temp=paste0("ph_with_img_at(mydoc,src=filename,left=1,top=2,width=8,height=5)")
+            temp=paste0("ph_with(mydoc,value = external_img(src=filename), use_loc_size = TRUE, location = ph_location(left=1,top=2,width=8,height=5))")
             mydoc=eval(parse(text=temp))
 
     } else{
