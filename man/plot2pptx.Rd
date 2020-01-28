@@ -4,24 +4,10 @@
 \alias{plot2pptx}
 \title{Save plot/ggplot to Microsoft Powerpoint format}
 \usage{
-plot2pptx(
-  p = NULL,
-  plotstring = NULL,
-  target = "plot.pptx",
-  append = FALSE,
-  title = ""
-)
+plot2pptx(...)
 }
 \arguments{
-\item{p}{An object of class ggplot2 or NULL}
-
-\item{plotstring}{A character}
-
-\item{target}{name of output file}
-
-\item{append}{logical value}
-
-\item{title}{Optional character of plot title}
+\item{...}{further arguments to be passed to plot2office}
 }
 \description{
 Save plot/ggplot to Microsoft Powerpoint format
@@ -33,6 +19,6 @@ plot2pptx(p)
 plot2pptx(p,title="A ggplot",append=TRUE)
 p2=ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width))+geom_point()
 plot2pptx(p2,append=TRUE)
-plot2pptx(plotstring="plot(iris)")
+plot2pptx(plotstring="plot(iris)",append=TRUE,title="plot(iris)")
 plot2pptx(plotstring="ggplot(iris,aes(x=Sepal.Length))+geom_histogram()",append=TRUE)
 }

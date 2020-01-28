@@ -1,6 +1,12 @@
-# rrtable version 0.1.4
+# rrtable version 0.1.5
 =======================
 (28-Jan-2020)
+
+* new function plot2office, plot2pptx, plot2docx, is_ggplot2, table2office, table2pptx, table2docx added
+
+# rrtable version 0.1.4
+=======================
+(27-Jan-2020)
 
 * Modify the code to accommodate changes in the officer package
 
