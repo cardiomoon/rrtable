@@ -12,7 +12,8 @@
 #' require(officer)
 #' require(magrittr)
 #' code <- "ggplot(mtcars, aes(x = mpg , y = wt)) + geom_point()"
-#' read_pptx() %>% add_text(title="ggplot") %>% add_ggplot(code=code)
+#' read_pptx() %>% add_text(title="ggplot") %>% add_ggplot(code=code)%>%print("ggplot.pptx")
+#' read_docx() %>% add_text(title="ggplot") %>% add_ggplot(code=code)%>%print("ggplot.docx")
 add_ggplot=function(mydoc,code="",preprocessing="",top=2){
 
 
@@ -26,9 +27,10 @@ add_ggplot=function(mydoc,code="",preprocessing="",top=2){
             mydoc=eval(parse(text=temp))
 
     } else{
-        temp=paste0("body_add_vg(mydoc,code=print(",code,"))")
+        gg<-eval(parse(text=code))
+        mydoc <- mydoc %>%
+            body_add_gg(value=gg)
 
-        mydoc=eval(parse(text=temp))
     }
     mydoc
 }

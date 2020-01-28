@@ -22,7 +22,7 @@
 #'         add_flextable(ftable) %>%
 #'         add_text(title=title2) %>%
 #'         add_flextable(ft) %>%
-#'         print(target=paste0(tempdir(),"/","mytable.docx"))
+#'         print(target="mytable.docx")
 add_flextable=function(mydoc,ftable,echo=FALSE,code="",landscape=FALSE){
      if("mytable" %in% class(ftable)){
           ft<-mytable2flextable(ftable)

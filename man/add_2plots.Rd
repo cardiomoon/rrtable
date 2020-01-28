@@ -4,8 +4,16 @@
 \alias{add_2plots}
 \title{Add two plots into a document object}
 \usage{
-add_2plots(mydoc, plotstring1, plotstring2, preprocessing = "",
-  width = 3, height = 2.5, echo = FALSE, top = 2)
+add_2plots(
+  mydoc,
+  plotstring1,
+  plotstring2,
+  preprocessing = "",
+  width = 3,
+  height = 2.5,
+  echo = FALSE,
+  top = 2
+)
 }
 \arguments{
 \item{mydoc}{A document object}
@@ -36,5 +44,7 @@ require(officer)
 plotstring1="plot(1:10)"
 plotstring2="hist(rnorm(100))"
 read_pptx() \%>\% add_text(title="Two plots") \%>\% add_2plots(plotstring1,plotstring2) \%>\%
-print(target=paste0(tempdir(),"/","demo.pptx"))
+print(target="demo.pptx")
+read_docx() \%>\% add_text(title="Two plots") \%>\% add_2plots(plotstring1,plotstring2) \%>\%
+print(target="demo.docx")
 }

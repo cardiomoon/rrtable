@@ -4,10 +4,18 @@
 \alias{data2HTML}
 \title{Make a HTML5 file with a data.frame}
 \usage{
-data2HTML(data, preprocessing = "", path = NULL,
-  filename = "report.HTML", rawDataName = NULL,
-  rawDataFile = "rawData.RDS", vanilla = FALSE, echo = TRUE,
-  showself = FALSE)
+data2HTML(
+  data,
+  preprocessing = "",
+  path = ".",
+  filename = "report.HTML",
+  rawDataName = NULL,
+  rawDataFile = "rawData.RDS",
+  type = "HTML",
+  vanilla = FALSE,
+  echo = TRUE,
+  showself = FALSE
+)
 }
 \arguments{
 \item{data}{A data.frame}
@@ -22,6 +30,8 @@ data2HTML(data, preprocessing = "", path = NULL,
 
 \item{rawDataFile}{The name of the rawData file which the data are to be read from.}
 
+\item{type}{character "HTML" or "pdf"}
+
 \item{vanilla}{logical. Whether or not make vanilla table}
 
 \item{echo}{Logical. Whether or not show R code of plot and table}
@@ -34,9 +44,8 @@ Make a HTML5 file with a data.frame
 \examples{
 \donttest{
 library(moonBook)
-library(ztable)
 library(rrtable)
 library(ggplot2)
-data2HTML(sampleData2,path="tmp")
+data2HTML(sampleData2)
 }
 }

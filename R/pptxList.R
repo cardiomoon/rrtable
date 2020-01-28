@@ -123,7 +123,7 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
                fluidRow(
                     column(4,
                            h4("Upload PPTList(*.csv)"),
-                           fileInput(ns("pptfile"),NA)  #"Upload PPTList(*.csv)"
+                           fileInput(ns("pptfile"),NULL)  #"Upload PPTList(*.csv)"
                     ),
                     column(3,
                            h4("Load sampleData "),

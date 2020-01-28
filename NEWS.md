@@ -1,3 +1,10 @@
+# rrtable version 0.1.4
+=======================
+(28-Jan-2020)
+
+* Modify the code to accommodate changes in the officer package
+
+
 # rrtable version 0.1.3
 =======================
 (21-Aug-2018)

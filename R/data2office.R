@@ -19,7 +19,7 @@
 #' @export
 data2office=function(data,
                      preprocessing="",
-                     path=NULL,filename="Report",format="pptx",width=7,height=5,units="in",
+                     path=".",filename="Report",format="pptx",width=7,height=5,units="in",
                      res=300,rawDataName=NULL,rawDataFile="rawData.RDS",vanilla=FALSE,echo=FALSE,
                      landscape=FALSE,
                      showself=FALSE){

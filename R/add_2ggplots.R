@@ -88,16 +88,22 @@ add_text2hyperlink=function(mydoc,text){
 #' @export
 add_text=function(mydoc,title="",text="",code="",preprocessing="",echo=FALSE,eval=FALSE,style="Normal",landscape=FALSE){
     if(class(mydoc)=="rpptx"){
+        layout="Title and Content"
+        if((title=="")&(text=="")) layout="Blank"
+        else if(text=="") layout="Title Only"
 
-         if(text!=""){
         mydoc <- mydoc %>%
-            add_slide(layout = "Title and Content", master = "Office Theme") %>%
-            ph_with(value=title, location = ph_location_type(type="title")) %>%
-            add_text2hyperlink(text=text)
-        } else {
+            add_slide(layout = layout, master = "Office Theme")
+
+
+        if(title!=""){
+           mydoc <- mydoc %>%
+              ph_with(value=title, location = ph_location_type(type="title"))
+        }
+        if(text!=""){
+
             mydoc <- mydoc %>%
-                add_slide(layout = "Title Only", master = "Office Theme") %>%
-                ph_with(value=title, location = ph_location(type="title"))
+                add_text2hyperlink(text=text)
         }
         pos=1.5
         if(echo) {
@@ -146,7 +152,10 @@ add_text=function(mydoc,title="",text="",code="",preprocessing="",echo=FALSE,eva
 #' require(rvg)
 #' plot1 <- "ggplot(data = iris, aes(Sepal.Length, Petal.Length)) + geom_point()"
 #' plot2 <- "ggplot(data = iris, aes(Sepal.Length, Petal.Length, color = Species)) + geom_point()"
-#' read_pptx() %>% add_text(title="Two ggplots") %>% add_2ggplots(plot1=plot1,plot2=plot2)
+#' read_pptx() %>% add_text(title="Two ggplots") %>% add_2ggplots(plot1=plot1,plot2=plot2) %>%
+#' print(target="demo.pptx")
+#' read_docx() %>% add_text(title="Two ggplots") %>% add_2ggplots(plot1=plot1,plot2=plot2) %>%
+#' print(target="demo.docx")
 add_2ggplots=function(mydoc,plot1,plot2,preprocessing="",width=3,height=2.5,top=2){
 
     if(preprocessing!="") {
@@ -168,8 +177,8 @@ add_2ggplots=function(mydoc,plot1,plot2,preprocessing="",width=3,height=2.5,top=
         mydoc <- mydoc %>%
             body_end_section_continuous()
         mydoc <-mydoc %>%
-            body_add_vg(code=print(gg1),width=width,height=height) %>%
-            body_add_vg(code=print(gg2),width=width,height=height) %>%
+            body_add_gg(value=gg1,width=width,height=height) %>%
+            body_add_gg(value=gg2,width=width,height=height) %>%
             body_end_section_columns(widths = c(width, width), space = .05, sep = FALSE)
     }
     mydoc
@@ -184,6 +193,7 @@ add_2ggplots=function(mydoc,plot1,plot2,preprocessing="",width=3,height=2.5,top=
 #' @param width plot width in inches
 #' @param code R code string
 #' @return a document object
+#' @importFrom officer slip_in_column_break body_add_gg
 #' @export
 #' @examples
 #' require(rrtable)
@@ -195,7 +205,12 @@ add_2ggplots=function(mydoc,plot1,plot2,preprocessing="",width=3,height=2.5,top=
 #' doc=read_docx()
 #' doc %>% add_text(title=title) %>%
 #'         add_2flextables(ft1,ft2) %>%
-#'         print(target=paste0(tempdir(),"/","2tables.docx"))
+#'         print(target="2tables.docx")
+#' doc=read_pptx()
+#' doc %>% add_text(title=title) %>%
+#'         add_2flextables(ft1,ft2) %>%
+#'         print(target="2tables.pptx")
+
 add_2flextables=function(mydoc,ft1,ft2,echo=FALSE,width=3,code=""){
 
     pos=1.5
@@ -204,7 +219,7 @@ add_2flextables=function(mydoc,ft1,ft2,echo=FALSE,width=3,code=""){
 
         mydoc<-mydoc %>%
             ph_with(value=ft1, location = ph_location(left=0.5,top=pos)) %>%
-            ph_with(value=ft2,, location = ph_location(left=5,top=pos))
+            ph_with(value=ft2, location = ph_location(left=5,top=pos))
     } else {
 
         # if(landscape) mydoc <- body_end_section_portrait(mydoc)
@@ -212,9 +227,10 @@ add_2flextables=function(mydoc,ft1,ft2,echo=FALSE,width=3,code=""){
         mydoc <- mydoc %>%
             body_end_section_continuous()
         mydoc <-mydoc %>%
-            body_add_flextable(ft1) %>%
-            body_add_flextable(ft2) %>%
-            body_end_section_columns(widths = c(width, width), space = .05, sep = FALSE)
+            body_add_flextable(value=ft1) %>%
+            body_add_flextable(value=ft2) %>%
+            slip_in_column_break() %>%
+            body_end_section_columns()
         # if(landscape) mydoc <- body_end_section_landscape(mydoc)
     }
 
@@ -238,7 +254,9 @@ add_2flextables=function(mydoc,ft1,ft2,echo=FALSE,width=3,code=""){
 #' plotstring1="plot(1:10)"
 #' plotstring2="hist(rnorm(100))"
 #' read_pptx() %>% add_text(title="Two plots") %>% add_2plots(plotstring1,plotstring2) %>%
-#' print(target=paste0(tempdir(),"/","demo.pptx"))
+#' print(target="demo.pptx")
+#' read_docx() %>% add_text(title="Two plots") %>% add_2plots(plotstring1,plotstring2) %>%
+#' print(target="demo.docx")
 add_2plots=function(mydoc,plotstring1,plotstring2,preprocessing="",width=3,height=2.5,echo=FALSE,top=2){
     if(preprocessing!="") {
         eval(parse(text=preprocessing))
@@ -253,17 +271,21 @@ add_2plots=function(mydoc,plotstring1,plotstring2,preprocessing="",width=3,heigh
         mydoc=eval(parse(text=temp2))
 
     } else{
-        temp1=paste0("body_add_vg(mydoc,code=",plotstring1,
-                     ",width=",width,",height=",height,")")
-        temp2=paste0("body_add_vg(mydoc,code=",plotstring2,
-                     ",width=",width,",height=",height,")")
+        filename1 <- tempfile(fileext = ".emf")
+        emf(file = filename1, width = width, height = height)
+        eval(parse(text=plotstring1))
+        dev.off()
+        filename2 <- tempfile(fileext = ".emf")
+        emf(file = filename2, width = width, height = height)
+        eval(parse(text=plotstring2))
+        dev.off()
 
         mydoc <- mydoc %>%
-            body_end_section_continuous()
-
-        mydoc=eval(parse(text=temp1))
-        mydoc=eval(parse(text=temp2))
-        mydoc=body_end_section_columns(mydoc,widths = c(width, width), space = .05, sep = FALSE)
+                body_end_section_continuous() %>%
+                body_add_img(src = filename1, width = width, height = height) %>%
+                body_add_img(src = filename2, width = width, height = height) %>%
+                slip_in_column_break() %>%
+                body_end_section_columns()
     }
     mydoc
 }

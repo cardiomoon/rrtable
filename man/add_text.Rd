@@ -4,9 +4,17 @@
 \alias{add_text}
 \title{Add text to document}
 \usage{
-add_text(mydoc, title = "", text = "", code = "",
-  preprocessing = "", echo = FALSE, eval = FALSE, style = "Normal",
-  landscape = FALSE)
+add_text(
+  mydoc,
+  title = "",
+  text = "",
+  code = "",
+  preprocessing = "",
+  echo = FALSE,
+  eval = FALSE,
+  style = "Normal",
+  landscape = FALSE
+)
 }
 \arguments{
 \item{mydoc}{A document object}

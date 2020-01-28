@@ -4,8 +4,16 @@
 \alias{add_img}
 \title{Add plot into a document object}
 \usage{
-add_img(mydoc, plotstring, width = 7, height = 5, units = "in",
-  res = 300, format = "emf", ...)
+add_img(
+  mydoc,
+  plotstring,
+  width = 7,
+  height = 5,
+  units = "in",
+  res = 300,
+  format = "emf",
+  ...
+)
 }
 \arguments{
 \item{mydoc}{A document object}

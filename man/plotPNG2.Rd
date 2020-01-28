@@ -4,8 +4,15 @@
 \alias{plotPNG2}
 \title{Make png file with a plot code}
 \usage{
-plotPNG2(fun, file, width = 7, height = 7, units = "in", res = 300,
-  ggplot = FALSE)
+plotPNG2(
+  fun,
+  file,
+  width = 7,
+  height = 7,
+  units = "in",
+  res = 300,
+  ggplot = FALSE
+)
 }
 \arguments{
 \item{fun}{A R code for plot}

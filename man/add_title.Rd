@@ -4,8 +4,7 @@
 \alias{add_title}
 \title{Add title to docx file}
 \usage{
-add_title(x, title = "", size = 20, color = NULL, before = TRUE,
-  after = TRUE)
+add_title(x, title = "", size = 20, color = NULL, before = TRUE, after = TRUE)
 }
 \arguments{
 \item{x}{A document object}

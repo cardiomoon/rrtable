@@ -4,29 +4,10 @@
 \alias{data2pdf}
 \title{Make a pdf file with a data.frame}
 \usage{
-data2pdf(data, preprocessing = "", path = NULL,
-  filename = "report.pdf", rawDataName = NULL,
-  rawDataFile = "rawData.RDS", kotex = FALSE, echo = TRUE,
-  showself = FALSE)
+data2pdf(...)
 }
 \arguments{
-\item{data}{A data.frame}
-
-\item{preprocessing}{A character string of R code}
-
-\item{path}{A name of destination file path}
-
-\item{filename}{A path of destination file}
-
-\item{rawDataName}{The name of the rawData}
-
-\item{rawDataFile}{The name of the rawData file which the data are to be read from.}
-
-\item{kotex}{Logical. Whether or not use kotex package of latex}
-
-\item{echo}{Logical. Whether or not show R code of plot and table}
-
-\item{showself}{Logical. Whether or not show R code for the paragraph}
+\item{...}{further arguments tobe passed to data2HTML}
 }
 \description{
 Make a pdf file with a data.frame
@@ -36,6 +17,6 @@ library(moonBook)
 library(ztable)
 library(ggplot2)
 \donttest{
-data2pdf(sampleData2,path="tmp")
+data2pdf(sampleData2)
 }
 }

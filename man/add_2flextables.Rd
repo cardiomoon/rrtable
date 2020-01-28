@@ -35,5 +35,9 @@ ft2=df2flextable(tail(iris[1:4]))
 doc=read_docx()
 doc \%>\% add_text(title=title) \%>\%
         add_2flextables(ft1,ft2) \%>\%
-        print(target=paste0(tempdir(),"/","2tables.docx"))
+        print(target="2tables.docx")
+doc=read_pptx()
+doc \%>\% add_text(title=title) \%>\%
+        add_2flextables(ft1,ft2) \%>\%
+        print(target="2tables.pptx")
 }

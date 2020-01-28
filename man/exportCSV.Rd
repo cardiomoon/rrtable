@@ -4,8 +4,12 @@
 \alias{exportCSV}
 \title{Export pptxList file to desired format}
 \usage{
-exportCSV(file, format = "HTML", rawDataName = NULL,
-  rawDataFile = "rawData.RDS")
+exportCSV(
+  file,
+  format = "HTML",
+  rawDataName = NULL,
+  rawDataFile = "rawData.RDS"
+)
 }
 \arguments{
 \item{file}{The name of the file which the data are to be read from.}

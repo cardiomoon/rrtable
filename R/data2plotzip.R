@@ -137,7 +137,7 @@ plotPNG2=function(fun,file,width=7,height=7,units="in",res=300,ggplot=FALSE){
 #' library(rrtable)
 #' library(ggplot2)
 #' data2plotzip(sampleData2,path="tmp")
-data2plotzip=function(data,path=NULL,filename="Plot.zip",format="PNG",width=8,height=6,units="in",res=300,start=0,preprocessing="",
+data2plotzip=function(data,path=".",filename="Plot.zip",format="PNG",width=8,height=6,units="in",res=300,start=0,preprocessing="",
                       rawDataName=NULL,rawDataFile="rawData.RDS"){
 
     mode=0

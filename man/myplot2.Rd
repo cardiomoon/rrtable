@@ -4,9 +4,18 @@
 \alias{myplot2}
 \title{Make zipped plots with a data.frame}
 \usage{
-myplot2(data, format = "PNG", width = 7, height = 7, units = "in",
-  res = 300, start = 0, preprocessing = "", rawDataName = NULL,
-  rawDataFile = "rawData.RDS")
+myplot2(
+  data,
+  format = "PNG",
+  width = 7,
+  height = 7,
+  units = "in",
+  res = 300,
+  start = 0,
+  preprocessing = "",
+  rawDataName = NULL,
+  rawDataFile = "rawData.RDS"
+)
 }
 \arguments{
 \item{data}{A data.frame}

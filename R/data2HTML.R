@@ -5,6 +5,7 @@
 #' @param filename A name of destination file
 #' @param rawDataName The name of the rawData
 #' @param rawDataFile The name of the rawData file which the data are to be read from.
+#' @param type character "HTML" or "pdf"
 #' @param vanilla logical. Whether or not make vanilla table
 #' @param echo Logical. Whether or not show R code of plot and table
 #' @param showself Logical. Whether or not show R code for the paragraph
@@ -16,13 +17,12 @@
 #' @examples
 #' \donttest{
 #' library(moonBook)
-#' library(ztable)
 #' library(rrtable)
 #' library(ggplot2)
-#' data2HTML(sampleData2,path="tmp")
+#' data2HTML(sampleData2)
 #' }
-data2HTML=function(data,preprocessing="",path=NULL,filename="report.HTML",rawDataName=NULL,rawDataFile="rawData.RDS",
-                   vanilla=FALSE,echo=TRUE,showself=FALSE){
+data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawDataName=NULL,rawDataFile="rawData.RDS",
+                   type="HTML",vanilla=FALSE,echo=TRUE,showself=FALSE){
 
     mode=0
     owd=getwd()
@@ -37,7 +37,7 @@ data2HTML=function(data,preprocessing="",path=NULL,filename="report.HTML",rawDat
         setwd(path)
     }
 
-
+    if((type=="pdf")&(filename=="report.HTML")) filename="report.pdf"
 
     file.create("report2.Rmd")
     tempReport <-  "report2.Rmd"
@@ -84,10 +84,8 @@ data2HTML=function(data,preprocessing="",path=NULL,filename="report.HTML",rawDat
 
     mycat("```{r,echo=",echo,",message=FALSE}\n")
     mycat("require(moonBook)\n")
-    mycat("require(ztable)\n")
     mycat("require(rrtable)\n")
     mycat("require(ggplot2)\n")
-    mycat("options(ztable.type='HTML')\n")
     mycat("```\n\n")
 
     if(!is.null(rawDataName)){
@@ -114,7 +112,7 @@ data2HTML=function(data,preprocessing="",path=NULL,filename="report.HTML",rawDat
         if(showself){
 
                 mycat("\n\n")
-                mycat("```{r,results='asis',echo=FALSE}\n")
+                mycat("```{r}\n")
                 mycat(paste0("df2flextable2(data[",i,",])\n"))
                 mycat("```\n\n\n")
 
@@ -133,12 +131,12 @@ data2HTML=function(data,preprocessing="",path=NULL,filename="report.HTML",rawDat
         }
 
         if(mypptlist$type[i]=="mytable") {
-            mycat("```{r,results='asis'}\n")
+            mycat("```{r}\n")
             mycat("mytable2flextable(",mypptlist$code[i],",vanilla=",vanilla,")\n")
             mycat("```\n\n")
 
         } else if(mypptlist$type[i]=="data"){
-            mycat("```{r,results='asis'}\n")
+            mycat("```{r}\n")
             mycat("df2flextable(",mypptlist$code[i],",vanilla=",vanilla,")\n")
             mycat("```\n\n")
 
@@ -174,8 +172,11 @@ data2HTML=function(data,preprocessing="",path=NULL,filename="report.HTML",rawDat
         mycat("\n\n")
 
     }
-
-    out <- rmarkdown::render('report2.Rmd', rmarkdown::html_document())
+    if(type=="HTML"){
+       out <- rmarkdown::render('report2.Rmd', rmarkdown::html_document())
+    }else{
+      out <- rmarkdown::render('report2.Rmd', rmarkdown::pdf_document())
+    }
     result=file.rename(out, filename)
     #file.remove("report2.Rmd")
 

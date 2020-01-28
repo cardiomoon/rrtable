@@ -4,8 +4,13 @@
 \alias{pptxList}
 \title{Server function of pptxList shiny module}
 \usage{
-pptxList(input, output, session, data = reactive(""),
-  preprocessing = reactive(""))
+pptxList(
+  input,
+  output,
+  session,
+  data = reactive(""),
+  preprocessing = reactive("")
+)
 }
 \arguments{
 \item{input}{input}

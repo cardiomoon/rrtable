@@ -4,8 +4,15 @@
 \alias{plotPDF2}
 \title{Make pdf file with a plot code}
 \usage{
-plotPDF2(fun, file, width = 7, height = 5, units = "in", res = 300,
-  ggplot = FALSE)
+plotPDF2(
+  fun,
+  file,
+  width = 7,
+  height = 5,
+  units = "in",
+  res = 300,
+  ggplot = FALSE
+)
 }
 \arguments{
 \item{fun}{A R code for plot}

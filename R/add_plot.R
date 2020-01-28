@@ -2,6 +2,8 @@
 #' @param mydoc A document object
 #' @param plotstring String of an R code encoding a plot
 #' @param preprocessing preprocessing
+#' @param width width of plot
+#' @param height height of plot
 #' @param top top position of plot
 #' @return a document object
 #' @export
@@ -10,8 +12,9 @@
 #' require(officer)
 #' require(rvg)
 #' require(magrittr)
-#' read_pptx() %>% add_text(title="Plot") %>% add_plot("plot(iris)")
-add_plot=function(mydoc,plotstring,preprocessing="",top=2){
+#' read_pptx() %>% add_text(title="Plot") %>% add_plot("plot(iris)")%>%print(target="plot.pptx")
+#' read_docx() %>% add_text(title="Plot") %>% add_plot("plot(iris)")%>%print(target="plot.docx")
+add_plot=function(mydoc,plotstring,preprocessing="",width=6,height=6,top=2){
 
     if(preprocessing!="") {
         eval(parse(text=preprocessing))
@@ -22,8 +25,13 @@ add_plot=function(mydoc,plotstring,preprocessing="",top=2){
         mydoc=eval(parse(text=temp))
 
     } else{
-        temp=paste0("body_add_vg(mydoc,code=",plotstring,")")
-        mydoc=eval(parse(text=temp))
+        filename <- tempfile(fileext = ".emf")
+        emf(file = filename, width = width, height = height)
+        eval(parse(text=plotstring))
+        dev.off()
+
+        mydoc <- mydoc %>%
+            body_add_img(src = filename, width = width, height = height)
     }
     mydoc
 }
