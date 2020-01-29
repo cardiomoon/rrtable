@@ -1,10 +1,11 @@
 #' Save plot/ggplot to Microsoft Powerpoint format
-#' @param p An object of class ggplot2 or NULL
-#' @param plotstring A character
+#' @param x An object of class ggplot2 or a string vector encoding plot or ggplot
 #' @param target name of output file
 #' @param append logical value
-#' @param title Optional character of plot title
+#' @param title Optional character vector of plot title
 #' @param type "pptx" or "docx"
+#' @param preprocessing A string of R code or ""
+#' @param echo logical. If true, show code.
 #' @param left left margin
 #' @param top top margin
 #' @param width desired width of the plot
@@ -12,24 +13,12 @@
 #' @param aspectr desired aspect ratio of the plot
 #' @importFrom stringr "%>%"
 #' @export
-plot2office=function(p=NULL,plotstring=NULL,target="plot",append=FALSE,title="",
-                     type="pptx",
+plot2office=function(x=NULL,target="Report",append=FALSE,title="",
+                     type="pptx",preprocessing="",echo=FALSE,
                      left=1,top=1,width=NULL,height=NULL,aspectr=NULL){
-
-   if(type=="pptx"){
-      if(!str_detect(target,"\\.")) target=paste0(target,".pptx")
-      if(append) doc<-read_pptx(path=target)
-      else doc<-read_pptx()
-   } else{
-      if(!str_detect(target,"\\.")) target=paste0(target,".docx")
-      if(append) doc<-read_docx(path=target)
-      else doc<-read_docx()
-   }
-   if(title!=""){
-      doc <- doc %>% add_text(title=title)
-      top=top+0.5
-   } else {
-      if(type=="pptx") doc <- doc %>% add_slide(layout="Blank")
+   if(is.null(x)) {
+       message("x should be a ggplot object or a string encoding plot or ggplot")
+       return()
    }
    if(is.null(width)){
       if(is.null(height)){
@@ -50,43 +39,28 @@ plot2office=function(p=NULL,plotstring=NULL,target="plot",append=FALSE,title="",
          }
       }
    }
-   if(type=="pptx"){
-      if(!is.null(p)){
-         doc <- doc %>%
-            ph_with(dml(code = print(p)), location = ph_location(left=left,top=top,width=width,height=height))
-      } else{
-         if(is_ggplot(plotstring)){
-            gg=eval(parse(text=plotstring))
-            doc <- doc %>%
-               ph_with(dml(code = print(gg)), location = ph_location(left=left,top=top,width=width,height=height))
-         } else{
-            temp=paste0("ph_with(doc,dml(code=",plotstring,"), location = ph_location(left=",left,",top=",top,
-                        ",width=",width,",height=",height,"))")
-            doc=eval(parse(text=temp))
+   doc<-open_doc(target=target,type=type,append=append)
+   target=attr(doc,"name")
 
-         }
+   count=length(x)
+   for(i in 1:count){
+   pos=top
+   if((length(title)>=i)&(title[i]!="")){
+      doc <- doc %>% add_text(title=title[i])
+      pos=pos+0.5
+
+   } else {
+      if(type=="pptx") doc <- doc %>% add_slide(layout="Blank")
+   }
+
+      if(echo & is.character(x[i])) {
+
+         codeft=Rcode2flextable(x[i],preprocessing=preprocessing,format="pptx")
+         doc<-doc %>% ph_with(value=codeft, location = ph_location(left=1,top=pos))
+         pos=pos+0.5
+
       }
-   } else{
-      if(!is.null(p)){
-         doc <- doc %>%
-            body_add_gg(value=p)
-
-      } else{
-         if(is_ggplot(plotstring)){
-            p=eval(parse(text=plotstring))
-            doc <- doc %>%
-               body_add_gg(value=p)
-         } else{
-
-            filename <- tempfile(fileext = ".emf")
-            emf(file = filename, width = width, height = height)
-            eval(parse(text=plotstring))
-            dev.off()
-
-            doc <- doc %>%
-               body_add_img(src = filename, width = width, height = height)
-         }
-      }
+      doc<- add_anyplot(doc,x=x[i],preprocessing=preprocessing,left=left,top=pos,width=width,height=height)
    }
    message(paste0("Exported plot as ", target))
    doc %>% print(target=target)
@@ -96,14 +70,16 @@ plot2office=function(p=NULL,plotstring=NULL,target="plot",append=FALSE,title="",
 #' @param ... further arguments to be passed to plot2office
 #' @export
 #' @examples
+#' \donttest{
 #' require(ggplot2)
-#' p<-ggplot(iris,aes(x=Sepal.Length))+geom_histogram()
-#' plot2pptx(p)
-#' plot2pptx(p,title="A ggplot",append=TRUE)
+#' x<-ggplot(iris,aes(x=Sepal.Length))+geom_histogram()
+#' plot2pptx(x)
+#' plot2pptx(x,title="A ggplot",append=TRUE)
 #' p2=ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width))+geom_point()
 #' plot2pptx(p2,append=TRUE)
-#' plot2pptx(plotstring="plot(iris)",append=TRUE,title="plot(iris)")
-#' plot2pptx(plotstring="ggplot(iris,aes(x=Sepal.Length))+geom_histogram()",append=TRUE)
+#' plot2pptx(x=c("plot(iris)","ggplot(iris,aes(x=Sepal.Length))+geom_histogram()"),
+#'     append=TRUE,title=c("plot","ggplot"),echo=TRUE)
+#' }
 plot2pptx=function(...){
    plot2office(...,type="pptx")
 }
@@ -112,14 +88,16 @@ plot2pptx=function(...){
 #' @param ... further arguments to be passed to plot2office
 #' @export
 #' @examples
+#' \donttest{
 #' require(ggplot2)
-#' p<-ggplot(iris,aes(x=Sepal.Length))+geom_histogram()
-#' plot2docx(p)
-#' plot2docx(p,title="A ggplot",append=TRUE)
+#' x<-ggplot(iris,aes(x=Sepal.Length))+geom_histogram()
+#' plot2docx(x)
+#' plot2docx(x,title="A ggplot",append=TRUE)
 #' p2=ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width))+geom_point()
 #' plot2docx(p2,append=TRUE)
-#' plot2docx(plotstring="plot(iris)",append=TRUE,title="plot(iris)")
-#' plot2docx(plotstring="ggplot(iris,aes(x=Sepal.Length))+geom_histogram()",append=TRUE)
+#' plot2docx(x="plot(iris)",append=TRUE,title="plot(iris)")
+#' plot2docx(x="ggplot(iris,aes(x=Sepal.Length))+geom_histogram()",append=TRUE)
+#' }
 plot2docx=function(...){
    plot2office(...,type="docx")
 }
@@ -135,4 +113,80 @@ plot2docx=function(...){
 is_ggplot=function(plotstring){
    x<-eval(parse(text=plotstring))
    ggplot2::is.ggplot(x)
+}
+
+
+#' Make/open office document with file name
+#' @param target name of output file
+#' @param type "pptx" or "docx"
+#' @param append logical
+#' @export
+open_doc=function(target="Report", type="pptx",append=FALSE) {
+   if(type=="pptx"){
+      if(!str_detect(target,"\\.")) target=paste0(target,".pptx")
+      if(append & file.exists(target)) doc<-read_pptx(path=target)
+      else doc<-read_pptx()
+   } else{
+      if(!str_detect(target,"\\.")) target=paste0(target,".docx")
+      if(append & file.exists(target)) doc<-read_docx(path=target)
+      else doc<-read_docx()
+   }
+   attr(doc,"name")=target
+   doc
+}
+
+
+#' Add a ggplot or a plot to the Microsoft Office Document
+#' @param doc A document object
+#' @param x An object of class ggplot2 or a string encoding plot or ggplot
+#' @param preprocessing A string of R code
+#' @param left left margin
+#' @param top top margin
+#' @param width desired width of the plot
+#' @param height desired height of the plot
+#' @export
+add_anyplot=function(doc,x=NULL,preprocessing="",left=1,top=1,width=8,height=5.5){
+
+   if(preprocessing!="") {
+      eval(parse(text=preprocessing))
+   }
+   if(class(doc)=="rpptx"){
+      if(is.ggplot(x)){
+         doc <- doc %>%
+            ph_with(dml(code = print(x)), location = ph_location(left=left,top=top,width=width,height=height))
+      } else{
+         if(is_ggplot(x)){
+            gg=eval(parse(text=x))
+            doc <- doc %>%
+               ph_with(dml(code = print(gg)), location = ph_location(left=left,top=top,width=width,height=height))
+         } else{
+            temp=paste0("ph_with(doc,dml(code=",x,"), location = ph_location(left=",left,",top=",top,
+                        ",width=",width,",height=",height,"))")
+            doc=eval(parse(text=temp))
+
+         }
+      }
+   } else{
+      if(is.ggplot(x)){
+         doc <- doc %>%
+            body_add_gg(value=x)
+
+      } else{
+         if(is_ggplot(x)){
+            gg=eval(parse(text=x))
+            doc <- doc %>%
+               body_add_gg(value=gg,width=width,height=height)
+         } else{
+
+            filename <- tempfile(fileext = ".emf")
+            emf(file = filename, width = width, height = height)
+            eval(parse(text=x))
+            dev.off()
+
+            doc <- doc %>%
+               body_add_img(src = filename, width = width, height = height)
+         }
+      }
+   }
+   doc
 }

@@ -24,8 +24,10 @@ require(flextable)
 require(officer)
 result=mytable(smoking+Dx~.,data=acs)
 mytable2flextable(result)
+\donttest{
 mytable2flextable(result,vanilla=FALSE)
 result=mytable(Dx~.,data=acs)
 mytable2flextable(result)
 mytable2flextable(result,vanilla=FALSE)
+}
 }

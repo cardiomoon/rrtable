@@ -12,8 +12,8 @@
 #' require(officer)
 #' require(rvg)
 #' require(magrittr)
-#' read_pptx() %>% add_text(title="Plot") %>% add_plot("plot(iris)")%>%print(target="plot.pptx")
-#' read_docx() %>% add_text(title="Plot") %>% add_plot("plot(iris)")%>%print(target="plot.docx")
+#' read_pptx() %>% add_text(title="Plot") %>% add_plot("plot(iris)")
+#' read_docx() %>% add_text(title="Plot") %>% add_plot("plot(iris)")
 add_plot=function(mydoc,plotstring,preprocessing="",width=6,height=6,top=2){
 
     if(preprocessing!="") {

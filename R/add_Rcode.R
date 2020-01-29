@@ -168,7 +168,7 @@ Rcode2flextable=function(result,preprocessing="",format="pptx",eval=TRUE){
 #' library(officer)
 #' code="summary(lm(mpg~hp+wt,data=mtcars))"
 #' read_pptx() %>% add_text(title="Regression Analysis") %>%
-#'    add_Rcode(code) %>% print(target="test.pptx")
+#'    add_Rcode(code)
 add_Rcode=function(mydoc,code,preprocessing="",format="pptx"){
 
     ft <- Rcode2flextable(code,preprocessing=preprocessing,format=format)
@@ -176,6 +176,56 @@ add_Rcode=function(mydoc,code,preprocessing="",format="pptx"){
     mydoc
 }
 
+#' Make R code slide
+#' @param code  A character string encoding R codes
+#' @param preprocessing A character string of R code as a preprocessing
+#' @param title A character
+#' @param type desired format. choices are "pptx" or "docx"
+#' @param target name of output file
+#' @param append logical
+#' @export
+#' @examples
+#' \donttest{
+#' code="summary(lm(mpg~hp+wt,data=mtcars))"
+#' Rcode2office(code=code)
+#' }
+Rcode2office=function(code,preprocessing="",title="",type="pptx",target="Report",append=FALSE){
 
+    doc<-open_doc(target=target,type=type,append=append)
+    target=attr(doc,"name")
+    if(title!=""){
+        doc <- doc %>% add_text(title=title)
 
+    } else {
+        if(type=="pptx") doc <- doc %>% add_slide(layout="Blank")
+    }
+    ft <- Rcode2flextable(code,preprocessing=preprocessing,format=type)
+    doc <- doc %>% add_flextable(ft)
+    message(paste0("Exported R code as ", target))
+    doc %>% print(target=target)
+}
+
+#' Save R code to Microsoft Powerpoint format
+#' @param ... further arguments to be passed to plot2office
+#' @export
+#' @examples
+#' \donttest{
+#' code="summary(lm(mpg~hp+wt,data=mtcars))"
+#' Rcode2pptx(code=code,title="R code to pptx")
+#' }
+Rcode2pptx=function(...){
+    Rcode2office(...,type="pptx")
+}
+
+#' Save R code to Microsoft Word format
+#' @param ... further arguments to be passed to plot2office
+#' @export
+#' @examples
+#' \donttest{
+#' code="summary(lm(mpg~hp+wt,data=mtcars))"
+#' Rcode2docx(code=code,title="R code to Word")
+#' }
+Rcode2docx=function(...){
+    Rcode2office(...,type="docx")
+}
 

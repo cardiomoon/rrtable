@@ -152,10 +152,8 @@ add_text=function(mydoc,title="",text="",code="",preprocessing="",echo=FALSE,eva
 #' require(rvg)
 #' plot1 <- "ggplot(data = iris, aes(Sepal.Length, Petal.Length)) + geom_point()"
 #' plot2 <- "ggplot(data = iris, aes(Sepal.Length, Petal.Length, color = Species)) + geom_point()"
-#' read_pptx() %>% add_text(title="Two ggplots") %>% add_2ggplots(plot1=plot1,plot2=plot2) %>%
-#' print(target="demo.pptx")
-#' read_docx() %>% add_text(title="Two ggplots") %>% add_2ggplots(plot1=plot1,plot2=plot2) %>%
-#' print(target="demo.docx")
+#' read_pptx() %>% add_text(title="Two ggplots") %>% add_2ggplots(plot1=plot1,plot2=plot2)
+#' read_docx() %>% add_text(title="Two ggplots") %>% add_2ggplots(plot1=plot1,plot2=plot2)
 add_2ggplots=function(mydoc,plot1,plot2,preprocessing="",width=3,height=2.5,top=2){
 
     if(preprocessing!="") {
@@ -204,13 +202,10 @@ add_2ggplots=function(mydoc,plot1,plot2,preprocessing="",width=3,height=2.5,top=
 #' ft2=df2flextable(tail(iris[1:4]))
 #' doc=read_docx()
 #' doc %>% add_text(title=title) %>%
-#'         add_2flextables(ft1,ft2) %>%
-#'         print(target="2tables.docx")
+#'         add_2flextables(ft1,ft2)
 #' doc=read_pptx()
 #' doc %>% add_text(title=title) %>%
-#'         add_2flextables(ft1,ft2) %>%
-#'         print(target="2tables.pptx")
-
+#'         add_2flextables(ft1,ft2)
 add_2flextables=function(mydoc,ft1,ft2,echo=FALSE,width=3,code=""){
 
     pos=1.5
@@ -237,58 +232,6 @@ add_2flextables=function(mydoc,ft1,ft2,echo=FALSE,width=3,code=""){
     mydoc
 }
 
-#' Add two plots into a document object
-#' @param mydoc A document object
-#' @param plotstring1 An R code string encoding the first plot
-#' @param plotstring2 An R code string encoding the second plot
-#' @param preprocessing preprocessing
-#' @param width plot width in inches
-#' @param height plot height in inches
-#' @param echo logical Whether or not show R code
-#' @param top top plot position in inches
-#' @return a document object
-#' @export
-#' @examples
-#' require(magrittr)
-#' require(officer)
-#' plotstring1="plot(1:10)"
-#' plotstring2="hist(rnorm(100))"
-#' read_pptx() %>% add_text(title="Two plots") %>% add_2plots(plotstring1,plotstring2) %>%
-#' print(target="demo.pptx")
-#' read_docx() %>% add_text(title="Two plots") %>% add_2plots(plotstring1,plotstring2) %>%
-#' print(target="demo.docx")
-add_2plots=function(mydoc,plotstring1,plotstring2,preprocessing="",width=3,height=2.5,echo=FALSE,top=2){
-    if(preprocessing!="") {
-        eval(parse(text=preprocessing))
-    }
-
-
-    if(class(mydoc)=="rpptx"){
-
-        temp1=paste0("ph_with(mydoc, value = dml(code=",plotstring1,"), location = ph_location(left=0.5,top=top,width=4.5,height=5) )")
-        temp2=paste0("ph_with(mydoc, value = dml(code=",plotstring2,"),location = ph_location(left=5,top=top,width=4.5,height=5))")
-        mydoc=eval(parse(text=temp1))
-        mydoc=eval(parse(text=temp2))
-
-    } else{
-        filename1 <- tempfile(fileext = ".emf")
-        emf(file = filename1, width = width, height = height)
-        eval(parse(text=plotstring1))
-        dev.off()
-        filename2 <- tempfile(fileext = ".emf")
-        emf(file = filename2, width = width, height = height)
-        eval(parse(text=plotstring2))
-        dev.off()
-
-        mydoc <- mydoc %>%
-                body_end_section_continuous() %>%
-                body_add_img(src = filename1, width = width, height = height) %>%
-                body_add_img(src = filename2, width = width, height = height) %>%
-                slip_in_column_break() %>%
-                body_end_section_columns()
-    }
-    mydoc
-}
 
 
 getCodeOption=function(x,what="echo"){
@@ -301,4 +244,6 @@ getCodeOption=function(x,what="echo"){
     }
     result
 }
+
+
 

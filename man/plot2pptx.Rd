@@ -13,12 +13,14 @@ plot2pptx(...)
 Save plot/ggplot to Microsoft Powerpoint format
 }
 \examples{
+\donttest{
 require(ggplot2)
-p<-ggplot(iris,aes(x=Sepal.Length))+geom_histogram()
-plot2pptx(p)
-plot2pptx(p,title="A ggplot",append=TRUE)
+x<-ggplot(iris,aes(x=Sepal.Length))+geom_histogram()
+plot2pptx(x)
+plot2pptx(x,title="A ggplot",append=TRUE)
 p2=ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width))+geom_point()
 plot2pptx(p2,append=TRUE)
-plot2pptx(plotstring="plot(iris)",append=TRUE,title="plot(iris)")
-plot2pptx(plotstring="ggplot(iris,aes(x=Sepal.Length))+geom_histogram()",append=TRUE)
+plot2pptx(x=c("plot(iris)","ggplot(iris,aes(x=Sepal.Length))+geom_histogram()"),
+    append=TRUE,title=c("plot","ggplot"),echo=TRUE)
+}
 }

@@ -55,10 +55,12 @@ roundDf=function(df,digits=2){
 #' require(flextable)
 #' require(officer)
 #' df2flextable(head(iris),vanilla=TRUE,colorheader=TRUE)
+#' \donttest{
 #' df2flextable(head(iris),vanilla=TRUE,digits=c(1,2,3,4))
 #' df2flextable(head(iris),vanilla=FALSE)
 #' df2flextable(head(iris),vanilla=FALSE,vlines=FALSE,fontsize=14)
 #' df2flextable(head(mtcars))
+#' }
 df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
                       add.rownames=FALSE,
                       even_header="transparent",odd_header="#5B7778",

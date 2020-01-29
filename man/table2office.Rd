@@ -6,10 +6,12 @@
 \usage{
 table2office(
   x = NULL,
-  target = "report",
+  target = "Report",
   append = FALSE,
   title = "",
   vanilla = FALSE,
+  echo = FALSE,
+  preprocessing = "",
   type = "pptx",
   landscape = FALSE,
   left = 1,
@@ -26,6 +28,10 @@ table2office(
 \item{title}{Optional character of plot title}
 
 \item{vanilla}{A logical}
+
+\item{echo}{logical}
+
+\item{preprocessing}{A character string}
 
 \item{type}{"pptx" or "docx"}
 

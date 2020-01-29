@@ -13,12 +13,14 @@ table2pptx(...)
 Export data.frame or statistical output to Microsoft Powerpoint format
 }
 \examples{
+\donttest{
 require(moonBook)
-x=mytable(Dx~.,data=acs)
-table2pptx(x)
-table2pptx(head(iris),title="head(iris)",append=TRUE,vanilla=FALSE)
-fit=lm(mpg~wt*hp,data=mtcars)
-table2pptx(fit,title="Linear regression",append=TRUE,vanilla=TRUE)
-fit2=aov(yield ~ block + N * P + K, data = npk)
-table2pptx(fit2,title="Linear regression",append=TRUE,vanilla=TRUE)
+x="mytable(Dx~.,data=acs)"
+table2pptx(x,title="mytable object",echo=TRUE)
+table2pptx("head(iris)",title="data.Frame",append=TRUE,vanilla=FALSE,echo=TRUE)
+x="fit<-lm(mpg~wt*hp,data=mtcars);fit"
+table2pptx(x,title="Linear regression",append=TRUE,vanilla=TRUE,echo=TRUE)
+fit2="aov(yield ~ block + N * P + K, data = npk)"
+table2pptx(fit2,title="ANOVA",append=TRUE,vanilla=TRUE,echo=TRUE)
+}
 }

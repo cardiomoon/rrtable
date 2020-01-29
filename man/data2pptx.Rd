@@ -17,6 +17,6 @@ convert data to pptx file
 library(rrtable)
 library(moonBook)
 library(ggplot2)
-data2pptx(sampleData2)
+data2pptx(sampleData2,echo=TRUE)
 }
 }

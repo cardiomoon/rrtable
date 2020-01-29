@@ -36,6 +36,5 @@ doc=read_docx()
 doc \%>\% add_text(title=title) \%>\%
         add_flextable(ftable) \%>\%
         add_text(title=title2) \%>\%
-        add_flextable(ft) \%>\%
-        print(target="mytable.docx")
+        add_flextable(ft)
 }

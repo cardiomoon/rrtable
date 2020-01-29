@@ -17,6 +17,6 @@ convert data to docx file
 library(rrtable)
 library(moonBook)
 library(ggplot2)
-data2docx(sampleData2)
+data2docx(sampleData2,echo=TRUE)
 }
 }

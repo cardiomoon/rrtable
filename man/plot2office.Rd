@@ -5,12 +5,13 @@
 \title{Save plot/ggplot to Microsoft Powerpoint format}
 \usage{
 plot2office(
-  p = NULL,
-  plotstring = NULL,
-  target = "plot",
+  x = NULL,
+  target = "Report",
   append = FALSE,
   title = "",
   type = "pptx",
+  preprocessing = "",
+  echo = FALSE,
   left = 1,
   top = 1,
   width = NULL,
@@ -19,17 +20,19 @@ plot2office(
 )
 }
 \arguments{
-\item{p}{An object of class ggplot2 or NULL}
-
-\item{plotstring}{A character}
+\item{x}{An object of class ggplot2 or a string vector encoding plot or ggplot}
 
 \item{target}{name of output file}
 
 \item{append}{logical value}
 
-\item{title}{Optional character of plot title}
+\item{title}{Optional character vector of plot title}
 
 \item{type}{"pptx" or "docx"}
+
+\item{preprocessing}{A string of R code or ""}
+
+\item{echo}{logical. If true, show code.}
 
 \item{left}{left margin}
 

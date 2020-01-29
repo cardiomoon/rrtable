@@ -14,10 +14,12 @@
 #' require(officer)
 #' result=mytable(smoking+Dx~.,data=acs)
 #' mytable2flextable(result)
+#' \donttest{
 #' mytable2flextable(result,vanilla=FALSE)
 #' result=mytable(Dx~.,data=acs)
 #' mytable2flextable(result)
 #' mytable2flextable(result,vanilla=FALSE)
+#' }
 mytable2flextable=function(result,vanilla=TRUE,fontname=NULL,fontsize=10){
 
      mycsv(result,"test.csv",row.names = FALSE)

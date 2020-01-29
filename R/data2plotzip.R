@@ -132,11 +132,13 @@ plotPNG2=function(fun,file,width=7,height=7,units="in",res=300,ggplot=FALSE){
 #' @importFrom utils zip
 #' @export
 #' @examples
+#' \donttest{
 #' library(moonBook)
 #' library(ztable)
 #' library(rrtable)
 #' library(ggplot2)
 #' data2plotzip(sampleData2,path="tmp")
+#' }
 data2plotzip=function(data,path=".",filename="Plot.zip",format="PNG",width=8,height=6,units="in",res=300,start=0,preprocessing="",
                       rawDataName=NULL,rawDataFile="rawData.RDS"){
 

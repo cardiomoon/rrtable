@@ -13,6 +13,7 @@ table2docx(...)
 Export data.frame or statistical output to Microsoft Word format
 }
 \examples{
+\donttest{
 require(moonBook)
 x=mytable(Dx~.,data=acs)
 table2docx(x)
@@ -21,4 +22,5 @@ fit=lm(mpg~wt*hp,data=mtcars)
 table2docx(fit,title="Linear regression",append=TRUE,vanilla=TRUE)
 fit2=aov(yield ~ block + N * P + K, data = npk)
 table2docx(fit2,title="Linear regression",append=TRUE,vanilla=TRUE)
+}
 }

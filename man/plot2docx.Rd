@@ -13,12 +13,14 @@ plot2docx(...)
 Save plot/ggplot to Microsoft Word format
 }
 \examples{
+\donttest{
 require(ggplot2)
-p<-ggplot(iris,aes(x=Sepal.Length))+geom_histogram()
-plot2docx(p)
-plot2docx(p,title="A ggplot",append=TRUE)
+x<-ggplot(iris,aes(x=Sepal.Length))+geom_histogram()
+plot2docx(x)
+plot2docx(x,title="A ggplot",append=TRUE)
 p2=ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width))+geom_point()
 plot2docx(p2,append=TRUE)
-plot2docx(plotstring="plot(iris)",append=TRUE,title="plot(iris)")
-plot2docx(plotstring="ggplot(iris,aes(x=Sepal.Length))+geom_histogram()",append=TRUE)
+plot2docx(x="plot(iris)",append=TRUE,title="plot(iris)")
+plot2docx(x="ggplot(iris,aes(x=Sepal.Length))+geom_histogram()",append=TRUE)
+}
 }

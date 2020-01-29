@@ -4,29 +4,35 @@
 #' @param append logical value
 #' @param title Optional character of plot title
 #' @param vanilla A logical
+#' @param echo logical
+#' @param preprocessing A character string
 #' @param type "pptx" or "docx"
 #' @param landscape logical
 #' @param left left margin
 #' @param top top margin
 #' @importFrom moonBook mytable
 #' @export
-table2office=function(x=NULL,target="report",append=FALSE,title="",vanilla=FALSE,
-                          type="pptx",landscape=FALSE,left=1,top=1){
-    if(type=="pptx"){
-        if(!str_detect(target,"\\.")) target=paste0(target,".pptx")
-        if(append) doc<-read_pptx(path=target)
-        else doc<-read_pptx()
-    } else{
-        if(!str_detect(target,"\\.")) target=paste0(target,".docx")
-        if(append) doc<-read_docx(path=target)
-        else doc<-read_docx()
-    }
+table2office=function(x=NULL,target="Report",append=FALSE,title="",vanilla=FALSE,echo=FALSE,
+                      preprocessing="",type="pptx",landscape=FALSE,left=1,top=1){
+
+    doc<-open_doc(target=target,type=type,append=append)
+    target=attr(doc,"name")
     if(title!=""){
         doc <- doc %>% add_text(title=title)
-        top=top+0.5
+
     } else {
         if(type=="pptx") doc <- doc %>% add_slide(layout="Blank")
     }
+    pos=top
+    if(title!="") pos=pos+0.5
+    if(echo & is.character(x)) {
+
+        codeft=Rcode2flextable(x,preprocessing=preprocessing,format="pptx",eval=FALSE)
+        doc<-doc %>% ph_with(value=codeft, location = ph_location(left=1,top=pos))
+        pos=pos+0.5
+
+    }
+
     if("character" %in% class(x)){
         x<-eval(parse(text=x))
     }
@@ -41,7 +47,7 @@ table2office=function(x=NULL,target="report",append=FALSE,title="",vanilla=FALSE
         ft<-x
     }
     if(class(doc)=="rpptx"){
-        doc<-doc %>% ph_with(value=ft,location = ph_location(left=left,top=top))
+        doc<-doc %>% ph_with(value=ft,location = ph_location(left=left,top=pos))
     } else {
         if(landscape) doc <- body_end_section_portrait(doc)
         doc<-doc %>% body_add_flextable(ft)
@@ -55,14 +61,16 @@ table2office=function(x=NULL,target="report",append=FALSE,title="",vanilla=FALSE
 #' @param ... further arguments to be passed to table2office
 #' @export
 #' @examples
+#' \donttest{
 #' require(moonBook)
-#' x=mytable(Dx~.,data=acs)
-#' table2pptx(x)
-#' table2pptx(head(iris),title="head(iris)",append=TRUE,vanilla=FALSE)
-#' fit=lm(mpg~wt*hp,data=mtcars)
-#' table2pptx(fit,title="Linear regression",append=TRUE,vanilla=TRUE)
-#' fit2=aov(yield ~ block + N * P + K, data = npk)
-#' table2pptx(fit2,title="Linear regression",append=TRUE,vanilla=TRUE)
+#' x="mytable(Dx~.,data=acs)"
+#' table2pptx(x,title="mytable object",echo=TRUE)
+#' table2pptx("head(iris)",title="data.Frame",append=TRUE,vanilla=FALSE,echo=TRUE)
+#' x="fit<-lm(mpg~wt*hp,data=mtcars);fit"
+#' table2pptx(x,title="Linear regression",append=TRUE,vanilla=TRUE,echo=TRUE)
+#' fit2="aov(yield ~ block + N * P + K, data = npk)"
+#' table2pptx(fit2,title="ANOVA",append=TRUE,vanilla=TRUE,echo=TRUE)
+#' }
 table2pptx=function(...){
     table2office(...,type="pptx")
 }
@@ -72,6 +80,7 @@ table2pptx=function(...){
 #' @param ... further arguments to be passed to table2office
 #' @export
 #' @examples
+#' \donttest{
 #' require(moonBook)
 #' x=mytable(Dx~.,data=acs)
 #' table2docx(x)
@@ -80,6 +89,7 @@ table2pptx=function(...){
 #' table2docx(fit,title="Linear regression",append=TRUE,vanilla=TRUE)
 #' fit2=aov(yield ~ block + N * P + K, data = npk)
 #' table2docx(fit2,title="Linear regression",append=TRUE,vanilla=TRUE)
+#' }
 table2docx=function(...){
     table2office(...,type="docx")
 }
