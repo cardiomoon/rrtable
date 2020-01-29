@@ -98,3 +98,14 @@ plot2office(x,title="2 plots",parallel=TRUE,echo=TRUE,append=TRUE)
 ```
 
 You can download sample powerpoint file: [Report.pptx](https://github.com/cardiomoon/rrtable/raw/master/inst/doc_examples/Report.pptx) - view with [office web viewer](https://view.officeapps.live.com/op/view.aspx?src=https://github.com/cardiomoon/rrtable/raw/master/inst/doc_examples/Report.pptx)
+
+
+## Shiny app using package rrtable
+
+You can see the shiny app using package rrtable with the following R command.
+
+```{r}
+shiny::runApp(system.file('pptxList',package='rrtable'))  
+```
+
+Press the `load SampleData` button of the shiny app and enjoy!

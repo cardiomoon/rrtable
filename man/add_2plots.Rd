@@ -9,8 +9,8 @@ add_2plots(
   plotstring1,
   plotstring2,
   preprocessing = "",
-  width = 4.5,
-  height = 5,
+  width = NULL,
+  height = NULL,
   echo = FALSE,
   top = 2
 )

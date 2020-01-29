@@ -99,6 +99,15 @@ data2office=function(data,
         }
 
         if(shortdata==0){
+            if(class(mydoc)=="rpptx"){
+            if(data$type[i]==""){
+               if(i<nrow(data)){
+                   if(data$type[i+1]!="") next
+               } else{
+                   next
+               }
+            }
+            }
             echo1=echo|getCodeOption(data$option[i])
             eval=getCodeOption(data$option[i],"eval")
             landscape1=landscape|getCodeOption(data$option[i],"landscape")
@@ -106,11 +115,19 @@ data2office=function(data,
                 echo1=TRUE
                 eval=TRUE
             }
-            if(data$type[i]!="text") {
-                temp=""
-            } else{
-                temp=data$text[i]
+             if(data$type[i] %in% c("text","")) {
+                 temp=data$text[i]
+             } else{
+                 temp=""
+             }
+            if(class(mydoc)=="rpptx"){
+                if(data$type[i] %in% c("header2","")){
+                    if(!is.na(data$type[i+1])){
+                       if(data$type[i+1]=="") temp=data$text[i+1]
+                    }
+                }
             }
+            # temp=data$text[i]
             mydoc=add_text(mydoc,title=data$title[i],text=temp,
                            code=data$code[i],echo=echo1,eval=eval,
                            landscape=landscape1)

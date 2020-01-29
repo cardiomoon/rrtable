@@ -58,7 +58,7 @@ add_text2hyperlink=function(mydoc,text){
 
         for(i in 1:length(result[[1]]$text)){
             if(i==1) {
-                mydoc=ph_with(mydoc,str=result[[1]]$text[i],location = ph_location_type(type="body"))
+                mydoc=ph_with(mydoc,value=result[[1]]$text[i],location = ph_location_type(type="body"))
             } else{
                 mydoc=ph_add_text(mydoc,type="body",str=result[[1]]$text[i])
             }

@@ -17,7 +17,7 @@
 #' plotstring2="ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width))+geom_point()"
 #' read_pptx() %>% add_text(title="Two plots") %>% add_2plots(plotstring1,plotstring2)
 #' read_docx() %>% add_text(title="Two plots") %>% add_2plots(plotstring1,plotstring2)
-add_2plots=function(mydoc,plotstring1,plotstring2,preprocessing="",width=4.5,height=5,echo=FALSE,top=2){
+add_2plots=function(mydoc,plotstring1,plotstring2,preprocessing="",width=NULL,height=NULL,echo=FALSE,top=2){
     if(preprocessing!="") {
         eval(parse(text=preprocessing))
     }
@@ -25,6 +25,11 @@ add_2plots=function(mydoc,plotstring1,plotstring2,preprocessing="",width=4.5,hei
     if(class(mydoc)=="rdocx"){
         mydoc <- mydoc %>%
             body_end_section_continuous()
+        if(is.null(width)) width<-2.5
+        if(is.null(height)) height<-3
+    } else{
+        if(is.null(width)) width<-4.5
+        if(is.null(height)) height<-5
     }
     mydoc<-mydoc %>%
         add_anyplot(x=plotstring1,preprocessing=preprocessing,left=0.5,top=top,width=width,height=height) %>%
