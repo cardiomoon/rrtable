@@ -207,7 +207,7 @@ You can get a report with MS word format.
 data2docx(sampleData3) 
 ```
 
-You can download sample data: [sampleData3.docx](https://github.com/cardiomoon/rrtable/raw/master/inst/doc/sampleData3.docx) - view with [office web viewer](https://view.officeapps.live.com/op/view.aspx?src=https://github.com/cardiomoon/rrtable/raw/master/inst/doc/sampleData3.docx)
+You can download sample data: [sampleData3.docx](https://github.com/cardiomoon/rrtable/raw/master/inst/doc_examples/sampleData3.docx) - view with [office web viewer](https://view.officeapps.live.com/op/view.aspx?src=https://github.com/cardiomoon/rrtable/raw/master/inst/doc_examples/sampleData3.docx)
 
 
 
@@ -215,7 +215,7 @@ You can download sample data: [sampleData3.docx](https://github.com/cardiomoon/r
 data2docx(sampleData2) 
 ```
 
-You can download sample data: [sampleData2.docx](https://github.com/cardiomoon/rrtable/raw/master/inst/doc/sampleData2.docx) - view with [office web viewer](https://view.officeapps.live.com/op/view.aspx?src=https://github.com/cardiomoon/rrtable/raw/master/inst/doc/sampleData2.docx)
+You can download sample data: [sampleData2.docx](https://github.com/cardiomoon/rrtable/raw/master/inst/doc_examples/sampleData2.docx) - view with [office web viewer](https://view.officeapps.live.com/op/view.aspx?src=https://github.com/cardiomoon/rrtable/raw/master/inst/doc_examples/sampleData2.docx)
 
 
 
@@ -229,7 +229,7 @@ You can get a report with MS word format.
 data2pptx(sampleData3) 
 ```
 
-You can download sample data: [sampleData3.pptx](https://github.com/cardiomoon/rrtable/raw/master/inst/doc/sampleData3.pptx) - view with [office web viewer](https://view.officeapps.live.com/op/view.aspx?src=https://github.com/cardiomoon/rrtable/raw/master/inst/doc/sampleData3.pptx)
+You can download sample data: [sampleData3.pptx](https://github.com/cardiomoon/rrtable/raw/master/inst/doc_examples/sampleData3.pptx) - view with [office web viewer](https://view.officeapps.live.com/op/view.aspx?src=https://github.com/cardiomoon/rrtable/raw/master/inst/doc_examples/sampleData3.pptx)
 
 
 
@@ -237,7 +237,7 @@ You can download sample data: [sampleData3.pptx](https://github.com/cardiomoon/r
 data2pptx(sampleData2) 
 ```
 
-You can download sample data: [sampleData2.pptx](https://github.com/cardiomoon/rrtable/raw/master/inst/doc/sampleData2.pptx) - view with [office web viewer](https://view.officeapps.live.com/op/view.aspx?src=https://github.com/cardiomoon/rrtable/raw/master/inst/doc/sampleData2.pptx)
+You can download sample data: [sampleData2.pptx](https://github.com/cardiomoon/rrtable/raw/master/inst/doc_examples/sampleData2.pptx) - view with [office web viewer](https://view.officeapps.live.com/op/view.aspx?src=https://github.com/cardiomoon/rrtable/raw/master/inst/doc_examples/sampleData2.pptx)
 
 
 ### pdf document
@@ -249,12 +249,12 @@ You can get a report with pdf format.
 data2pdf(sampleData3) 
 ```
 
-You can download sample data: [sampleData3.pdf](https://github.com/cardiomoon/rrtable/raw/master/inst/doc/sampleData3.pdf) 
+You can download sample data: [sampleData3.pdf](https://github.com/cardiomoon/rrtable/raw/master/inst/doc_examples/sampleData3.pdf) 
 
 
 ```r
 data2pdf(sampleData2) 
 ```
 
-You can download sample data: [sampleData2.pdf](https://github.com/cardiomoon/rrtable/raw/master/inst/doc/sampleData2.pdf) 
+You can download sample data: [sampleData2.pdf](https://github.com/cardiomoon/rrtable/raw/master/inst/doc_examples/sampleData2.pdf) 
 
