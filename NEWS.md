@@ -1,3 +1,10 @@
+# rrtable version 0.1.6
+=======================
+(29-Jan-2020)
+
+* new vignette 'update' added
+
+
 # rrtable version 0.1.5
 =======================
 (29-Jan-2020)

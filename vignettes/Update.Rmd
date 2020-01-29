@@ -13,7 +13,6 @@ knitr::opts_chunk$set(echo = TRUE ,message=FALSE,warning=FALSE,comment=NA,eval=F
 ```
 
 ```{r,echo= TRUE ,message=FALSE}
-require(moonBook)
 require(rrtable)
 require(ggplot2)
 ```
