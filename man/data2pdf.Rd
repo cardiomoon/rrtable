@@ -7,7 +7,7 @@
 data2pdf(...)
 }
 \arguments{
-\item{...}{further arguments tobe passed to data2HTML}
+\item{...}{further arguments to be passed to data2HTML}
 }
 \description{
 Make a pdf file with a data.frame

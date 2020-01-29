@@ -50,7 +50,7 @@ require(rrtable)
 
 ### Sample Data 
 
-Sample data sampleData3 is included in rrtable package. You can see the sampleData3 by folllowing R command. 
+Sample data sampleData3 is included in rrtable package. You can see the sampleData3 by following R command. 
 
 
 ```r
@@ -219,7 +219,7 @@ You can download sample data: [sampleData2.docx](https://github.com/cardiomoon/r
 
 
 
-### MS powerpoint document
+### MS Powerpoint document
 
 You can get a report with MS word format. 
 

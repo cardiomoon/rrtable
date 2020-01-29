@@ -7,7 +7,7 @@
 ztable2flextable(z, ...)
 }
 \arguments{
-\item{z}{An object of classs ztable}
+\item{z}{An object of class ztable}
 
 \item{...}{Further argument to be passed to df2flextable}
 }

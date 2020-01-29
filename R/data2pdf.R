@@ -7,7 +7,7 @@ mycat=function(...,file="report2.Rmd"){
 }
 
 #' Make a pdf file with a data.frame
-#' @param ... further arguments tobe passed to data2HTML
+#' @param ... further arguments to be passed to data2HTML
 #' @importFrom rmarkdown render
 #' @export
 #' @examples

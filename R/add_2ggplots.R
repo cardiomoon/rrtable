@@ -146,6 +146,7 @@ add_text=function(mydoc,title="",text="",code="",preprocessing="",echo=FALSE,eva
 #' @importFrom officer break_column_before body_end_section_columns body_end_section_continuous
 #' @export
 #' @examples
+#' \donttest{
 #' require(ggplot2)
 #' require(magrittr)
 #' require(officer)
@@ -154,6 +155,7 @@ add_text=function(mydoc,title="",text="",code="",preprocessing="",echo=FALSE,eva
 #' plot2 <- "ggplot(data = iris, aes(Sepal.Length, Petal.Length, color = Species)) + geom_point()"
 #' read_pptx() %>% add_text(title="Two ggplots") %>% add_2ggplots(plot1=plot1,plot2=plot2)
 #' read_docx() %>% add_text(title="Two ggplots") %>% add_2ggplots(plot1=plot1,plot2=plot2)
+#' }
 add_2ggplots=function(mydoc,plot1,plot2,preprocessing="",width=3,height=2.5,top=2){
 
     if(preprocessing!="") {

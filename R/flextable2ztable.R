@@ -1,5 +1,5 @@
 #' Convert flextable to ztable
-#' @param ft An object of classs flextable
+#' @param ft An object of class flextable
 #' @param type  "html" or "latex"
 #' @param ... Further argument to be passed to ztable
 #' @return an object of class ztable

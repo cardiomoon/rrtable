@@ -7,7 +7,7 @@
 flextable2ztable(ft, type = "html")
 }
 \arguments{
-\item{ft}{An object of classs flextable}
+\item{ft}{An object of class flextable}
 
 \item{type}{"html" or "latex"}
 
