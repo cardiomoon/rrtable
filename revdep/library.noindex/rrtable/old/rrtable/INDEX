@@ -1,0 +1,53 @@
+HTMLcode2latex          Convert HTML table to latex table
+Rcode2df                Make a data.frame with character strings
+                        encoding R code
+Rcode2flextable         Make a flextable object with character strings
+                        encoding R code
+add_2flextables         Add two flextables into a document object
+add_2ggplots            Add two ggplots into a document object
+add_2plots              Add two plots into a document object
+add_Rcode               Make a R code slide into a document object
+add_flextable           Add a flextable or mytable object into a
+                        document object
+add_ggplot              Add ggplot into a document object
+add_img                 Add plot into a document object
+add_plot                Add plot into a document object
+add_self                add self data to document
+add_text                Add text to document
+add_text2hyperlink      Add hyperlink text
+add_title               Add title to docx file
+add_title_slide         Add title slide
+data2HTML               Make a HTML5 file with a data.frame
+data2docx               convert data to docx file
+data2office             convert data to pptx file
+data2pdf                Make a pdf file with a data.frame
+data2plotzip            Make zipped plot file with a data.frame
+data2pptx               convert data to pptx file
+df2RcodeTable           Make a flextable with a data.frame
+df2flextable            Convert data.frame to flextable
+df2flextable2           Make flextable with limited width
+exportCSV               Export pptxList file to desired format
+flextable2ztable        Convert flextable to ztable
+html2latex              Convert html5 code to latex
+insert_argument         replace argument of a function
+mycat                   Concatenate to file
+mygrep                  grep string in all files in subdirectory
+myplot2                 Make zipped plots with a data.frame
+mytable2flextable       Convert mytable object to flextable
+plotPDF2                Make pdf file with a plot code
+plotPNG2                Make png file with a plot code
+plotSVG2                Make SVG file with a plot code
+pptxList                Server function of pptxList shiny module
+pptxListInput           UI of pptxList shiny module
+readComment             Read comment from a file
+replace_argument        replace argument of a function
+roundDf                 Convert numeric columns of data.frame to
+                        character
+sampleData2             Sample data for pptxList A dataset containing
+                        five objects for reproducible research
+sampleData3             Sample data for pptxList A dataset containing
+                        five objects for reproducible research
+set_argument            set argument of a function
+tensiSplit              Split strings with desired length with exdent
+writeCSVComment         Write a csv file with comment
+ztable2                 Make ztable with desired width

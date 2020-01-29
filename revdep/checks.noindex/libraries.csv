@@ -1,0 +1,6 @@
+package,old,new,delta
+rrtable,0.1.0,0.1.6,*
+rlang,NA,0.4.3,*
+rvg,NA,0.2.3,*
+sjlabelled,NA,1.1.3,*
+tidyselect,NA,0.2.5,*
