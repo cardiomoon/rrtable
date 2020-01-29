@@ -194,6 +194,7 @@ add_2ggplots=function(mydoc,plot1,plot2,preprocessing="",width=3,height=2.5,top=
 #' @importFrom officer slip_in_column_break body_add_gg
 #' @export
 #' @examples
+#' \donttest{
 #' require(rrtable)
 #' require(officer)
 #' require(magrittr)
@@ -206,6 +207,7 @@ add_2ggplots=function(mydoc,plot1,plot2,preprocessing="",width=3,height=2.5,top=
 #' doc=read_pptx()
 #' doc %>% add_text(title=title) %>%
 #'         add_2flextables(ft1,ft2)
+#'}
 add_2flextables=function(mydoc,ft1,ft2,echo=FALSE,width=3,code=""){
 
     pos=1.5

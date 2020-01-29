@@ -12,6 +12,7 @@ plot2office(
   type = "pptx",
   preprocessing = "",
   echo = FALSE,
+  parallel = FALSE,
   left = 1,
   top = 1,
   width = NULL,
@@ -34,6 +35,8 @@ plot2office(
 
 \item{echo}{logical. If true, show code.}
 
+\item{parallel}{logical. If true, add two plots side by side}
+
 \item{left}{left margin}
 
 \item{top}{top margin}
@@ -46,4 +49,12 @@ plot2office(
 }
 \description{
 Save plot/ggplot to Microsoft Powerpoint format
+}
+\examples{
+\donttest{
+x=c("plot(iris)","ggplot(mtcars,aes(x=hp,y=mpg))+geom_point()")
+plot2office(x,title="2 plots",parallel=TRUE)
+plot2office(x,title="2 plots",parallel=TRUE,echo=TRUE,append=TRUE)
+plot2office(x,parallel=TRUE,echo=TRUE,append=TRUE)
+}
 }

@@ -60,3 +60,5 @@ add_2plots=function(mydoc,plotstring1,plotstring2,preprocessing="",width=4.5,hei
     # }
     mydoc
 }
+
+

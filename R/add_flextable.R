@@ -9,6 +9,7 @@
 #' @return a document object
 #' @export
 #' @examples
+#' \donttest{
 #' require(rrtable)
 #' require(moonBook)
 #' require(officer)
@@ -22,6 +23,7 @@
 #'         add_flextable(ftable) %>%
 #'         add_text(title=title2) %>%
 #'         add_flextable(ft)
+#'}
 add_flextable=function(mydoc,ftable,echo=FALSE,code="",landscape=FALSE){
      if("mytable" %in% class(ftable)){
           ft<-mytable2flextable(ftable)

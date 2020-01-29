@@ -6,6 +6,7 @@
 #' @param type "pptx" or "docx"
 #' @param preprocessing A string of R code or ""
 #' @param echo logical. If true, show code.
+#' @param parallel logical. If true, add two plots side by side
 #' @param left left margin
 #' @param top top margin
 #' @param width desired width of the plot
@@ -13,8 +14,15 @@
 #' @param aspectr desired aspect ratio of the plot
 #' @importFrom stringr "%>%"
 #' @export
+#' @examples
+#' \donttest{
+#' x=c("plot(iris)","ggplot(mtcars,aes(x=hp,y=mpg))+geom_point()")
+#' plot2office(x,title="2 plots",parallel=TRUE)
+#' plot2office(x,title="2 plots",parallel=TRUE,echo=TRUE,append=TRUE)
+#' plot2office(x,parallel=TRUE,echo=TRUE,append=TRUE)
+#' }
 plot2office=function(x=NULL,target="Report",append=FALSE,title="",
-                     type="pptx",preprocessing="",echo=FALSE,
+                     type="pptx",preprocessing="",echo=FALSE,parallel=FALSE,
                      left=1,top=1,width=NULL,height=NULL,aspectr=NULL){
    if(is.null(x)) {
        message("x should be a ggplot object or a string encoding plot or ggplot")
@@ -41,8 +49,28 @@ plot2office=function(x=NULL,target="Report",append=FALSE,title="",
    }
    doc<-open_doc(target=target,type=type,append=append)
    target=attr(doc,"name")
+   if(is.character(x)) {
+      count=length(x)
+   } else{
+      count=1
+   }
+   if((count==2)&parallel){
+      pos=top
+      if(title[1]!=""){
+         doc <- doc %>% add_text(title=title)
+         pos=pos+0.5
+      } else {
+         if(type=="pptx") doc <- doc %>% add_slide(layout="Blank")
+      }
+      if(echo & is.character(x)) {
+         codes=stringr::str_c(x,collapse="\n")
+         codeft=Rcode2flextable(codes,preprocessing=preprocessing,format="pptx",eval=FALSE)
+         doc<-doc %>% ph_with(value=codeft, location = ph_location(left=1,top=pos))
+         pos=pos+0.8
+      }
+      doc <- doc %>% add_2plots(plotstring1=x[1],plotstring2=x[2],top=pos)
 
-   count=length(x)
+   } else{
    for(i in 1:count){
    pos=top
    if((length(title)>=i)&(title[i]!="")){
@@ -52,15 +80,20 @@ plot2office=function(x=NULL,target="Report",append=FALSE,title="",
    } else {
       if(type=="pptx") doc <- doc %>% add_slide(layout="Blank")
    }
+   if(is.character(x)){code=x[i]}
+   else code=x
 
-      if(echo & is.character(x[i])) {
+      if(echo & is.character(code)) {
 
-         codeft=Rcode2flextable(x[i],preprocessing=preprocessing,format="pptx")
+         codeft=Rcode2flextable(code,preprocessing=preprocessing,format="pptx")
          doc<-doc %>% ph_with(value=codeft, location = ph_location(left=1,top=pos))
          pos=pos+0.5
 
       }
-      doc<- add_anyplot(doc,x=x[i],preprocessing=preprocessing,left=left,top=pos,width=width,height=height)
+      doc<- add_anyplot(doc,x=code,preprocessing=preprocessing,left=left,top=pos,width=width,height=height)
+   }
+
+
    }
    message(paste0("Exported plot as ", target))
    doc %>% print(target=target)

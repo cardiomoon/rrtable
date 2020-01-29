@@ -26,6 +26,7 @@ a document object
 Add two flextables into a document object
 }
 \examples{
+\donttest{
 require(rrtable)
 require(officer)
 require(magrittr)
@@ -38,4 +39,5 @@ doc \%>\% add_text(title=title) \%>\%
 doc=read_pptx()
 doc \%>\% add_text(title=title) \%>\%
         add_2flextables(ft1,ft2)
+}
 }
