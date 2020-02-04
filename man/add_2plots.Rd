@@ -9,6 +9,7 @@ add_2plots(
   plotstring1,
   plotstring2,
   preprocessing = "",
+  plottype = "auto",
   width = NULL,
   height = NULL,
   echo = FALSE,
@@ -23,6 +24,8 @@ add_2plots(
 \item{plotstring2}{An R code string encoding the second plot}
 
 \item{preprocessing}{preprocessing}
+
+\item{plottype}{character  One of c("auto","plot","ggplot")}
 
 \item{width}{plot width in inches}
 

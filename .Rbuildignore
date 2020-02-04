@@ -2,3 +2,4 @@
 ^\.Rproj\.user$
 cran-comments.md
 README_figs
+^CRAN-RELEASE$

@@ -5,6 +5,7 @@
 #' @param title Optional character vector of plot title
 #' @param type "pptx" or "docx"
 #' @param preprocessing A string of R code or ""
+#' @param plottype character  One of c("auto","plot","ggplot")
 #' @param echo logical. If true, show code.
 #' @param parallel logical. If true, add two plots side by side
 #' @param left left margin
@@ -22,7 +23,7 @@
 #' plot2office(x,parallel=TRUE,echo=TRUE,append=TRUE)
 #' }
 plot2office=function(x=NULL,target="Report",append=FALSE,title="",
-                     type="pptx",preprocessing="",echo=FALSE,parallel=FALSE,
+                     type="pptx",preprocessing="",plottype="auto",echo=FALSE,parallel=FALSE,
                      left=1,top=1,width=NULL,height=NULL,aspectr=NULL){
    if(is.null(x)) {
        message("x should be a ggplot object or a string encoding plot or ggplot")
@@ -68,7 +69,7 @@ plot2office=function(x=NULL,target="Report",append=FALSE,title="",
          doc<-doc %>% ph_with(value=codeft, location = ph_location(left=1,top=pos))
          pos=pos+0.8
       }
-      doc <- doc %>% add_2plots(plotstring1=x[1],plotstring2=x[2],top=pos)
+      doc <- doc %>% add_2plots(plotstring1=x[1],plotstring2=x[2],plottype=plottype,top=pos)
 
    } else{
    for(i in 1:count){
@@ -90,7 +91,7 @@ plot2office=function(x=NULL,target="Report",append=FALSE,title="",
          pos=pos+0.5
 
       }
-      doc<- add_anyplot(doc,x=code,preprocessing=preprocessing,left=left,top=pos,width=width,height=height)
+      doc<- add_anyplot(doc,x=code,preprocessing=preprocessing,plottype=plottype,left=left,top=pos,width=width,height=height)
    }
 
 
@@ -173,18 +174,24 @@ open_doc=function(target="Report", type="pptx",append=FALSE) {
 #' @param doc A document object
 #' @param x An object of class ggplot2 or a string encoding plot or ggplot
 #' @param preprocessing A string of R code
+#' @param plottype character  One of c("auto","plot","ggplot")
 #' @param left left margin
 #' @param top top margin
 #' @param width desired width of the plot
 #' @param height desired height of the plot
 #' @export
-add_anyplot=function(doc,x=NULL,preprocessing="",left=1,top=1,width=8,height=5.5){
+add_anyplot=function(doc,x=NULL,preprocessing="",plottype="auto",left=1,top=1,width=8,height=5.5){
 
    if(preprocessing!="") {
       eval(parse(text=preprocessing))
    }
    if(class(doc)=="rpptx"){
-      if(is.ggplot(x)){
+      if(plottype=="plot"){
+         temp=paste0("ph_with(doc,dml(code=",x,"), location = ph_location(left=",left,",top=",top,
+                     ",width=",width,",height=",height,"))")
+         doc=eval(parse(text=temp))
+
+      } else if(is.ggplot(x)){
          doc <- doc %>%
             ph_with(dml(code = print(x)), location = ph_location(left=left,top=top,width=width,height=height))
       } else{
@@ -200,7 +207,15 @@ add_anyplot=function(doc,x=NULL,preprocessing="",left=1,top=1,width=8,height=5.5
          }
       }
    } else{
-      if(is.ggplot(x)){
+      if(plottype=="plot"){
+         filename <- tempfile(fileext = ".emf")
+         emf(file = filename, width = width, height = height)
+         eval(parse(text=x))
+         dev.off()
+
+         doc <- doc %>%
+            body_add_img(src = filename, width = width, height = height)
+      } else if(is.ggplot(x)){
          doc <- doc %>%
             body_add_gg(value=x)
 

@@ -1,3 +1,11 @@
+# rrtable version 0.1.7
+=======================
+(4-Feb-2020)
+
+* bug-fixed
+
+* The argument 'plottype' added to the functions add_anyplot, plot2pptx and add_2plots
+
 # rrtable version 0.1.6
 =======================
 (29-Jan-2020)

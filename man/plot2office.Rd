@@ -11,6 +11,7 @@ plot2office(
   title = "",
   type = "pptx",
   preprocessing = "",
+  plottype = "auto",
   echo = FALSE,
   parallel = FALSE,
   left = 1,
@@ -32,6 +33,8 @@ plot2office(
 \item{type}{"pptx" or "docx"}
 
 \item{preprocessing}{A string of R code or ""}
+
+\item{plottype}{character  One of c("auto","plot","ggplot")}
 
 \item{echo}{logical. If true, show code.}
 

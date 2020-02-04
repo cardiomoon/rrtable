@@ -3,6 +3,7 @@
 #' @param plotstring1 An R code string encoding the first plot
 #' @param plotstring2 An R code string encoding the second plot
 #' @param preprocessing preprocessing
+#' @param plottype character  One of c("auto","plot","ggplot")
 #' @param width plot width in inches
 #' @param height plot height in inches
 #' @param echo logical Whether or not show R code
@@ -17,7 +18,8 @@
 #' plotstring2="ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width))+geom_point()"
 #' read_pptx() %>% add_text(title="Two plots") %>% add_2plots(plotstring1,plotstring2)
 #' read_docx() %>% add_text(title="Two plots") %>% add_2plots(plotstring1,plotstring2)
-add_2plots=function(mydoc,plotstring1,plotstring2,preprocessing="",width=NULL,height=NULL,echo=FALSE,top=2){
+add_2plots=function(mydoc,plotstring1,plotstring2,preprocessing="",
+                    plottype="auto",width=NULL,height=NULL,echo=FALSE,top=2){
     if(preprocessing!="") {
         eval(parse(text=preprocessing))
     }
@@ -32,8 +34,8 @@ add_2plots=function(mydoc,plotstring1,plotstring2,preprocessing="",width=NULL,he
         if(is.null(height)) height<-5
     }
     mydoc<-mydoc %>%
-        add_anyplot(x=plotstring1,preprocessing=preprocessing,left=0.5,top=top,width=width,height=height) %>%
-        add_anyplot(x=plotstring2,preprocessing=preprocessing,left=5,top=top,width=width,height=height)
+        add_anyplot(x=plotstring1,preprocessing=preprocessing,plottype=plottype,left=0.5,top=top,width=width,height=height) %>%
+        add_anyplot(x=plotstring2,preprocessing=preprocessing,plottype=plottype,left=5,top=top,width=width,height=height)
     if(class(mydoc)=="rdocx"){
         mydoc <- mydoc %>%
             slip_in_column_break() %>%

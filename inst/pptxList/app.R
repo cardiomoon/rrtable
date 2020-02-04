@@ -1,7 +1,7 @@
 library(shiny)
 library(rrtable)
 library(ggplot2)
-library(webr)
+#library(webr)
 library(moonBook)
 
 ui=fluidPage(

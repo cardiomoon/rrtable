@@ -1,4 +1,6 @@
-This is the update of the package 'rrtable'
+This is the bug-fixed version of the package 'rrtable'.
+Specifically, fix the problems shown on
+<https://cran.r-project.org/web/checks/check_results_rrtable.html>.
 
 ## Test environments
 * local OS X install, R 3.6.2
@@ -7,5 +9,6 @@ This is the update of the package 'rrtable'
 
 ## R CMD check results
 There were no ERRORs or WARNINGs.
+
 
 
