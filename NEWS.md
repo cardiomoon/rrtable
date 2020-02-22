@@ -1,3 +1,12 @@
+# rrtable version 0.1.8
+=======================
+(22-Feb-2020)
+
+* bug-fixed
+
+* new function code2office, code2pptx and code2docx added
+
+
 # rrtable version 0.1.7
 =======================
 (4-Feb-2020)

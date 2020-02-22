@@ -1,7 +1,7 @@
 Package: rrtable
 Type: Package
 Title: Reproducible Research with a Table of R Codes
-Version: 0.1.7
+Version: 0.1.8
 Imports:
    stringr,
    ggplot2 (>= 2.2.0),
@@ -15,6 +15,7 @@ Imports:
    rmarkdown,
    shiny,
    editData,
+   rlang,
    readr (>= 1.1.1), 
    ztable (>= 0.1.8)
 Authors@R: person("Keon-Woong", "Moon", email = "cardiomoon@gmail.com",

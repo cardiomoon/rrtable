@@ -26,8 +26,8 @@ plot2office=function(x=NULL,target="Report",append=FALSE,title="",
                      type="pptx",preprocessing="",plottype="auto",echo=FALSE,parallel=FALSE,
                      left=1,top=1,width=NULL,height=NULL,aspectr=NULL){
    if(is.null(x)) {
-       message("x should be a ggplot object or a string encoding plot or ggplot")
-       return()
+      message("x should be a ggplot object or a string encoding plot or ggplot")
+      return()
    }
    if(is.null(width)){
       if(is.null(height)){
@@ -72,27 +72,27 @@ plot2office=function(x=NULL,target="Report",append=FALSE,title="",
       doc <- doc %>% add_2plots(plotstring1=x[1],plotstring2=x[2],plottype=plottype,top=pos)
 
    } else{
-   for(i in 1:count){
-   pos=top
-   if((length(title)>=i)&(title[i]!="")){
-      doc <- doc %>% add_text(title=title[i])
-      pos=pos+0.5
+      for(i in 1:count){
+         pos=top
+         if((length(title)>=i)&(title[i]!="")){
+            doc <- doc %>% add_text(title=title[i])
+            pos=pos+0.5
 
-   } else {
-      if(type=="pptx") doc <- doc %>% add_slide(layout="Blank")
-   }
-   if(is.character(x)){code=x[i]}
-   else code=x
+         } else {
+            if(type=="pptx") doc <- doc %>% add_slide(layout="Blank")
+         }
+         if(is.character(x)){code=x[i]}
+         else code=x
 
-      if(echo & is.character(code)) {
+         if(echo & is.character(code)) {
 
-         codeft=Rcode2flextable(code,preprocessing=preprocessing,format="pptx")
-         doc<-doc %>% ph_with(value=codeft, location = ph_location(left=1,top=pos))
-         pos=pos+0.5
+            codeft=Rcode2flextable(code,preprocessing=preprocessing,format="pptx")
+            doc<-doc %>% ph_with(value=codeft, location = ph_location(left=1,top=pos))
+            pos=pos+0.5
 
+         }
+         doc<- add_anyplot(doc,x=code,preprocessing=preprocessing,plottype=plottype,left=left,top=pos,width=width,height=height)
       }
-      doc<- add_anyplot(doc,x=code,preprocessing=preprocessing,plottype=plottype,left=left,top=pos,width=width,height=height)
-   }
 
 
    }
