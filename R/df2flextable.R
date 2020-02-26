@@ -79,7 +79,8 @@ df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
 
     if(!is.null(pcol)){
         for(i in 1:length(pcol)){
-            df[[pcol]][df[[pcol]]<0.001]="< 0.001"
+            df[[pcol]][df[[pcol]]<0.001]=sprintf("%.3f",df[[pcol]])
+            df[[pcol]][df[[pcol]]=="0.000"]="< 0.001"
         }
     }
 
