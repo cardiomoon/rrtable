@@ -42,6 +42,7 @@ roundDf=function(df,digits=2){
 #' @param vlines Logical. Whether or not draw vertical lines
 #' @param colorheader Logical. Whether or not use color in header
 #' @param digits integer indicating the number of decimal places
+#' @param digitp integer indicating the number of decimal places of p values
 #' @param align_header alignment of header. Expected value is one of 'left', 'right', 'center', 'justify'.
 #' @param align_body alignment of body. Expected value is one of 'left', 'right', 'center', 'justify'.
 #' @param NA2space A logical. If true, convert NA value to space
@@ -59,13 +60,13 @@ roundDf=function(df,digits=2){
 #' df2flextable(head(iris),vanilla=TRUE,digits=c(1,2,3,4))
 #' df2flextable(head(iris),vanilla=FALSE)
 #' df2flextable(head(iris),vanilla=FALSE,vlines=FALSE,fontsize=14)
-#' df2flextable(head(mtcars))
+#' df2flextable(head(mtcars/200),digits=3,pcol=8)
 #' }
 df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
                       add.rownames=FALSE,
                       even_header="transparent",odd_header="#5B7778",
                       even_body="#EFEFEF",odd_body="transparent",
-                      vlines=TRUE,colorheader=FALSE,digits=2,
+                      vlines=TRUE,colorheader=FALSE,digits=2,digitp=3,
                       align_header="center",align_body="right",
                       NA2space=TRUE,pcol=NULL,...){
 
@@ -79,8 +80,14 @@ df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
 
     if(!is.null(pcol)){
         for(i in 1:length(pcol)){
-            df[[pcol]][df[[pcol]]<0.001]=sprintf("%.3f",df[[pcol]])
-            df[[pcol]][df[[pcol]]=="0.000"]="< 0.001"
+            df[[pcol]]=sprintf(paste0("%.",digitp,"f"),df[[pcol]])
+
+            temp=rep(0,digitp)
+            temp=stringr::str_c(temp,collapse="")
+            lookfor=paste0("0.",temp)
+            rep=paste0("< 0.",stringr::str_c(rep(0,digitp-1),collapse=""),"1")
+            rep
+            df[[pcol]][df[[pcol]]==lookfor]=rep
         }
     }
 

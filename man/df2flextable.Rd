@@ -17,6 +17,7 @@ df2flextable(
   vlines = TRUE,
   colorheader = FALSE,
   digits = 2,
+  digitp = 3,
   align_header = "center",
   align_body = "right",
   NA2space = TRUE,
@@ -49,6 +50,8 @@ df2flextable(
 
 \item{digits}{integer indicating the number of decimal places}
 
+\item{digitp}{integer indicating the number of decimal places of p values}
+
 \item{align_header}{alignment of header. Expected value is one of 'left', 'right', 'center', 'justify'.}
 
 \item{align_body}{alignment of body. Expected value is one of 'left', 'right', 'center', 'justify'.}
@@ -70,6 +73,6 @@ df2flextable(head(iris),vanilla=TRUE,colorheader=TRUE)
 df2flextable(head(iris),vanilla=TRUE,digits=c(1,2,3,4))
 df2flextable(head(iris),vanilla=FALSE)
 df2flextable(head(iris),vanilla=FALSE,vlines=FALSE,fontsize=14)
-df2flextable(head(mtcars))
+df2flextable(head(mtcars/200),digits=3,pcol=8)
 }
 }
