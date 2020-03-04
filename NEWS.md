@@ -1,3 +1,10 @@
+# rrtable version 0.2.0
+=======================
+(26-Feb-2020)
+
+* new function data2pptx2, data2docx2, image2pptx added 
+
+
 # rrtable version 0.1.9
 =======================
 (26-Feb-2020)

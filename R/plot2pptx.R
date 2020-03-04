@@ -180,7 +180,7 @@ open_doc=function(target="Report", type="pptx",append=FALSE) {
 #' @param width desired width of the plot
 #' @param height desired height of the plot
 #' @export
-add_anyplot=function(doc,x=NULL,preprocessing="",plottype="auto",left=1,top=1,width=8,height=5.5){
+add_anyplot=function(doc,x=NULL,preprocessing="",plottype="auto",left=1,top=2,width=8,height=5.5){
 
    if(preprocessing!="") {
       eval(parse(text=preprocessing))
@@ -192,7 +192,7 @@ add_anyplot=function(doc,x=NULL,preprocessing="",plottype="auto",left=1,top=1,wi
          doc=eval(parse(text=temp))
 
       } else if(plottype=="emf"){
-         doc<-doc %>% add_emf(x,left = left, top = top, width = width, height = height)
+         doc<-doc %>% add_image(x,left = left, top = top, width = width, height = height)
 
       } else if(is.ggplot(x)){
          doc <- doc %>%
@@ -211,13 +211,9 @@ add_anyplot=function(doc,x=NULL,preprocessing="",plottype="auto",left=1,top=1,wi
       }
    } else{
       if(plottype=="plot"){
-         filename <- tempfile(fileext = ".emf")
-         emf(file = filename, width = width, height = height)
-         eval(parse(text=x))
-         dev.off()
 
-         doc <- doc %>%
-            body_add_img(src = filename, width = width, height = height)
+         doc <- doc %>% add_image(x,left = left, top = top, width = width, height = height)
+
       } else if(is.ggplot(x)){
          doc <- doc %>%
             body_add_gg(value=x)

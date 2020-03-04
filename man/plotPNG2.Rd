@@ -5,8 +5,9 @@
 \title{Make png file with a plot code}
 \usage{
 plotPNG2(
-  fun,
+  x,
   file,
+  type,
   width = 7,
   height = 7,
   units = "in",
@@ -15,9 +16,11 @@ plotPNG2(
 )
 }
 \arguments{
-\item{fun}{A R code for plot}
+\item{x}{A R code string for plot}
 
 \item{file}{A path of destination file}
+
+\item{type}{A character}
 
 \item{width}{A plot width}
 

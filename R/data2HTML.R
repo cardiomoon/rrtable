@@ -38,6 +38,8 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
     }
 
     if((type=="pdf")&(filename=="report.HTML")) filename="report.pdf"
+    if((type=="docx")&(filename=="report.HTML")) filename="report.docx"
+    if((type=="pptx")&(filename=="report.HTML")) filename="report.pptx"
 
     file.create("report2.Rmd")
     tempReport <-  "report2.Rmd"
@@ -79,13 +81,15 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
 
     mycat("```{r setup, include=FALSE}\n")
     mycat("knitr::opts_chunk$set(echo =",echo,",message=FALSE,warning=FALSE,comment=NA,
-          fig.width=9,fig.asp=0.618,fig.align='center',out.width='70%')\n")
+          fig.width=9,fig.asp=0.618,fig.align='center',dpi=300,out.width='70%')\n")
     mycat("```\n")
 
     mycat("```{r,echo=",echo,",message=FALSE}\n")
     mycat("require(moonBook)\n")
     mycat("require(rrtable)\n")
     mycat("require(ggplot2)\n")
+    mycat("require(webrSub)\n")
+    mycat("require(ggthemes)\n")
     mycat("```\n\n")
 
     if(!is.null(rawDataName)){
@@ -174,7 +178,11 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
     }
     if(type=="HTML"){
        out <- rmarkdown::render('report2.Rmd', rmarkdown::html_document())
-    }else{
+    }else if(type=="docx"){
+      out <- rmarkdown::render('report2.Rmd', rmarkdown::word_document())
+    } else if(type=="pptx"){
+      out <- rmarkdown::render('report2.Rmd', rmarkdown::powerpoint_presentation())
+    } else {
       out <- rmarkdown::render('report2.Rmd', rmarkdown::pdf_document())
     }
     result=file.rename(out, filename)

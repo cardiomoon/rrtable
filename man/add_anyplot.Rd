@@ -10,7 +10,7 @@ add_anyplot(
   preprocessing = "",
   plottype = "auto",
   left = 1,
-  top = 1,
+  top = 2,
   width = 8,
   height = 5.5
 )

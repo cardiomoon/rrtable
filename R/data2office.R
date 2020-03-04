@@ -189,11 +189,11 @@ data2office=function(data,
 
         } else if(data$type[i] %in% c("PNG","png")){
 
-            mydoc<-add_img(mydoc,data$code[i],format="png")
+            mydoc<-add_image(mydoc,data$code[i],format="png")
 
         } else if(data$type[i] %in% c("emf","EMF")){
 
-            mydoc<-add_img(mydoc,data$code[i])
+            mydoc<-add_image(mydoc,data$code[i])
 
         } else if(str_detect(data$code[i],"df2flextable")){
 

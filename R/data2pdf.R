@@ -26,6 +26,46 @@ data2pdf=function(...){
     data2HTML(...,type="pdf")
 }
 
+#' Make a word file with a data.frame
+#' @param ... further arguments to be passed to data2HTML
+#' @importFrom rmarkdown render
+#' @export
+#' @examples
+#' library(moonBook)
+#' library(ztable)
+#' library(ggplot2)
+#' \donttest{
+#' data2docx2(sampleData2)
+#' }
+data2docx2=function(...){
+
+    # data=sampleData2[9,]
+    # preprocessing="";filename="report.pdf";
+    # rawDataName=NULL;rawDataFile="rawData.RDS";kotex=FALSE;echo=FALSE
+
+    data2HTML(...,type="docx")
+}
+
+#' Make a powerpoint file with a data.frame
+#' @param ... further arguments to be passed to data2HTML
+#' @importFrom rmarkdown render
+#' @export
+#' @examples
+#' library(moonBook)
+#' library(ztable)
+#' library(ggplot2)
+#' \donttest{
+#' data2pptx2(sampleData2)
+#' }
+data2pptx2=function(...){
+
+    # data=sampleData2[9,]
+    # preprocessing="";filename="report.pdf";
+    # rawDataName=NULL;rawDataFile="rawData.RDS";kotex=FALSE;echo=FALSE
+
+    data2HTML(...,type="pptx")
+}
+
 
 
 #' Convert HTML table to latex table

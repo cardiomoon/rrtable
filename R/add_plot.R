@@ -6,6 +6,7 @@
 #' @param height height of plot
 #' @param top top position of plot
 #' @return a document object
+#' @importFrom grDevices dev.off
 #' @export
 #' @examples
 #' require(rrtable)
