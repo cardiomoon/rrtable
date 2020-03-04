@@ -178,9 +178,9 @@ data2office=function(data,
             ft=mytable2flextable(res,vanilla=vanilla)
             mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
         } else if(data$type[i]=="ggplot"){
-            mydoc=add_ggplot(mydoc,code=data$code[i],preprocessing=preprocessing,top=ifelse(echo1,2,1.5))
+            mydoc=add_anyplot(mydoc,x=data$code[i],preprocessing=preprocessing,top=ifelse(echo1,2,1.5))
         } else if(data$type[i]=="plot"){
-            mydoc<-add_plot(mydoc,data$code[i],preprocessing=preprocessing,top=ifelse(echo1,2,1.5))
+            mydoc<-add_anyplot(mydoc,x=data$code[i],preprocessing=preprocessing,top=ifelse(echo1,2,1.5))
 
         } else if(data$type[i] %in% c("2plots","2ggplots")){
 

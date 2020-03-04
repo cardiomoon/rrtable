@@ -6,7 +6,7 @@
 #' @param title Optional character vector of plot title
 #' @param type "pptx" or "docx"
 #' @param preprocessing A string of R code or ""
-#' @param plottype character  One of c("auto","plot","ggplot")
+#' @param plottype character  One of c("auto","plot","ggplot","emf")
 #' @param echo logical. If true, show code.
 #' @param parallel logical. If true, add two plots side by side
 #' @param left left margin
@@ -16,6 +16,7 @@
 #' @param aspectr desired aspect ratio of the plot
 #' @importFrom stringr "%>%"
 #' @importFrom rlang as_label enexprs
+#' @importFrom devEMF emf
 #' @export
 #' @examples
 #' \donttest{
@@ -59,9 +60,24 @@ code2office=function(...,ggobj=NULL,target="Report",append=FALSE,title="",
                 pos=pos+0.5
 
             } else {
-                if(type=="pptx") doc <- doc %>% add_slide(layout="Blank")
+                if(type=="pptx") doc <- doc %>% add_slide(layout="Title Only")
             }
     if(type=="pptx"){
+          if(plottype=="emf"){
+              filename="plot.emf"
+              temp=unlist(lapply(enexprs(...),rlang::as_label))
+              p<-eval(parse(text=temp))
+              devEMF::emf(file=filename,width=width,height=height)
+              if(is.null(p)) {
+                  eval(parse(text=unlist(lapply(enexprs(...),rlang::as_label))))
+              } else {
+                  print(p)
+              }
+              dev.off()
+              doc<-ph_with(doc,external_img(src="plot.emf",width=width,height=height),
+                           location = ph_location(left=left,top=top,
+                                                              width=width,height=height))
+          } else{
             if(!is.null(ggobj)){
                 anyplot=dml(ggobj=ggobj)
             } else{
@@ -69,7 +85,8 @@ code2office=function(...,ggobj=NULL,target="Report",append=FALSE,title="",
                anyplot=dml(...)
             }
             doc<-ph_with(doc,anyplot,location = ph_location(left=left,top=top,
-                                                                width=width,height=height))
+                                                            width=width,height=height))
+          }
     } else{
         if(!is.null(ggobj)){
             doc <- doc %>%

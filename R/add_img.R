@@ -9,29 +9,37 @@
 #' @param ... additional arguments passed to png()
 #' @return a document object
 #' @importFrom devEMF emf
-#' @importFrom officer body_add_img
+#' @importFrom officer body_add_img external_img ph_with
 #' @export
 #' @examples
 #' require(officer)
 #' require(rrtable)
 #' require(magrittr)
-#' require(flextable)
-#' read_pptx() %>% add_text(title="Add image") %>% add_img("plot(mtcars)",format="png",res=300)
+#' read_pptx() %>% add_text(title="Add image") %>% add_img("plot(iris)")
+#' read_docx() %>% add_text(title="Add image") %>% add_img("plot(1:10)",format="png")
 add_img=function(mydoc,plotstring,width=7,height=5,units="in",
                  res=300,format="emf",...) {
     # produce an emf file containing the ggplot
-    filename <- tempfile(fileext = paste0(".",format))
+     # plotstring=data$code[11]
+      # format="png";width=7;height=5;units="in";res=300
+    # plotstring
+      # eval(parse(text=plotstring))
+     # mydoc<-read_pptx() %>% add_text(title="Add image")
+
+
+    filename <- paste0("plot.",format)
     if(format=="emf"){
         emf(file = filename, width = width, height = height)
     } else if(format %in% c("png","PNG")){
-        png(filename = filename, width = width, height = height,units=units,res=res,...)
+        # png(filename = filename, width = width, height = height,units=units,res=res,...)
+        png(filename = filename, width = width, height = height,units=units,res=res)
     }
     eval(parse(text=plotstring))
     dev.off()
     if(class(mydoc)=="rpptx"){
 
-            temp=paste0("ph_with(mydoc,value = external_img(src=filename), use_loc_size = TRUE, location = ph_location(left=1,top=2,width=8,height=5))")
-            mydoc=eval(parse(text=temp))
+            mydoc<-ph_with(mydoc,value = external_img(src=filename,width=width,height=height),
+              use_loc_size = TRUE, location = ph_location(left=1,top=2,width=width,height=height))
 
     } else{
 
@@ -39,4 +47,5 @@ add_img=function(mydoc,plotstring,width=7,height=5,units="in",
                               width=width,height=height)
     }
     mydoc
+     # mydoc %>% print(target="test.pptx")
 }

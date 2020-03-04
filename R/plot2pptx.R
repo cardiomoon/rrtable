@@ -5,7 +5,7 @@
 #' @param title Optional character vector of plot title
 #' @param type "pptx" or "docx"
 #' @param preprocessing A string of R code or ""
-#' @param plottype character  One of c("auto","plot","ggplot")
+#' @param plottype character  One of c("auto","plot","ggplot","emf")
 #' @param echo logical. If true, show code.
 #' @param parallel logical. If true, add two plots side by side
 #' @param left left margin
@@ -61,7 +61,7 @@ plot2office=function(x=NULL,target="Report",append=FALSE,title="",
          doc <- doc %>% add_text(title=title)
          pos=pos+0.5
       } else {
-         if(type=="pptx") doc <- doc %>% add_slide(layout="Blank")
+         if(type=="pptx") doc <- doc %>% add_slide(layout="Title Only")
       }
       if(echo & is.character(x)) {
          codes=stringr::str_c(x,collapse="\n")
@@ -174,7 +174,7 @@ open_doc=function(target="Report", type="pptx",append=FALSE) {
 #' @param doc A document object
 #' @param x An object of class ggplot2 or a string encoding plot or ggplot
 #' @param preprocessing A string of R code
-#' @param plottype character  One of c("auto","plot","ggplot")
+#' @param plottype character  One of c("auto","plot","ggplot","emf")
 #' @param left left margin
 #' @param top top margin
 #' @param width desired width of the plot
@@ -190,6 +190,9 @@ add_anyplot=function(doc,x=NULL,preprocessing="",plottype="auto",left=1,top=1,wi
          temp=paste0("ph_with(doc,dml(code=",x,"), location = ph_location(left=",left,",top=",top,
                      ",width=",width,",height=",height,"))")
          doc=eval(parse(text=temp))
+
+      } else if(plottype=="emf"){
+         doc<-doc %>% add_emf(x,left = left, top = top, width = width, height = height)
 
       } else if(is.ggplot(x)){
          doc <- doc %>%

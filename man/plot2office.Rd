@@ -34,7 +34,7 @@ plot2office(
 
 \item{preprocessing}{A string of R code or ""}
 
-\item{plottype}{character  One of c("auto","plot","ggplot")}
+\item{plottype}{character  One of c("auto","plot","ggplot","emf")}
 
 \item{echo}{logical. If true, show code.}
 

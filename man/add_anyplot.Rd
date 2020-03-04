@@ -22,7 +22,7 @@ add_anyplot(
 
 \item{preprocessing}{A string of R code}
 
-\item{plottype}{character  One of c("auto","plot","ggplot")}
+\item{plottype}{character  One of c("auto","plot","ggplot","emf")}
 
 \item{left}{left margin}
 

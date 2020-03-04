@@ -42,6 +42,6 @@ Add plot into a document object
 require(officer)
 require(rrtable)
 require(magrittr)
-require(flextable)
-read_pptx() \%>\% add_text(title="Add image") \%>\% add_img("plot(mtcars)",format="png",res=300)
+read_pptx() \%>\% add_text(title="Add image") \%>\% add_img("plot(iris)")
+read_docx() \%>\% add_text(title="Add image") \%>\% add_img("plot(1:10)",format="png")
 }
