@@ -111,7 +111,21 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
 
     mypptlist=data
     count=nrow(mypptlist)
+
+    if(shiny::isRunning()){
+      progress <- shiny::Progress$new()
+      on.exit(progress$close())
+      progress$set(message = "Making File", value = 0)
+    } else{
+      cat("Making File:")
+    }
+
     for(i in 1:count){
+      if(isRunning()){
+        progress$inc(1/(nrow(data)), detail = paste("Doing part", i,"/",nrow(data)))
+      } else(
+        cat(i)
+      )
 
         if(showself){
 
@@ -176,6 +190,14 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
         mycat("\n\n")
 
     }
+    if(shiny::isRunning()){
+      progress <- shiny::Progress$new()
+      on.exit(progress$close())
+      progress$set(message = "Rendering File", value = 0)
+    } else{
+      cat("\nNow Rendering File:")
+    }
+
     if(type=="HTML"){
        out <- rmarkdown::render('report2.Rmd', rmarkdown::html_document())
     }else if(type=="docx"){
@@ -185,6 +207,11 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
     } else {
       out <- rmarkdown::render('report2.Rmd', rmarkdown::pdf_document())
     }
+    if(isRunning()){
+      progress$inc(1, detail = paste("Doing part", i))
+    } else(
+      cat("Done\n")
+    )
     result=file.rename(out, filename)
     #file.remove("report2.Rmd")
 

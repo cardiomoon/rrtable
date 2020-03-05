@@ -16,6 +16,7 @@
 #' @param showself Logical. Whether or not show R code for the paragraph
 #' @importFrom officer read_docx read_pptx
 #' @importFrom ztable ztable2flextable
+#' @importFrom shiny isRunning Progress
 #' @export
 data2office=function(data,
                      preprocessing="",
@@ -92,7 +93,21 @@ data2office=function(data,
         mydoc <- read_docx()
     }
 
+    if(shiny::isRunning()){
+        progress <- shiny::Progress$new()
+        on.exit(progress$close())
+        progress$set(message = "Making File", value = 0)
+    } else{
+        cat("Making File: 1")
+    }
+
     for(i in 1:nrow(data)){
+
+        if(isRunning()){
+            progress$inc(1/(nrow(data)), detail = paste("Doing part", i+1,"/",nrow(data)+1))
+        } else(
+            cat(i+1)
+        )
 
         if(showself){
             mydoc=add_self(mydoc,data[i,])
@@ -215,6 +230,7 @@ data2office=function(data,
 
     # mydoc %>% print(target=".")
     setwd(owd)
+    if(!isRunning()) cat("\n")
 
     path=str_replace(path,"//","/")
     paste0(path,"/",target)

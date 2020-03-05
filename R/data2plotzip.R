@@ -22,11 +22,25 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,p
     if(preprocessing!=""){
         eval(parse(text=preprocessing))
     }
+
+    if(shiny::isRunning()){
+        progress <- shiny::Progress$new()
+        on.exit(progress$close())
+        progress$set(message = "Making Plot", value = 0)
+    }
+
     j=1
     if(count>0) for(i in 1:count){
         #eval(parse(text=data$code[i]))
+
+        if(isRunning()){
+            progress$inc(1/count, detail = paste("Doing part", i,"/",count))
+        }
+
+
         if(data$type[i] %in% c("plot","ggplot","PNG","png","emf")){
-            cat("row:",i,",fig:",j,":",data$code[[i]],"\n")
+
+            if(!isRunning()) cat("row:",i,",fig:",j,":",data$code[[i]],"\n")
             path <- paste0("plot_",j,".png")
             filename <- c(filename, path)
 
