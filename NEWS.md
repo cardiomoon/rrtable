@@ -6,8 +6,6 @@
 
 * new shiny module chooser, chooser2 added
 
-* new shiny module timeProgress and asynchProgressBar added
-
 # rrtable version 0.1.9
 =======================
 (26-Feb-2020)

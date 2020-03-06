@@ -190,7 +190,6 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
         mycat("\n\n")
 
     }
-
     if(type=="HTML"){
        out <- rmarkdown::render('report2.Rmd', rmarkdown::html_document())
     }else if(type=="docx"){

@@ -21,6 +21,8 @@ asyncProgressBar=function(second=2,message=NULL,interval=100){
 #'@export
 timeProgressUI=function(id){
     ns<-NS(id)
+
+    uiOutput(ns("timeProgress"))
 }
 
 
