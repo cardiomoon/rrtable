@@ -17,6 +17,6 @@ library(moonBook)
 library(ztable)
 library(ggplot2)
 \donttest{
-data2pptx2(sampleData2)
+data2pptx2(sampleData2,echo=FALSE)
 }
 }

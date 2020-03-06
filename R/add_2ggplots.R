@@ -143,7 +143,7 @@ add_text=function(mydoc,title="",text="",code="",preprocessing="",echo=FALSE,eva
 #' @param height plot height in inches
 #' @param top top plot position in inches
 #' @return a document object
-#' @importFrom officer break_column_before body_end_section_columns body_end_section_continuous
+#' @importFrom officer body_end_section_columns body_end_section_continuous
 #' @export
 #' @examples
 #' \donttest{

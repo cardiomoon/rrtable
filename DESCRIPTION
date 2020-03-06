@@ -15,6 +15,7 @@ Imports:
    rmarkdown,
    shiny,
    editData,
+   shinyWidgets,
    rlang,
    readr (>= 1.1.1), 
    ztable (>= 0.1.8)

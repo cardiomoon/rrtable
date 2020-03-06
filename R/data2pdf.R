@@ -55,7 +55,7 @@ data2docx2=function(...){
 #' library(ztable)
 #' library(ggplot2)
 #' \donttest{
-#' data2pptx2(sampleData2)
+#' data2pptx2(sampleData2,echo=FALSE)
 #' }
 data2pptx2=function(...){
 

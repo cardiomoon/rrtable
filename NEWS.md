@@ -1,9 +1,10 @@
 # rrtable version 0.2.0
 =======================
-(5-Mar-2020)
+(6-Mar-2020)
 
 * new function data2pptx2, data2docx2, image2pptx added 
 
+* new shiny module chooser, chooser2 added
 
 # rrtable version 0.1.9
 =======================

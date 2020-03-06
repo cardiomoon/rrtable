@@ -1,8 +1,8 @@
 library(shiny)
 library(rrtable)
 library(ggplot2)
-#library(webr)
 library(moonBook)
+library(shinybusy)
 
 ui=fluidPage(
     pptxListInput("pptxlist")
