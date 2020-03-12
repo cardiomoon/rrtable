@@ -38,7 +38,7 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,p
         }
 
 
-        if(data$type[i] %in% c("plot","ggplot","PNG","png","emf")){
+        if(data$type[i] %in% c("plot","ggplot","PNG","png","emf","code")){
 
             if(!isRunning()) cat("row:",i,",fig:",j,":",data$code[[i]],"\n")
             path <- paste0("plot_",j,".png")
@@ -66,12 +66,18 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,p
 #' @param ggplot A logical. Set this argument true if the R code is for ggplot
 #' @importFrom grDevices png
 #' @importFrom ggplot2 ggsave
+#' @importFrom ggpubr ggexport
 plotPNG2=function(x,file,type,width=7,height=7,units="in",res=300,ggplot=FALSE){
 
 
     if(is_ggplot(x)) {
         p<-eval(parse(text=x))
         ggsave(file,p,width=width,height=height,units=units,dpi=res)
+    } else if(type=="code"){
+        p<-eval(parse(text=x))
+        if("egg" %in% class(p)){
+            ggexport(p,filename=file,width=width*res,height=height*res,res=res)
+        }
     } else if(type!="emf"){
         png(file,width=width,height=height,units=units,res=res)
         #pdf(file,paper="letter")

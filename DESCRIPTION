@@ -16,6 +16,7 @@ Imports:
    shiny,
    editData,
    shinyWidgets,
+   ggpubr,
    rlang,
    readr (>= 1.1.1), 
    ztable (>= 0.1.8)
