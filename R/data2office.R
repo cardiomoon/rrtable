@@ -142,10 +142,16 @@ data2office=function(data,
                     }
                 }
             }
-            # temp=data$text[i]
+
+            if(class(mydoc)=="rpptx" & data$type[i]=="code"){
+                mydoc<-mydoc %>% add_slide(layout="Title Only")
+                mydoc<-mydoc %>%
+                    ph_with(value=data$title[i],location=ph_location_type(type="title"))
+            } else{
             mydoc=add_text(mydoc,title=data$title[i],text=temp,
                            code=data$code[i],echo=echo1,eval=eval,
                            landscape=landscape1)
+            }
         } else{
             echo1=echo
             if(data$type[i]=="rcode") echo1=TRUE
@@ -160,9 +166,15 @@ data2office=function(data,
                 temp=""
                 tempcode=data$code[i]
             }
+            if(class(mydoc)=="rpptx" & data$type[i]=="code"){
+                mydoc<-mydoc %>% add_slide(layout="Title Only")
+                mydoc<-mydoc %>%
+                    ph_with(value=data$title[i],location=ph_location_type(type="title"))
+            } else{
             mydoc=add_text(mydoc,title=data$title[i],text=temp,
                            code=tempcode,preprocessing=preprocessing,echo=echo1,eval=eval,
                            landscape=landscape1)
+            }
         }
 
 
@@ -216,6 +228,14 @@ data2office=function(data,
             ft=eval(parse(text=tempcode))
             mydoc=add_flextable(mydoc,ft,landscape=landscape1)
 
+        } else if(data$type[i]=="code"){
+            filename1="plot.emf"
+            devEMF::emf(file=filename1,width=8,height=5.5)
+            suppressWarnings(eval(parse(text=data$code[i])))
+            dev.off()
+            mydoc<-ph_with(mydoc,external_img(src="plot.emf",width=8,height=5.5),
+                         location = ph_location(left=1,top=1.5,
+                                                width=8,height=5.5))
         }
 
 
