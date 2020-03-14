@@ -1,3 +1,9 @@
+# rrtable version 0.2.1
+=======================
+(14-Mar-2020)
+
+* new function p2character added
+
 # rrtable version 0.2.0
 =======================
 (6-Mar-2020)

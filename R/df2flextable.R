@@ -26,7 +26,30 @@ roundDf=function(df,digits=2){
      df
 }
 
-
+#'Change p value to string
+#'@param x A numeric vector
+#'@param digits integer indicating the number of decimal places
+#'@export
+#'@examples
+#'x=c(0.000001,NA,0.1234567,0.00123,0.000123)
+#'p2character(x)
+#'p2character(x,digits=4)
+p2character=function(x,digits=3){
+    # digits=3
+    cut=1/(10^digits)
+    temp=sprintf(paste0("%.",digits,"f"),x)
+    temp=stringr::str_replace(temp,"^0","")
+    temp
+    for(i in 1:length(x)){
+        if(is.na(x[i])){
+            temp[i]=""
+        } else if(x[i]<cut) {
+            temp[i]=stringr::str_replace(temp[i],"0$","1")
+            temp[i]=paste0("< ",temp[i])
+        }
+    }
+    temp
+}
 
 #' Convert data.frame to flextable
 #'
@@ -60,7 +83,7 @@ roundDf=function(df,digits=2){
 #' df2flextable(head(iris),vanilla=TRUE,digits=c(1,2,3,4))
 #' df2flextable(head(iris),vanilla=FALSE)
 #' df2flextable(head(iris),vanilla=FALSE,vlines=FALSE,fontsize=14)
-#' df2flextable(head(mtcars/200),digits=3,pcol=8)
+#' df2flextable(head(mtcars/2000),digits=3,pcol=8,digitp=4)
 #' }
 df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
                       add.rownames=FALSE,
@@ -80,14 +103,15 @@ df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
 
     if(!is.null(pcol)){
         for(i in 1:length(pcol)){
-            df[[pcol]]=sprintf(paste0("%.",digitp,"f"),df[[pcol]])
-
-            temp=rep(0,digitp)
-            temp=stringr::str_c(temp,collapse="")
-            lookfor=paste0("0.",temp)
-            rep=paste0("< 0.",stringr::str_c(rep(0,digitp-1),collapse=""),"1")
-            rep
-            df[[pcol]][df[[pcol]]==lookfor]=rep
+            df[[pcol[i]]]=p2character(df[[pcol[i]]],digitp)
+            # df[[pcol]]=sprintf(paste0("%.",digitp,"f"),df[[pcol]])
+            #
+            # temp=rep(0,digitp)
+            # temp=stringr::str_c(temp,collapse="")
+            # lookfor=paste0("0.",temp)
+            # rep=paste0("< 0.",stringr::str_c(rep(0,digitp-1),collapse=""),"1")
+            # rep
+            # df[[pcol]][df[[pcol]]==lookfor]=rep
         }
     }
 
@@ -200,7 +224,7 @@ df2flextable2=function(df,mincol=0.7,maxcol=4,...){
     # str(cwidth)
     # str(clen)
     ft=df2flextable(df,...) %>% width(width=cwidth) %>% align()
-    ft=df2flextable(df) %>% width(width=cwidth) %>% align()
+    # ft=df2flextable(df) %>% width(width=cwidth) %>% align()
     ft
     for(i in 1:ncol(df)){
         if(is.numeric(df[[i]])) ft<-ft %>% align(j=i,align="right")
