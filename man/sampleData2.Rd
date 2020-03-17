@@ -5,12 +5,14 @@
 \alias{sampleData2}
 \title{Sample data for pptxList
 A dataset containing five objects for reproducible research}
-\format{A data frame with 5 rows and three columns
+\format{
+A data frame with 5 rows and three columns
 \describe{
    \item{type}{type of data}
    \item{title}{title of data}
    \item{code}{R code of data}
-}}
+}
+}
 \usage{
 sampleData2
 }

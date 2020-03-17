@@ -73,6 +73,11 @@ plotPNG2=function(x,file,type,width=7,height=7,units="in",res=300,ggplot=FALSE){
     if(is_ggplot(x)) {
         p<-eval(parse(text=x))
         ggsave(file,p,width=width,height=height,units=units,dpi=res)
+    } else if(is_ggsurvplot(x)){
+        png(file,width=width,height=height,units=units,res=res)
+        #pdf(file,paper="letter")
+        print(eval(parse(text=x)))
+        dev.off()
     } else if(type=="code"){
         p<-eval(parse(text=x))
         if("egg" %in% class(p)){
@@ -91,6 +96,14 @@ plotPNG2=function(x,file,type,width=7,height=7,units="in",res=300,ggplot=FALSE){
     }
 }
 
+
+#' Reports whether plotstring encode a ggsurvplot object
+#' @param x A character encoding a plot
+#' @export
+is_ggsurvplot=function(x){
+    p<-eval(parse(text=x))
+    ifelse("ggsurvplot" %in% class(p),TRUE,FALSE)
+}
 
 #' Make zipped plot file with a data.frame
 #' @param data A data.frame

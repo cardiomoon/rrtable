@@ -203,9 +203,24 @@ add_anyplot=function(doc,x=NULL,preprocessing="",plottype="auto",left=1,top=2,wi
             doc <- doc %>%
                ph_with(dml(code = print(gg)), location = ph_location(left=left,top=top,width=width,height=height))
          } else{
+            gg=eval(parse(text=x))
+            if(("ggsurvplot" %in% class(gg))|("egg" %in% class(gg))){
+               filename="plot.emf"
+               # p<-eval(parse(text=code))
+               devEMF::emf(file=filename,width=width,height=height)
+               suppressWarnings(print(gg))
+               # print(p)
+               dev.off()
+               # cat("make emf\n")
+               doc<-ph_with(doc,external_img(src="plot.emf",width=width,height=height),
+                            location = ph_location(left=left,top=top,
+                                                   width=width,height=height))
+
+            } else{
             temp=paste0("ph_with(doc,dml(code=",x,"), location = ph_location(left=",left,",top=",top,
                         ",width=",width,",height=",height,"))")
             doc=eval(parse(text=temp))
+            }
 
          }
       }
