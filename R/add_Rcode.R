@@ -6,15 +6,19 @@
 #' @param eval logical. Whether or not evaluate the code
 #' @importFrom utils capture.output
 Rcode2df=function(result,preprocessing,eval=TRUE){
-    if(preprocessing!="") eval(parse(text=preprocessing))
+    if(preprocessing!="") {
+        sink("NUL")
+        eval(parse(text=preprocessing))
+        sink()
+    }
     res=c()
     codes=unlist(strsplit(result,"\n",fixed=TRUE))
     final=c()
     for(i in 1:length(codes)){
         #if(codes[i]=="") next
-        if(length(grep("cat",codes[i]))==1) {
-            if(grep("cat",codes[i])==1) next
-        }
+        # if(length(grep("cat",codes[i]))==1) {
+        #     if(grep("cat",codes[i])==1) next
+        # }
         res=c(res,codes[i])
         if(eval){
             temp=tryCatch(capture.output(eval(parse(text=codes[i]))),error=function(e) "error")
@@ -42,7 +46,11 @@ Rcode2df=function(result,preprocessing,eval=TRUE){
 #' @param eval logical. Whether or not evaluate the code
 #' @importFrom utils capture.output
 Rcode2df2=function(result,preprocessing,eval=TRUE){
-    if(preprocessing!="") eval(parse(text=preprocessing))
+    if(preprocessing!="") {
+        sink("NUL")
+        eval(parse(text=preprocessing))
+        sink()
+    }
     res=result
     if(eval){
         temp=capture.output(eval(parse(text=result)))

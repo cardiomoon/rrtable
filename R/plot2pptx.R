@@ -138,13 +138,19 @@ plot2docx=function(...){
 
 #'Reports whether plotstring encode a ggplot object
 #'@param plotstring A character
+#'@param preprocessing  A string of R code
 #'@importFrom ggplot2 is.ggplot
 #'@export
 #'@examples
 #'require(ggplot2)
 #'is_ggplot("plot(iris)")
 #'is_ggplot("ggplot(iris,aes(x=Sepal.Length))+geom_histogram()")
-is_ggplot=function(plotstring){
+is_ggplot=function(plotstring,preprocessing=""){
+   if(preprocessing!="") {
+        sink("NUL")
+        eval(parse(text=preprocessing))
+        sink()
+   }
    x<-eval(parse(text=plotstring))
    ggplot2::is.ggplot(x)
 }
@@ -183,7 +189,9 @@ open_doc=function(target="Report", type="pptx",append=FALSE) {
 add_anyplot=function(doc,x=NULL,preprocessing="",plottype="auto",left=1,top=2,width=8,height=5.5){
 
    if(preprocessing!="") {
+      sink("NUL")
       eval(parse(text=preprocessing))
+      sink()
    }
    if(class(doc)=="rpptx"){
       if(plottype=="plot"){
@@ -198,7 +206,7 @@ add_anyplot=function(doc,x=NULL,preprocessing="",plottype="auto",left=1,top=2,wi
          doc <- doc %>%
             ph_with(dml(code = print(x)), location = ph_location(left=left,top=top,width=width,height=height))
       } else{
-         if(is_ggplot(x)){
+         if(is_ggplot(x,preprocessing=preprocessing)){
             gg=eval(parse(text=x))
             doc <- doc %>%
                ph_with(dml(code = print(gg)), location = ph_location(left=left,top=top,width=width,height=height))

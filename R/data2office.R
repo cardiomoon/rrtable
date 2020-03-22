@@ -52,6 +52,10 @@ data2office=function(data,
 
         eval(parse(text=preprocessing))
     }
+    if(!is.null(attr(data,"preprocessing"))){
+          preprocessing=paste0(preprocessing,"\n",attr(data,"preprocessing"))
+          eval(parse(text=preprocessing))
+    }
     data$type=tolower(data$type)
 
     if(ncol(data)==3) {
@@ -126,7 +130,7 @@ data2office=function(data,
             echo1=echo|getCodeOption(data$option[i])
             eval=getCodeOption(data$option[i],"eval")
             landscape1=landscape|getCodeOption(data$option[i],"landscape")
-            if(data$type[i]=="rcode") {
+            if(data$type[i] %in% c("rcode","Rcode")) {
                 echo1=TRUE
                 eval=TRUE
             }
@@ -154,7 +158,7 @@ data2office=function(data,
             }
         } else{
             echo1=echo
-            if(data$type[i]=="rcode") echo1=TRUE
+            if(data$type[i] %in% c("rcode","Rcode")) echo1=TRUE
 
             eval=ifelse(data$type[i]=="text",FALSE,TRUE)
             if(data$type[i] %in% c("mytable","data","plot","table","2plots")) eval=FALSE
@@ -178,7 +182,12 @@ data2office=function(data,
         }
 
 
-        if(data$type[i]=="rcode") eval(parse(text=data$code[i]))
+        if(data$type[i] %in% c("rcode","Rcode")) {
+            sink("NUL")
+            eval(parse(text=data$code[i]))
+            sink()
+            preprocessing=paste0(preprocessing,"\n",data$code[i])
+        }
         if(data$type[i]=="data"){
             # ft=df2flextable2(eval(parse(text=data$code[i])),vanilla=vanilla)
 

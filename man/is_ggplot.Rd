@@ -4,10 +4,12 @@
 \alias{is_ggplot}
 \title{Reports whether plotstring encode a ggplot object}
 \usage{
-is_ggplot(plotstring)
+is_ggplot(plotstring, preprocessing = "")
 }
 \arguments{
 \item{plotstring}{A character}
+
+\item{preprocessing}{A string of R code}
 }
 \description{
 Reports whether plotstring encode a ggplot object
