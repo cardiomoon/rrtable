@@ -1,4 +1,10 @@
-
+#'Remove File and sink()
+#'@param temp character file name
+#'@export
+unsink=function(temp){
+    if(file.exists(temp)) file.remove(temp)
+    sink()
+}
 
 #' Make a data.frame with character strings encoding R code
 #' @param result character strings encoding R code
@@ -9,7 +15,7 @@ Rcode2df=function(result,preprocessing,eval=TRUE){
     if(preprocessing!="") {
         sink("NUL")
         eval(parse(text=preprocessing))
-        sink()
+        unsink("NUL")
     }
     res=c()
     codes=unlist(strsplit(result,"\n",fixed=TRUE))
@@ -49,7 +55,7 @@ Rcode2df2=function(result,preprocessing,eval=TRUE){
     if(preprocessing!="") {
         sink("NUL")
         eval(parse(text=preprocessing))
-        sink()
+        unsink("NUL")
     }
     res=result
     if(eval){

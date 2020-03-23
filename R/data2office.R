@@ -185,7 +185,7 @@ data2office=function(data,
         if(data$type[i] %in% c("rcode","Rcode")) {
             sink("NUL")
             eval(parse(text=data$code[i]))
-            sink()
+            unsink("NUL")
             preprocessing=paste0(preprocessing,"\n",data$code[i])
         }
         if(data$type[i]=="data"){

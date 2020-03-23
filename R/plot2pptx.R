@@ -149,7 +149,7 @@ is_ggplot=function(plotstring,preprocessing=""){
    if(preprocessing!="") {
         sink("NUL")
         eval(parse(text=preprocessing))
-        sink()
+        unsink("NUL")
    }
    x<-eval(parse(text=plotstring))
    ggplot2::is.ggplot(x)
@@ -191,7 +191,7 @@ add_anyplot=function(doc,x=NULL,preprocessing="",plottype="auto",left=1,top=2,wi
    if(preprocessing!="") {
       sink("NUL")
       eval(parse(text=preprocessing))
-      sink()
+      unsink("NUL")
    }
    if(class(doc)=="rpptx"){
       if(plottype=="plot"){
