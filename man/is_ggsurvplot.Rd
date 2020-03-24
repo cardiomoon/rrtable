@@ -4,10 +4,12 @@
 \alias{is_ggsurvplot}
 \title{Reports whether plotstring encode a ggsurvplot object}
 \usage{
-is_ggsurvplot(x)
+is_ggsurvplot(x, preprocessing = "")
 }
 \arguments{
 \item{x}{A character encoding a plot}
+
+\item{preprocessing}{preprocessing}
 }
 \description{
 Reports whether plotstring encode a ggsurvplot object

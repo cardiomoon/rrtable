@@ -20,7 +20,9 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,p
     }
 
     if(preprocessing!=""){
+        sink("NUL")
         eval(parse(text=preprocessing))
+        unsink("NUL")
     }
 
     if(shiny::isRunning()){
@@ -32,6 +34,9 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,p
     j=1
     if(count>0) for(i in 1:count){
         #eval(parse(text=data$code[i]))
+        if(data$type[i] %in% c("rcode","Rcode")) {
+            preprocessing=paste0(preprocessing,"\n",data$code[i])
+        }
 
         if(isRunning()){
             progress$inc(1/count, detail = paste("Doing part", i,"/",count))
@@ -44,11 +49,13 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,p
             path <- paste0("plot_",j,".png")
             filename <- c(filename, path)
 
-            plotPNG2(data$code[i],path,data$type[i],width=width,height=height,units=units,res=res)
+            plotPNG2(data$code[i],path,data$type[i],width=width,height=height,units=units,res=res,preprocessing=preprocessing)
             j=j+1
 
             } else if(!(data$type[i] %in% c("text","title","author"))){
-            eval(parse(text=data$code[i]))
+                sink("NUL")
+                eval(parse(text=data$code[i]))
+                unsink("NUL")
             }
     }
 
@@ -64,16 +71,21 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,p
 #' @param units The units in which height and width are given. Can be px (pixels, the default), in (inches), cm or mm.
 #' @param res The nominal resolution in ppi
 #' @param ggplot A logical. Set this argument true if the R code is for ggplot
+#' @param preprocessing preprocessing
 #' @importFrom grDevices png
 #' @importFrom ggplot2 ggsave
 #' @importFrom ggpubr ggexport
-plotPNG2=function(x,file,type,width=7,height=7,units="in",res=300,ggplot=FALSE){
+plotPNG2=function(x,file,type,width=7,height=7,units="in",res=300,ggplot=FALSE,preprocessing=""){
 
-
-    if(is_ggplot(x)) {
+    if(preprocessing!=""){
+        sink("NUL")
+        eval(parse(text=preprocessing))
+        unsink("NUL")
+    }
+    if(is_ggplot(x,preprocessing=preprocessing)) {
         p<-eval(parse(text=x))
         ggsave(file,p,width=width,height=height,units=units,dpi=res)
-    } else if(is_ggsurvplot(x)){
+    } else if(is_ggsurvplot(x,preprocessing=preprocessing)){
         png(file,width=width,height=height,units=units,res=res)
         #pdf(file,paper="letter")
         print(eval(parse(text=x)))
@@ -99,8 +111,14 @@ plotPNG2=function(x,file,type,width=7,height=7,units="in",res=300,ggplot=FALSE){
 
 #' Reports whether plotstring encode a ggsurvplot object
 #' @param x A character encoding a plot
+#' @param preprocessing preprocessing
 #' @export
-is_ggsurvplot=function(x){
+is_ggsurvplot=function(x,preprocessing=""){
+    if(preprocessing!=""){
+        sink("NUL")
+        eval(parse(text=preprocessing))
+        unsink("NUL")
+    }
     p<-eval(parse(text=x))
     ifelse("ggsurvplot" %in% class(p),TRUE,FALSE)
 }
