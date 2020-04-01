@@ -166,10 +166,10 @@ data2plotzip=function(data,path=".",filename="Plot.zip",format="PNG",width=8,hei
     fs=myplot2(data,format=format,width=width,height=height,units=units,res=res,start=start,preprocessing=preprocessing,
                rawDataName=rawDataName,rawDataFile=rawDataFile)
     zip(zipfile=filename, files=fs)
+    file.remove(fs)
     setwd(owd)
     if(mode) result=file.copy(paste0(path,"/",filename),filename,overwrite=TRUE)
     path=str_replace(path,"//","/")
-    file.remove(fs)
     paste0(path,"/",filename)
 
 }

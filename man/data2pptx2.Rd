@@ -12,11 +12,3 @@ data2pptx2(...)
 \description{
 Make a powerpoint file with a data.frame
 }
-\examples{
-library(moonBook)
-library(ztable)
-library(ggplot2)
-\donttest{
-data2pptx2(sampleData2,echo=FALSE)
-}
-}

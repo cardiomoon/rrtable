@@ -30,13 +30,6 @@ data2pdf=function(...){
 #' @param ... further arguments to be passed to data2HTML
 #' @importFrom rmarkdown render
 #' @export
-#' @examples
-#' library(moonBook)
-#' library(ztable)
-#' library(ggplot2)
-#' \donttest{
-#' data2docx2(sampleData2)
-#' }
 data2docx2=function(...){
 
     # data=sampleData2[9,]
@@ -50,13 +43,6 @@ data2docx2=function(...){
 #' @param ... further arguments to be passed to data2HTML
 #' @importFrom rmarkdown render
 #' @export
-#' @examples
-#' library(moonBook)
-#' library(ztable)
-#' library(ggplot2)
-#' \donttest{
-#' data2pptx2(sampleData2,echo=FALSE)
-#' }
 data2pptx2=function(...){
 
     # data=sampleData2[9,]

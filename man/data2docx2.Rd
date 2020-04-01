@@ -12,11 +12,3 @@ data2docx2(...)
 \description{
 Make a word file with a data.frame
 }
-\examples{
-library(moonBook)
-library(ztable)
-library(ggplot2)
-\donttest{
-data2docx2(sampleData2)
-}
-}

@@ -41,30 +41,7 @@ add_2plots=function(mydoc,plotstring1,plotstring2,preprocessing="",
             slip_in_column_break() %>%
             body_end_section_columns()
     }
-    # if(class(mydoc)=="rpptx"){
-    #
-    #     temp1=paste0("ph_with(mydoc, value = dml(code=",plotstring1,"), location = ph_location(left=0.5,top=top,width=4.5,height=5) )")
-    #     temp2=paste0("ph_with(mydoc, value = dml(code=",plotstring2,"),location = ph_location(left=5,top=top,width=4.5,height=5))")
-    #     mydoc=eval(parse(text=temp1))
-    #     mydoc=eval(parse(text=temp2))
-    #
-    # } else{
-    #     filename1 <- tempfile(fileext = ".emf")
-    #     emf(file = filename1, width = width, height = height)
-    #     eval(parse(text=plotstring1))
-    #     dev.off()
-    #     filename2 <- tempfile(fileext = ".emf")
-    #     emf(file = filename2, width = width, height = height)
-    #     eval(parse(text=plotstring2))
-    #     dev.off()
-    #
-    #     mydoc <- mydoc %>%
-    #             body_end_section_continuous() %>%
-    #             body_add_img(src = filename1, width = width, height = height) %>%
-    #             body_add_img(src = filename2, width = width, height = height) %>%
-    #             slip_in_column_break() %>%
-    #             body_end_section_columns()
-    # }
+
     mydoc
 }
 

@@ -17,6 +17,7 @@
 #' @export
 #' @examples
 #' \donttest{
+#' require(ggplot2)
 #' x=c("plot(iris)","ggplot(mtcars,aes(x=hp,y=mpg))+geom_point()")
 #' plot2office(x,title="2 plots",parallel=TRUE)
 #' plot2office(x,title="2 plots",parallel=TRUE,echo=TRUE,append=TRUE)

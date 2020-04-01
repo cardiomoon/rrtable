@@ -319,4 +319,4 @@ mygrep=function(x,file="*"){
     system(temp)
 }
 
-# data2docx(sampleData3,echo=TRUE)
+

@@ -1,9 +1,9 @@
 This is the bug-fixed version of the package 'rrtable'.
 Specifically, fix the problems shown on
-<https://cran.r-project.org/web/checks/check_results_rrtable.html>.
+<https://www.stats.ox.ac.uk/pub/bdr/donttest/rrtable.out>.
 
 ## Test environments
-* local OS X install, R 3.6.2
+* local OS X install, R 3.6.3
 * win-builder (devel and release)
 * rhub
 
