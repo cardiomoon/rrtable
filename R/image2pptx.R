@@ -80,8 +80,10 @@ if(format=="emf"){
 #' @importFrom stringr "%>%"
 #' @export
 #' @examples
+#' \donttest{
 #' require(ggplot2)
 #' image2pptx("ggplot(data=iris,aes(x=Sepal.Length))+geom_density()")
+#' }
 image2office=function(x,target="Report",append=FALSE,title="",
                   type="pptx",preprocessing="",
                   left=1,top=1,width=8,height=5.5){
