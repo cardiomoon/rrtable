@@ -25,10 +25,13 @@ data2office=function(data,
                      landscape=FALSE,
                      showself=FALSE){
 
+     # data=readCSVComment("~/Downloads/PPTxList.csv")
+    # preprocessing=""
     # path=".";filename="Report";format="pptx";width=7;height=5;units="in"
     # res=300;rawDataName=NULL;rawDataFile="rawData.RDS";vanilla=FALSE;echo=FALSE
     # landscape=FALSE;
     # showself=FALSE
+    datadata=data
 
     mode=0
     owd=getwd()
@@ -52,40 +55,40 @@ data2office=function(data,
 
         eval(parse(text=preprocessing))
     }
-    if(!is.null(attr(data,"preprocessing"))){
-          preprocessing=paste0(preprocessing,"\n",attr(data,"preprocessing"))
+    if(!is.null(attr(datadata,"preprocessing"))){
+          preprocessing=paste0(preprocessing,"\n",attr(datadata,"preprocessing"))
           eval(parse(text=preprocessing))
     }
-    data$type=tolower(data$type)
+    datadata$type=tolower(datadata$type)
 
-    if(ncol(data)==3) {
+    if(ncol(datadata)==3) {
         shortdata=1
     } else {
         shortdata=0
     }
 
-    if("title" %in% data$type) {
+    if("title" %in% datadata$type) {
         if(shortdata) {
-            mytitle=data[data$type=="title",]$code[1]
+            mytitle=datadata[datadata$type=="title",]$code[1]
         } else{
-            mytitle=data[data$type=="title",]$text[1]
+            mytitle=datadata[datadata$type=="title",]$text[1]
         }
-        data=data[data$type!="title",]
+        datadata=datadata[datadata$type!="title",]
     } else{
         mytitle="Web-based Analysis with R"
     }
     mysubtitle=""
-    if("subtitle" %in% data$type) {
+    if("subtitle" %in% datadata$type) {
         if(shortdata) {
-            mysubtitle=data[data$type=="subtitle",]$code[1]
+            mysubtitle=datadata[datadata$type=="subtitle",]$code[1]
         } else{
-            mysubtitle=data[data$type=="subtitle",]$text[1]
+            mysubtitle=datadata[datadata$type=="subtitle",]$text[1]
         }
-        data=data[data$type!="subtitle",]
+        datadata=datadata[datadata$type!="subtitle",]
     }
-    if("author" %in% data$type) {
-        myauthor=data[data$type=="author",]$code[1]
-        data=data[data$type!="author",]
+    if("author" %in% datadata$type) {
+        myauthor=datadata[datadata$type=="author",]$code[1]
+        datadata=datadata[datadata$type!="author",]
     } else{
         myauthor="prepared by web-r.org"
     }
@@ -105,142 +108,141 @@ data2office=function(data,
         cat("Making File: 1")
     }
 
-    for(i in 1:nrow(data)){
+    for(i in 1:nrow(datadata)){
 
         if(isRunning()){
-            progress$inc(1/(nrow(data)), detail = paste("Doing part", i+1,"/",nrow(data)+1))
+            progress$inc(1/(nrow(datadata)), detail = paste("Doing part", i+1,"/",nrow(datadata)+1))
         } else(
             cat(i+1)
         )
 
         if(showself){
-            mydoc=add_self(mydoc,data[i,])
+            mydoc=add_self(mydoc,datadata[i,])
         }
 
         if(shortdata==0){
             if(class(mydoc)=="rpptx"){
-            if(data$type[i]==""){
-               if(i<nrow(data)){
-                   if(data$type[i+1]!="") next
+            if(datadata$type[i]==""){
+               if(i<nrow(datadata)){
+                   if(datadata$type[i+1]!="") next
                } else{
                    next
                }
             }
             }
-            echo1=echo|getCodeOption(data$option[i])
-            eval=getCodeOption(data$option[i],"eval")
-            landscape1=landscape|getCodeOption(data$option[i],"landscape")
-            if(data$type[i] %in% c("rcode","Rcode")) {
+            echo1=echo|getCodeOption(datadata$option[i])
+            eval=getCodeOption(datadata$option[i],"eval")
+            landscape1=landscape|getCodeOption(datadata$option[i],"landscape")
+            if(datadata$type[i] %in% c("rcode","Rcode")) {
                 echo1=TRUE
                 eval=TRUE
             }
-             if(data$type[i] %in% c("text","")) {
-                 temp=data$text[i]
+             if(datadata$type[i] %in% c("text","")) {
+                 temp=datadata$text[i]
              } else{
                  temp=""
              }
             if(class(mydoc)=="rpptx"){
-                if(data$type[i] %in% c("header2","")){
-                    if(!is.na(data$type[i+1])){
-                       if(data$type[i+1]=="") temp=data$text[i+1]
+                if(datadata$type[i] %in% c("header2","")){
+                    if(!is.na(datadata$type[i+1])){
+                       if(datadata$type[i+1]=="") temp=datadata$text[i+1]
                     }
                 }
             }
 
-            if(class(mydoc)=="rpptx" & data$type[i]=="code"){
+            if(class(mydoc)=="rpptx" & datadata$type[i]=="code"){
                 mydoc<-mydoc %>% add_slide(layout="Title Only")
                 mydoc<-mydoc %>%
-                    ph_with(value=data$title[i],location=ph_location_type(type="title"))
+                    ph_with(value=datadata$title[i],location=ph_location_type(type="title"))
             } else{
-            mydoc=add_text(mydoc,title=data$title[i],text=temp,
-                           code=data$code[i],echo=echo1,eval=eval,
+            mydoc=add_text(mydoc,title=datadata$title[i],text=temp,
+                           code=datadata$code[i],echo=echo1,eval=eval,
                            landscape=landscape1)
             }
         } else{
             echo1=echo
-            if(data$type[i] %in% c("rcode","Rcode")) echo1=TRUE
+            if(datadata$type[i] %in% c("rcode","Rcode")) echo1=TRUE
 
-            eval=ifelse(data$type[i]=="text",FALSE,TRUE)
-            if(data$type[i] %in% c("mytable","data","plot","table","2plots")) eval=FALSE
+            eval=ifelse(datadata$type[i]=="text",FALSE,TRUE)
+            if(datadata$type[i] %in% c("mytable","data","plot","table","2plots")) eval=FALSE
             landscape1=FALSE
-            if(data$type[i]=="text") {
-                temp=data$code[i]
+            if(datadata$type[i]=="text") {
+                temp=datadata$code[i]
                 tempcode=""
             } else {
                 temp=""
-                tempcode=data$code[i]
+                tempcode=datadata$code[i]
             }
-            if(class(mydoc)=="rpptx" & data$type[i]=="code"){
+            if(class(mydoc)=="rpptx" & datadata$type[i]=="code"){
                 mydoc<-mydoc %>% add_slide(layout="Title Only")
                 mydoc<-mydoc %>%
-                    ph_with(value=data$title[i],location=ph_location_type(type="title"))
+                    ph_with(value=datadata$title[i],location=ph_location_type(type="title"))
             } else{
-            mydoc=add_text(mydoc,title=data$title[i],text=temp,
+            mydoc=add_text(mydoc,title=datadata$title[i],text=temp,
                            code=tempcode,preprocessing=preprocessing,echo=echo1,eval=eval,
                            landscape=landscape1)
             }
         }
 
 
-        if(data$type[i] %in% c("rcode","Rcode")) {
+        if(datadata$type[i] %in% c("rcode","Rcode")) {
             sink("NUL")
-            eval(parse(text=data$code[i]))
+            eval(parse(text=datadata$code[i]))
             unsink("NUL")
-            preprocessing=paste0(preprocessing,"\n",data$code[i])
-        }
-        if(data$type[i]=="data"){
+            preprocessing=paste0(preprocessing,"\n",datadata$code[i])
+        } else if(datadata$type[i]=="data"){
             # ft=df2flextable2(eval(parse(text=data$code[i])),vanilla=vanilla)
 
-            ft=eval(parse(text=paste0("df2flextable2(",data$code[i],",vanilla=",vanilla,")")))
-            mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
-        } else if(data$type[i]=="ztable"){
-            #tempcode=set_argument(data$code[i],argument="vanilla",value=vanilla)
-            ft=eval(parse(text=data$code[i]))
+            ft=eval(parse(text=paste0("df2flextable2(",datadata$code[i],",vanilla=",vanilla,")")))
+            mydoc=add_flextable(mydoc,ft,code=datadata$code[i],echo=echo1,landscape = landscape1)
+        } else if(datadata$type[i]=="ztable"){
+            #tempcode=set_argument(datadata$code[i],argument="vanilla",value=vanilla)
+            ft=eval(parse(text=datadata$code[i]))
             ft<-ztable2flextable(ft)
-            mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
-        } else if(data$type[i]=="flextable"){
+            mydoc=add_flextable(mydoc,ft,code=datadata$code[i],echo=echo1,landscape = landscape1)
+        } else if(datadata$type[i]=="flextable"){
 
-            ft=eval(parse(text=data$code[i]))
-            mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
-        } else if(data$type[i]=="table"){
-            #tempcode=set_argument(data$code[i],argument="vanilla",value=vanilla)
-            ft=eval(parse(text=data$code[i]))
+            ft=eval(parse(text=datadata$code[i]))
+            mydoc=add_flextable(mydoc,ft,code=datadata$code[i],echo=echo1,landscape = landscape1)
+        } else if(datadata$type[i]=="table"){
+            #tempcode=set_argument(datadata$code[i],argument="vanilla",value=vanilla)
+            ft=eval(parse(text=datadata$code[i]))
             if("ztable" %in% class(ft)){
                 ft<-ztable2flextable(ft)
             }
-            mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
-        } else if(data$type[i]=="mytable"){
-            res=eval(parse(text=data$code[i]))
+            mydoc=add_flextable(mydoc,ft,code=datadata$code[i],echo=echo1,landscape = landscape1)
+        } else if(datadata$type[i]=="mytable"){
+            res=eval(parse(text=datadata$code[i]))
             ft=mytable2flextable(res,vanilla=vanilla)
-            mydoc=add_flextable(mydoc,ft,code=data$code[i],echo=echo1,landscape = landscape1)
-        } else if(data$type[i]=="ggplot"){
-            mydoc=add_anyplot(mydoc,x=data$code[i],preprocessing=preprocessing,top=ifelse(echo1,2,1.5))
-        } else if(data$type[i]=="plot"){
-            mydoc<-add_anyplot(mydoc,x=data$code[i],preprocessing=preprocessing,top=ifelse(echo1,2,1.5))
+            mydoc=add_flextable(mydoc,ft,code=datadata$code[i],echo=echo1,landscape = landscape1)
+        } else if(datadata$type[i]=="ggplot"){
+            mydoc=add_anyplot(mydoc,x=datadata$code[i],preprocessing=preprocessing,top=ifelse(echo1,2,1.5))
+        } else if(datadata$type[i]=="plot"){
+            mydoc<-add_anyplot(mydoc,x=datadata$code[i],preprocessing=preprocessing,top=ifelse(echo1,2,1.5))
 
-        } else if(data$type[i] %in% c("2plots","2ggplots")){
+        } else if(datadata$type[i] %in% c("2plots","2ggplots")){
 
-            codes=unlist(strsplit(data$code[i],"\n"))
+            codes=unlist(strsplit(datadata$code[i],"\n"))
             mydoc=add_2plots(mydoc,plotstring1=codes[1],plotstring2=codes[2],preprocessing=preprocessing,top=ifelse(echo1,2,1.5))
 
-        } else if(data$type[i] %in% c("PNG","png")){
+        } else if(datadata$type[i] %in% c("PNG","png")){
 
-            mydoc<-add_image(mydoc,data$code[i],format="png")
+            mydoc<-add_image(mydoc,datadata$code[i],format="png")
 
-        } else if(data$type[i] %in% c("emf","EMF")){
+        } else if(datadata$type[i] %in% c("emf","EMF")){
 
-            mydoc<-add_image(mydoc,data$code[i])
+            mydoc<-add_image(mydoc,datadata$code[i])
 
-        } else if(str_detect(data$code[i],"df2flextable")){
+        } else if(str_detect(datadata$code[i],"df2flextable")){
 
-            tempcode=data$code[i]
+            tempcode=datadata$code[i]
             ft=eval(parse(text=tempcode))
             mydoc=add_flextable(mydoc,ft,landscape=landscape1)
 
-        } else if(data$type[i]=="code"){
+        } else if(datadata$type[i]=="code"){
             filename1="plot.emf"
             devEMF::emf(file=filename1,width=8,height=5.5)
-            suppressWarnings(eval(parse(text=data$code[i])))
+            suppressWarnings(eval(parse(text=datadata$code[i])))
             dev.off()
             mydoc<-ph_with(mydoc,external_img(src="plot.emf",width=8,height=5.5),
                          location = ph_location(left=1,top=1.5,
