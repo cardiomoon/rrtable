@@ -72,12 +72,15 @@ mytable2flextable=function(result,vanilla=TRUE,fontname=NULL,fontsize=10){
                }
           }
           change<-c()
+          stop=c()
+          if(length(rowno)>1){
           for(i in 1:(length(rowno)-1)){
                if(rowno[i]!=rowno[i+1]){
                     change=c(change,i)
                } else{
                     stop=c(stop,i)
                }
+          }
           }
           change=c(change,i+1)
           if(!vanilla){
@@ -133,12 +136,15 @@ mytable2flextable=function(result,vanilla=TRUE,fontname=NULL,fontsize=10){
                }
           }
           change<-c()
+          stop=c()
+          if(length(rowno)>1){
           for(i in 1:(length(rowno)-1)){
                if(rowno[i]!=rowno[i+1]){
                     change=c(change,i)
                } else{
                     stop=c(stop,i)
                }
+          }
           }
           change=c(change,i+1)
           if(!vanilla){
