@@ -215,11 +215,8 @@ data2office=function(data,
             res=eval(parse(text=datadata$code[i]))
             ft=mytable2flextable(res,vanilla=vanilla)
             mydoc=add_flextable(mydoc,ft,code=datadata$code[i],echo=echo1,landscape = landscape1)
-        } else if(datadata$type[i]=="ggplot"){
+        } else if(datadata$type[i] %in% c("ggplot","plot","girafe")){
             mydoc=add_anyplot(mydoc,x=datadata$code[i],preprocessing=preprocessing,top=ifelse(echo1,2,1.5))
-        } else if(datadata$type[i]=="plot"){
-            mydoc<-add_anyplot(mydoc,x=datadata$code[i],preprocessing=preprocessing,top=ifelse(echo1,2,1.5))
-
         } else if(datadata$type[i] %in% c("2plots","2ggplots")){
 
             codes=unlist(strsplit(datadata$code[i],"\n"))
