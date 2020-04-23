@@ -17,31 +17,33 @@ Rcode2df=function(result,preprocessing,eval=TRUE){
         eval(parse(text=preprocessing))
         unsink("NUL")
     }
-    res=c()
+    resres=c()
     codes=unlist(strsplit(result,"\n",fixed=TRUE))
+
     final=c()
     for(i in 1:length(codes)){
         #if(codes[i]=="") next
         # if(length(grep("cat",codes[i]))==1) {
         #     if(grep("cat",codes[i])==1) next
         # }
-        res=c(res,codes[i])
+        resres=c(resres,codes[i])
         if(eval){
             temp=tryCatch(capture.output(eval(parse(text=codes[i]))),error=function(e) "error")
-            if(temp[1]=="error") {
+
+            if(length(temp)==0) {
+                temp1=""
+            } else if(temp[1]=="error") {
                 final="error"
                 break
-            }
-            if(length(temp)==0) temp1=""
-            else  {
+            } else  {
                 temp1=Reduce(pastelf,temp)
                 temp1=paste0(temp1,"\n ")
             }
-            res=c(res,temp1)
+            resres=c(resres,temp1)
         }
 
     }
-    if(is.null(final)) final=data.frame(result=res,stringsAsFactors = FALSE)
+    if(is.null(final)) final=data.frame(result=resres,stringsAsFactors = FALSE)
     final
 
 }
