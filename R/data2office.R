@@ -17,6 +17,7 @@
 #' @importFrom officer read_docx read_pptx
 #' @importFrom ztable ztable2flextable
 #' @importFrom shiny isRunning Progress
+#' @importFrom rlang global_env
 #' @export
 data2office=function(data,
                      preprocessing="",
@@ -32,6 +33,7 @@ data2office=function(data,
     # landscape=FALSE;
     # showself=FALSE
     datadata=data
+    obj=ls(envir=global_env())
 
     mode=0
     owd=getwd()
@@ -186,10 +188,10 @@ data2office=function(data,
 
 
         if(datadata$type[i] %in% c("rcode","Rcode")) {
-            sink("NUL")
-            eval(parse(text=datadata$code[i]))
-            unsink("NUL")
-            preprocessing=paste0(preprocessing,"\n",datadata$code[i])
+            #sink("NUL")
+            eval(parse(text=datadata$code[i]),envir=global_env())
+            #unsink("NUL")
+            # preprocessing=paste0(preprocessing,"\n",datadata$code[i])
         } else if(datadata$type[i]=="data"){
             # ft=df2flextable2(eval(parse(text=data$code[i])),vanilla=vanilla)
 
@@ -259,7 +261,9 @@ data2office=function(data,
     # mydoc %>% print(target=".")
     setwd(owd)
     if(!isRunning()) cat("\n")
-
+    objnew=ls(envir=global_env())
+    temp=setdiff(objnew,obj)
+    rm(list=temp,envir=global_env())
     path=str_replace(path,"//","/")
     paste0(path,"/",target)
 }
