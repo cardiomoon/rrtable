@@ -41,10 +41,10 @@ table2office=function(x=NULL,target="Report",append=FALSE,title="",vanilla=FALSE
     } else if(class(x)[1] %in%
               c("matrix","lm","fitdistr","nls","aov","anova","glm","coxph","prcomp","summary.prcomp")){
         ft<-ztable2flextable(ztable(x),vanilla=vanilla)
-    } else if(class(x)[1]=="data.frame"){
-        ft<-df2flextable(x,vanilla=vanilla)
-    } else if(class(x)[1]=="flextable"){
+    }  else if(class(x)[1]=="flextable"){
         ft<-x
+    } else if("data.frame" %in% class(x)){
+        ft<-df2flextable(x,vanilla=vanilla)
     }
     if(class(doc)=="rpptx"){
         doc<-doc %>% ph_with(value=ft,location = ph_location(left=left,top=pos))
