@@ -48,7 +48,7 @@ data2plotzip(
 Make zipped plot file with a data.frame
 }
 \examples{
-\donttest{
+\dontrun{
 library(moonBook)
 library(ztable)
 library(rrtable)

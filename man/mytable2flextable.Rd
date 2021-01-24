@@ -19,7 +19,7 @@ mytable2flextable(result, vanilla = TRUE, fontname = NULL, fontsize = 10)
 Convert mytable object to flextable
 }
 \examples{
-\donttest{
+\dontrun{
 require(moonBook)
 require(flextable)
 require(officer)

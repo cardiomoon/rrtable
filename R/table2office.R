@@ -61,7 +61,7 @@ table2office=function(x=NULL,target="Report",append=FALSE,title="",vanilla=FALSE
 #' @param ... further arguments to be passed to table2office
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' require(moonBook)
 #' x="mytable(Dx~.,data=acs)"
 #' table2pptx(x,title="mytable object",echo=TRUE)
@@ -80,7 +80,7 @@ table2pptx=function(...){
 #' @param ... further arguments to be passed to table2office
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' require(moonBook)
 #' x=mytable(Dx~.,data=acs)
 #' table2docx(x)

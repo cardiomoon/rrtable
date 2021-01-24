@@ -15,7 +15,7 @@
 #' @importFrom flextable width
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' library(moonBook)
 #' library(rrtable)
 #' library(ggplot2)

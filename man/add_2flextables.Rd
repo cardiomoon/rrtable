@@ -26,7 +26,7 @@ a document object
 Add two flextables into a document object
 }
 \examples{
-\donttest{
+\dontrun{
 require(rrtable)
 require(officer)
 require(magrittr)

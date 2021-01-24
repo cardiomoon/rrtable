@@ -1,3 +1,9 @@
+# rrtable version 0.2.5
+=======================
+(24-Jan-2021)
+
+* add new type "HTML" or "html"
+
 # rrtable version 0.2.4
 =======================
 (23-Apr-2020)

@@ -57,7 +57,7 @@ code2office(
 Save plot/ggplot code to Microsoft Powerpoint format
 }
 \examples{
-\donttest{
+\dontrun{
 code2office(plot(iris))
 require(ggplot2)
 gg=ggplot(data=mtcars,aes(x=wt,y=mpg))+geom_point()

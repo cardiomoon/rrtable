@@ -16,7 +16,7 @@ Make a pdf file with a data.frame
 library(moonBook)
 library(ztable)
 library(ggplot2)
-\donttest{
+\dontrun{
 data2pdf(sampleData2)
 }
 }

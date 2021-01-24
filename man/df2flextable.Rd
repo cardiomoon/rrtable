@@ -69,7 +69,7 @@ Convert data.frame to flextable
 require(flextable)
 require(officer)
 df2flextable(head(iris),vanilla=TRUE,colorheader=TRUE)
-\donttest{
+\dontrun{
 df2flextable(head(iris),vanilla=TRUE,digits=c(1,2,3,4))
 df2flextable(head(iris),vanilla=FALSE)
 df2flextable(head(iris),vanilla=FALSE,vlines=FALSE,fontsize=14)

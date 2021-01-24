@@ -24,7 +24,7 @@ a document object
 Add a flextable or mytable object into a document object
 }
 \examples{
-\donttest{
+\dontrun{
 require(rrtable)
 require(moonBook)
 require(officer)

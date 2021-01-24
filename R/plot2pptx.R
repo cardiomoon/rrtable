@@ -16,7 +16,7 @@
 #' @importFrom stringr "%>%"
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' require(ggplot2)
 #' x=c("plot(iris)","ggplot(mtcars,aes(x=hp,y=mpg))+geom_point()")
 #' plot2office(x,title="2 plots",parallel=TRUE)
@@ -105,7 +105,7 @@ plot2office=function(x=NULL,target="Report",append=FALSE,title="",
 #' @param ... further arguments to be passed to plot2office
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' require(ggplot2)
 #' x<-ggplot(iris,aes(x=Sepal.Length))+geom_histogram()
 #' plot2pptx(x)
@@ -123,7 +123,7 @@ plot2pptx=function(...){
 #' @param ... further arguments to be passed to plot2office
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' require(ggplot2)
 #' x<-ggplot(iris,aes(x=Sepal.Length))+geom_histogram()
 #' plot2docx(x)

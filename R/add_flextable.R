@@ -9,7 +9,7 @@
 #' @return a document object
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' require(rrtable)
 #' require(moonBook)
 #' require(officer)

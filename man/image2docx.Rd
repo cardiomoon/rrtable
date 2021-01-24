@@ -13,7 +13,7 @@ image2docx(...)
 Save plot/ggplot to Microsoft Word format
 }
 \examples{
-\donttest{
+\dontrun{
 require(ggplot2)
 x<-ggplot(iris,aes(x=Sepal.Length))+geom_histogram()
 image2docx(x)

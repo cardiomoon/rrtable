@@ -13,7 +13,7 @@ data2docx(...)
 convert data to docx file
 }
 \examples{
-\donttest{
+\dontrun{
 library(rrtable)
 library(moonBook)
 library(ggplot2)

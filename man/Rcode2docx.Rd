@@ -13,7 +13,7 @@ Rcode2docx(...)
 Save R code to Microsoft Word format
 }
 \examples{
-\donttest{
+\dontrun{
 code="summary(lm(mpg~hp+wt,data=mtcars))"
 Rcode2docx(code=code,title="R code to Word")
 }

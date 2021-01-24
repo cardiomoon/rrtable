@@ -201,7 +201,7 @@ add_Rcode=function(mydoc,code,preprocessing="",format="pptx"){
 #' @param append logical
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' code="summary(lm(mpg~hp+wt,data=mtcars))"
 #' Rcode2office(code=code)
 #' }
@@ -225,7 +225,7 @@ Rcode2office=function(code,preprocessing="",title="",type="pptx",target="Report"
 #' @param ... further arguments to be passed to plot2office
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' code="summary(lm(mpg~hp+wt,data=mtcars))"
 #' Rcode2pptx(code=code,title="R code to pptx")
 #' }
@@ -237,7 +237,7 @@ Rcode2pptx=function(...){
 #' @param ... further arguments to be passed to plot2office
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' code="summary(lm(mpg~hp+wt,data=mtcars))"
 #' Rcode2docx(code=code,title="R code to Word")
 #' }

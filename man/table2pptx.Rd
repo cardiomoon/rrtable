@@ -13,7 +13,7 @@ table2pptx(...)
 Export data.frame or statistical output to Microsoft Powerpoint format
 }
 \examples{
-\donttest{
+\dontrun{
 require(moonBook)
 x="mytable(Dx~.,data=acs)"
 table2pptx(x,title="mytable object",echo=TRUE)

@@ -42,7 +42,7 @@ data2HTML(
 Make a HTML5 file with a data.frame
 }
 \examples{
-\donttest{
+\dontrun{
 library(moonBook)
 library(rrtable)
 library(ggplot2)

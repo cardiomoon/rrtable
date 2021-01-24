@@ -146,7 +146,7 @@ add_text=function(mydoc,title="",text="",code="",preprocessing="",echo=FALSE,eva
 #' @importFrom officer body_end_section_columns body_end_section_continuous
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' require(ggplot2)
 #' require(magrittr)
 #' require(officer)
@@ -196,7 +196,7 @@ add_2ggplots=function(mydoc,plot1,plot2,preprocessing="",width=3,height=2.5,top=
 #' @importFrom officer slip_in_column_break body_add_gg
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' require(rrtable)
 #' require(officer)
 #' require(magrittr)

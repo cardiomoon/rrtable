@@ -13,7 +13,7 @@ plot2pptx(...)
 Save plot/ggplot to Microsoft Powerpoint format
 }
 \examples{
-\donttest{
+\dontrun{
 require(ggplot2)
 x<-ggplot(iris,aes(x=Sepal.Length))+geom_histogram()
 plot2pptx(x)

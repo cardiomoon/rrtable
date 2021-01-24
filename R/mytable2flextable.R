@@ -9,7 +9,7 @@
 #' @importFrom utils read.csv
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' require(moonBook)
 #' require(flextable)
 #' require(officer)

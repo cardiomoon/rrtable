@@ -36,7 +36,7 @@ a document object
 Add two ggplots into a document object
 }
 \examples{
-\donttest{
+\dontrun{
 require(ggplot2)
 require(magrittr)
 require(officer)

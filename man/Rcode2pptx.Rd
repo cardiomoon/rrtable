@@ -13,7 +13,7 @@ Rcode2pptx(...)
 Save R code to Microsoft Powerpoint format
 }
 \examples{
-\donttest{
+\dontrun{
 code="summary(lm(mpg~hp+wt,data=mtcars))"
 Rcode2pptx(code=code,title="R code to pptx")
 }

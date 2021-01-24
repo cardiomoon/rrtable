@@ -14,7 +14,7 @@ mycat=function(...,file="report2.Rmd"){
 #' library(moonBook)
 #' library(ztable)
 #' library(ggplot2)
-#' \donttest{
+#' \dontrun{
 #' data2pdf(sampleData2)
 #' }
 data2pdf=function(...){

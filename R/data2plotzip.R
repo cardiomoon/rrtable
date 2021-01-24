@@ -139,7 +139,7 @@ is_ggsurvplot=function(x,preprocessing=""){
 #' @importFrom utils zip
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' library(moonBook)
 #' library(ztable)
 #' library(rrtable)

@@ -13,7 +13,7 @@ table2docx(...)
 Export data.frame or statistical output to Microsoft Word format
 }
 \examples{
-\donttest{
+\dontrun{
 require(moonBook)
 x=mytable(Dx~.,data=acs)
 table2docx(x)

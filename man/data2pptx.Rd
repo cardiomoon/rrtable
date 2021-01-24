@@ -13,7 +13,7 @@ data2pptx(...)
 convert data to pptx file
 }
 \examples{
-\donttest{
+\dontrun{
 library(rrtable)
 library(moonBook)
 library(ggplot2)

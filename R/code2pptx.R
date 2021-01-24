@@ -19,7 +19,7 @@
 #' @importFrom devEMF emf
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' code2office(plot(iris))
 #' require(ggplot2)
 #' gg=ggplot(data=mtcars,aes(x=wt,y=mpg))+geom_point()
@@ -113,7 +113,7 @@ code2office=function(...,ggobj=NULL,target="Report",append=FALSE,title="",
 #' @param ... further arguments to be passed to code2office
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' code2pptx(plot(iris))
 #' require(ggplot2)
 #' gg=ggplot(data=mtcars,aes(x=wt,y=mpg))+geom_point()
@@ -128,7 +128,7 @@ code2pptx=function(...){
 #' @param ... further arguments to be passed to code2office
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' code2docx(plot(iris))
 #' require(ggplot2)
 #' gg=ggplot(data=mtcars,aes(x=wt,y=mpg))+geom_point()

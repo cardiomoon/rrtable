@@ -80,7 +80,7 @@ if(format=="emf"){
 #' @importFrom stringr "%>%"
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' require(ggplot2)
 #' image2pptx("ggplot(data=iris,aes(x=Sepal.Length))+geom_density()")
 #' }
@@ -114,7 +114,7 @@ image2office=function(x,target="Report",append=FALSE,title="",
 #' @param ... further arguments to be passed to image2office
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' require(ggplot2)
 #' x<-ggplot(iris,aes(x=Sepal.Length))+geom_histogram()
 #' image2pptx(x)
@@ -131,7 +131,7 @@ image2pptx=function(...){
 #' @param ... further arguments to be passed to image2office
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' require(ggplot2)
 #' x<-ggplot(iris,aes(x=Sepal.Length))+geom_histogram()
 #' image2docx(x)

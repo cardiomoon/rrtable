@@ -42,7 +42,7 @@ image2office(
 Save plot/ggplot as image to Microsoft Powerpoint format
 }
 \examples{
-\donttest{
+\dontrun{
 require(ggplot2)
 image2pptx("ggplot(data=iris,aes(x=Sepal.Length))+geom_density()")
 }

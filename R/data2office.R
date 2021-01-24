@@ -163,7 +163,7 @@ data2office=function(data,
             }
         } else{
             echo1=echo
-            if(datadata$type[i] %in% c("rcode","Rcode")) echo1=TRUE
+            if(datadata$type[i] %in% c("rcode","Rcode","html","HTML")) echo1=TRUE
 
             eval=ifelse(datadata$type[i]=="text",FALSE,TRUE)
             if(datadata$type[i] %in% c("mytable","data","plot","table","2plots")) eval=FALSE
@@ -187,7 +187,7 @@ data2office=function(data,
         }
 
 
-        if(datadata$type[i] %in% c("rcode","Rcode")) {
+        if(datadata$type[i] %in% c("rcode","Rcode","html","HTML")) {
             #sink("NUL")
             eval(parse(text=datadata$code[i]),envir=global_env())
             #unsink("NUL")
@@ -272,7 +272,7 @@ data2office=function(data,
 #' @param ... arguments to be passed to data2office()
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' library(rrtable)
 #' library(moonBook)
 #' library(ggplot2)
@@ -286,7 +286,7 @@ data2pptx=function(...){
 #' @param ... arguments to be passed to data2office()
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' library(rrtable)
 #' library(moonBook)
 #' library(ggplot2)

@@ -30,7 +30,7 @@ Rcode2office(
 Make R code slide
 }
 \examples{
-\donttest{
+\dontrun{
 code="summary(lm(mpg~hp+wt,data=mtcars))"
 Rcode2office(code=code)
 }
