@@ -1,3 +1,9 @@
+# rrtable version 0.2.5.1
+=========================
+(30-Jan-2021)
+
+* add argument align_rownames added to function df2flextable
+
 # rrtable version 0.2.5
 =======================
 (24-Jan-2021)

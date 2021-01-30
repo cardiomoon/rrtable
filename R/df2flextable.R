@@ -68,6 +68,7 @@ p2character=function(x,digits=3){
 #' @param digitp integer indicating the number of decimal places of p values
 #' @param align_header alignment of header. Expected value is one of 'left', 'right', 'center', 'justify'.
 #' @param align_body alignment of body. Expected value is one of 'left', 'right', 'center', 'justify'.
+#' @param align_rownames alignment of rownames. Expected value is one of 'left', 'right', 'center', 'justify'.
 #' @param NA2space A logical. If true, convert NA value to space
 #' @param pcol An integer indicating p value. If specified, convert value less than 0.01 to "< 0.001" in given column.
 #' @param ... further arguments to be passed to flextable
@@ -83,7 +84,7 @@ p2character=function(x,digits=3){
 #' df2flextable(head(iris),vanilla=TRUE,digits=c(1,2,3,4))
 #' df2flextable(head(iris),vanilla=FALSE)
 #' df2flextable(head(iris),vanilla=FALSE,vlines=FALSE,fontsize=14)
-#' df2flextable(head(mtcars/2000),digits=3,pcol=8,digitp=4)
+#' df2flextable(head(mtcars/2000),digits=3,pcol=8,digitp=4,add.rownames=TRUE)
 #' }
 df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
                       add.rownames=FALSE,
@@ -91,6 +92,7 @@ df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
                       even_body="#EFEFEF",odd_body="transparent",
                       vlines=TRUE,colorheader=FALSE,digits=2,digitp=3,
                       align_header="center",align_body="right",
+                      align_rownames="left",
                       NA2space=TRUE,pcol=NULL,...){
 
     # vanilla=FALSE;fontname=NULL;fontsize=12
@@ -184,7 +186,9 @@ df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
           padding(padding.left=5,padding.right=5,
                           padding.top=2,padding.bottom=2,part="all")
      if(add.rownames) {
-         ft<-ft %>% color(i=1,j=1,color=ifelse(vanilla,"white","#5B7778"),part="header")
+         ft<-ft %>%
+             color(i=1,j=1,color=ifelse(vanilla,"white","#5B7778"),part="header") %>%
+             align(j=1,align=align_rownames)
      }
      ft
 }

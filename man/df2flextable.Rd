@@ -20,6 +20,7 @@ df2flextable(
   digitp = 3,
   align_header = "center",
   align_body = "right",
+  align_rownames = "left",
   NA2space = TRUE,
   pcol = NULL,
   ...
@@ -56,6 +57,8 @@ df2flextable(
 
 \item{align_body}{alignment of body. Expected value is one of 'left', 'right', 'center', 'justify'.}
 
+\item{align_rownames}{alignment of rownames. Expected value is one of 'left', 'right', 'center', 'justify'.}
+
 \item{NA2space}{A logical. If true, convert NA value to space}
 
 \item{pcol}{An integer indicating p value. If specified, convert value less than 0.01 to "< 0.001" in given column.}
@@ -73,6 +76,6 @@ df2flextable(head(iris),vanilla=TRUE,colorheader=TRUE)
 df2flextable(head(iris),vanilla=TRUE,digits=c(1,2,3,4))
 df2flextable(head(iris),vanilla=FALSE)
 df2flextable(head(iris),vanilla=FALSE,vlines=FALSE,fontsize=14)
-df2flextable(head(mtcars/2000),digits=3,pcol=8,digitp=4)
+df2flextable(head(mtcars/2000),digits=3,pcol=8,digitp=4,add.rownames=TRUE)
 }
 }
