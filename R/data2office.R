@@ -135,7 +135,7 @@ data2office=function(data,
             echo1=echo|getCodeOption(datadata$option[i])
             eval=getCodeOption(datadata$option[i],"eval")
             landscape1=landscape|getCodeOption(datadata$option[i],"landscape")
-            if(datadata$type[i] %in% c("rcode","Rcode")) {
+            if(datadata$type[i] %in% c("rcode","Rcode","Pre","pre")) {
                 echo1=TRUE
                 eval=TRUE
             }
@@ -163,7 +163,7 @@ data2office=function(data,
             }
         } else{
             echo1=echo
-            if(datadata$type[i] %in% c("rcode","Rcode","html","HTML")) echo1=TRUE
+            if(datadata$type[i] %in% c("rcode","Rcode","html","HTML","Pre","pre")) echo1=TRUE
 
             eval=ifelse(datadata$type[i]=="text",FALSE,TRUE)
             if(datadata$type[i] %in% c("mytable","data","plot","table","2plots")) eval=FALSE
@@ -187,7 +187,7 @@ data2office=function(data,
         }
 
 
-        if(datadata$type[i] %in% c("rcode","Rcode","html","HTML")) {
+        if(datadata$type[i] %in% c("rcode","Rcode","html","HTML","Pre","pre")) {
             #sink("NUL")
             eval(parse(text=datadata$code[i]),envir=global_env())
             #unsink("NUL")

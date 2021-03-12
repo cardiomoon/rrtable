@@ -162,7 +162,7 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
             mycat("```{r,results='asis'}\n")
             mycat(mypptlist$code[i],"\n")
             mycat("```\n\n")
-        } else if(mypptlist$type[i]=="rcode") {
+        } else if(mypptlist$type[i] %in% c("rcode","Rcode","Pre","pre")) {
             mycat("```{r,echo=TRUE}\n")
             mycat(mypptlist$code[i],'\n')
             mycat("```\n\n")
