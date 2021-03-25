@@ -16,7 +16,8 @@ data2plotzip(
   start = 0,
   preprocessing = "",
   rawDataName = NULL,
-  rawDataFile = "rawData.RDS"
+  rawDataFile = "rawData.RDS",
+  out = NULL
 )
 }
 \arguments{
@@ -43,6 +44,8 @@ data2plotzip(
 \item{rawDataName}{The name of the rawData}
 
 \item{rawDataFile}{The name of the rawData file which the data are to be read from.}
+
+\item{out}{An object or NULL}
 }
 \description{
 Make zipped plot file with a data.frame

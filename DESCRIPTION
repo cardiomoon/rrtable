@@ -1,7 +1,7 @@
 Package: rrtable
 Type: Package
 Title: Reproducible Research with a Table of R Codes
-Version: 0.2.5.1
+Version: 0.2.6
 Imports:
    stringr,
    ggplot2 (>= 2.2.0),

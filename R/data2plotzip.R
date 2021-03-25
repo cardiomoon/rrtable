@@ -9,7 +9,8 @@
 #' @param preprocessing A character string of R code
 #' @param rawDataName The name of the rawData
 #' @param rawDataFile The name of the rawData file which the data are to be read from.
-myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,preprocessing="",rawDataName=NULL,rawDataFile="rawData.RDS"){
+#' @param out An object or NULL
+myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,preprocessing="",rawDataName=NULL,rawDataFile="rawData.RDS",out=NULL){
     filename=c()
     count=nrow(data)
 
@@ -136,6 +137,7 @@ is_ggsurvplot=function(x,preprocessing=""){
 #' @param preprocessing A character string of R code
 #' @param rawDataName The name of the rawData
 #' @param rawDataFile The name of the rawData file which the data are to be read from.
+#' @param out An object or NULL
 #' @importFrom utils zip
 #' @export
 #' @examples
@@ -147,7 +149,7 @@ is_ggsurvplot=function(x,preprocessing=""){
 #' data2plotzip(sampleData2,path="tmp")
 #' }
 data2plotzip=function(data,path=".",filename="Plot.zip",format="PNG",width=8,height=6,units="in",res=300,start=0,preprocessing="",
-                      rawDataName=NULL,rawDataFile="rawData.RDS"){
+                      rawDataName=NULL,rawDataFile="rawData.RDS",out=NULL){
 
     mode=0
     owd=getwd()
@@ -164,7 +166,7 @@ data2plotzip=function(data,path=".",filename="Plot.zip",format="PNG",width=8,hei
 
     data=data2to1(data)
     fs=myplot2(data,format=format,width=width,height=height,units=units,res=res,start=start,preprocessing=preprocessing,
-               rawDataName=rawDataName,rawDataFile=rawDataFile)
+               rawDataName=rawDataName,rawDataFile=rawDataFile,out=out)
     zip(zipfile=filename, files=fs)
     file.remove(fs)
     setwd(owd)

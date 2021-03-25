@@ -9,6 +9,7 @@
 #' @param vanilla logical. Whether or not make vanilla table
 #' @param echo Logical. Whether or not show R code of plot and table
 #' @param showself Logical. Whether or not show R code for the paragraph
+#' @param out An object or NULL
 #' @importFrom rmarkdown render
 #' @importFrom moonBook mytable
 #' @importFrom ztable ztable
@@ -22,7 +23,7 @@
 #' data2HTML(sampleData2)
 #' }
 data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawDataName=NULL,rawDataFile="rawData.RDS",
-                   type="HTML",vanilla=FALSE,echo=TRUE,showself=FALSE){
+                   type="HTML",vanilla=FALSE,echo=TRUE,showself=FALSE,out=NULL){
 
     mode=0
     owd=getwd()
@@ -77,12 +78,24 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
         mycat("subtitle: '",mysubtitle,"'\n")
     }
     mycat("author: '",myauthor,"'\n")
-    mycat("date: '`r Sys.time()`'\n---\n")
+    mycat("date: '`r Sys.time()`'\n")
+    if(!is.null(out)){
+        mycat("params:\n")
+        mycat("   out: out\n")
+    }
+    mycat("---\n")
+
 
     mycat("```{r setup, include=FALSE}\n")
     mycat("knitr::opts_chunk$set(echo =",echo,",message=FALSE,warning=FALSE,comment=NA,
           fig.width=9,fig.asp=0.618,fig.align='center',dpi=300,out.width='70%')\n")
     mycat("```\n")
+
+    if(!is.null(out)){
+    mycat("```{r,echo=FALSE}\n")
+    mycat("out=params$out\n")
+    mycat("```\n")
+    }
 
     mycat("```{r,echo=",echo,",message=FALSE}\n")
     mycat("require(moonBook)\n")
@@ -166,7 +179,7 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
             mycat("```{r,echo=TRUE}\n")
             mycat(mypptlist$code[i],'\n')
             mycat("```\n\n")
-        } else if(mypptlist$type[i]=="code") {
+        } else if(mypptlist$type[i] == "code") {
             mycat("```{r,echo=TRUE,eval=FALSE}\n")
             mycat(mypptlist$code[i],'\n')
             mycat("```\n\n")
@@ -182,6 +195,16 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
 
             mycat(mypptlist$code[i],'\n')
 
+        } else if(mypptlist$type[i] %in% c("out")) {
+          if(is.null(out)){
+
+            mycat("```{r,echo=TRUE}\n")
+          } else{
+
+            mycat("```{r,echo=TRUE,eval=FALSE}\n")
+          }
+          mycat(mypptlist$code[i],'\n')
+          mycat("```\n\n")
         } else if(mypptlist$code[i]!=""){
             mycat("```{r",ifelse(shortdata,"",mypptlist$option[i]),"}\n")
             mycat(mypptlist$code[i],'\n')
@@ -191,13 +214,20 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
 
     }
     if(type=="HTML"){
-       out <- rmarkdown::render('report2.Rmd', rmarkdown::html_document())
+      output_format <-rmarkdown::html_document()
     }else if(type=="docx"){
-      out <- rmarkdown::render('report2.Rmd', rmarkdown::word_document())
+      output_format <- rmarkdown::word_document()
     } else if(type=="pptx"){
-      out <- rmarkdown::render('report2.Rmd', rmarkdown::powerpoint_presentation())
+      output_format <- rmarkdown::powerpoint_presentation()
     } else {
-      out <- rmarkdown::render('report2.Rmd', rmarkdown::pdf_document())
+      output_format <- rmarkdown::pdf_document()
+    }
+    if(is.null(out)){
+
+       out <- rmarkdown::render('report2.Rmd', output_format)
+
+    }else{
+      out <- rmarkdown::render('report2.Rmd', output_format, params=list(out=out))
     }
 
     result=file.rename(out, filename)

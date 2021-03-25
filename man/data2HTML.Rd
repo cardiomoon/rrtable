@@ -14,7 +14,8 @@ data2HTML(
   type = "HTML",
   vanilla = FALSE,
   echo = TRUE,
-  showself = FALSE
+  showself = FALSE,
+  out = NULL
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ data2HTML(
 \item{echo}{Logical. Whether or not show R code of plot and table}
 
 \item{showself}{Logical. Whether or not show R code for the paragraph}
+
+\item{out}{An object or NULL}
 }
 \description{
 Make a HTML5 file with a data.frame

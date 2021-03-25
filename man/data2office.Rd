@@ -19,7 +19,8 @@ data2office(
   vanilla = FALSE,
   echo = FALSE,
   landscape = FALSE,
-  showself = FALSE
+  showself = FALSE,
+  out = NULL
 )
 }
 \arguments{
@@ -52,6 +53,8 @@ data2office(
 \item{landscape}{Logical. Whether or not make a landscape section.}
 
 \item{showself}{Logical. Whether or not show R code for the paragraph}
+
+\item{out}{An object or NULL}
 }
 \description{
 convert data to pptx file

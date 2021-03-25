@@ -14,6 +14,7 @@
 #' @param echo logical Whether or not show R code
 #' @param landscape Logical. Whether or not make a landscape section.
 #' @param showself Logical. Whether or not show R code for the paragraph
+#' @param out An object or NULL
 #' @importFrom officer read_docx read_pptx
 #' @importFrom ztable ztable2flextable
 #' @importFrom shiny isRunning Progress
@@ -24,7 +25,8 @@ data2office=function(data,
                      path=".",filename="Report",format="pptx",width=7,height=5,units="in",
                      res=300,rawDataName=NULL,rawDataFile="rawData.RDS",vanilla=FALSE,echo=FALSE,
                      landscape=FALSE,
-                     showself=FALSE){
+                     showself=FALSE,
+                     out=NULL){
 
      # data=readCSVComment("~/Downloads/PPTxList.csv")
     # preprocessing=""
@@ -168,7 +170,7 @@ data2office=function(data,
             eval=ifelse(datadata$type[i]=="text",FALSE,TRUE)
             if(datadata$type[i] %in% c("mytable","data","plot","table","2plots")) eval=FALSE
             landscape1=FALSE
-            if(datadata$type[i]=="text") {
+            if(datadata$type[i] %in% c("text","out")) {
                 temp=datadata$code[i]
                 tempcode=""
             } else {
@@ -186,8 +188,11 @@ data2office=function(data,
             }
         }
 
-
-        if(datadata$type[i] %in% c("rcode","Rcode","html","HTML","Pre","pre")) {
+        if(datadata$type[i] %in% c("out","Out")) {
+            if(is.null(out)) {
+                eval(parse(text=datadata$code[i]),envir=global_env())
+            }
+        } else if(datadata$type[i] %in% c("rcode","Rcode","html","HTML","Pre","pre")) {
             #sink("NUL")
             eval(parse(text=datadata$code[i]),envir=global_env())
             #unsink("NUL")
