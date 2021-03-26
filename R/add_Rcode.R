@@ -10,12 +10,19 @@ unsink=function(temp){
 #' @param result character strings encoding R code
 #' @param preprocessing character strings encoding R code as a preprocessing
 #' @param eval logical. Whether or not evaluate the code
+#' @param out An object or NULL
 #' @importFrom utils capture.output
-Rcode2df=function(result,preprocessing,eval=TRUE){
+Rcode2df=function(result,preprocessing,eval=TRUE,out=NULL){
+
     if(preprocessing!="") {
         sink("NUL")
         eval(parse(text=preprocessing))
         unsink("NUL")
+    }
+    if(!is.null(out)){
+        for(i in seq_along(out)){
+            assign(names(out)[i],out[[i]])
+        }
     }
     resres=c()
     codes=unlist(strsplit(result,"\n",fixed=TRUE))
@@ -52,13 +59,21 @@ Rcode2df=function(result,preprocessing,eval=TRUE){
 #' @param result character strings encoding R code
 #' @param preprocessing character strings encoding R code as a preprocessing
 #' @param eval logical. Whether or not evaluate the code
+#' @param out An object or NULL
 #' @importFrom utils capture.output
-Rcode2df2=function(result,preprocessing,eval=TRUE){
+Rcode2df2=function(result,preprocessing,eval=TRUE,out=NULL){
     if(preprocessing!="") {
         sink("NUL")
         eval(parse(text=preprocessing))
         unsink("NUL")
     }
+    # if(!is.null(out)){
+    #     cat("In Rcode2df2()\n")
+    #     str(out)
+    #     for(i in seq_along(out)){
+    #         assign(names(out)[i],out[[i]])
+    #     }
+    # }
     res=result
     if(eval){
         temp=capture.output(eval(parse(text=result)))
@@ -155,15 +170,22 @@ df2RcodeTable=function(df,bordercolor="gray",format="pptx",eval=TRUE){
 #' @param preprocessing character strings encoding R code as a preprocessing
 #' @param format desired format. choices are "pptx" or "docx"
 #' @param eval logical. Whether or not evaluate the code
+#' @param out An object of NULL
 #' @export
 #' @examples
 #' Rcode2flextable("str(mtcars)\nsummary(mtcars)",eval=FALSE)
-Rcode2flextable=function(result,preprocessing="",format="pptx",eval=TRUE){
-
-    df=tryCatch(Rcode2df(result,preprocessing=preprocessing,eval=eval),
+Rcode2flextable=function(result,preprocessing="",format="pptx",eval=TRUE,out=out){
+    # if(!is.null(out)){
+    #     cat("In Rcode2flextable()\n")
+    #     str(out)
+    #     for(i in seq_along(out)){
+    #         assign(names(out)[i],out[[i]])
+    #     }
+    # }
+    df=tryCatch(Rcode2df(result,preprocessing=preprocessing,eval=eval,out=out),
                 error=function(e) "error")
     if("character" %in% class(df)) {
-        df<-Rcode2df2(result,preprocessing=preprocessing,eval=eval)
+        df<-Rcode2df2(result,preprocessing=preprocessing,eval=eval,out=out)
     }
     df2RcodeTable(df,format=format,eval=eval)
 

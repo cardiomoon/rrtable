@@ -25,6 +25,11 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,p
         eval(parse(text=preprocessing))
         unsink("NUL")
     }
+    if(!is.null(out)){
+        for(i in seq_along(out)){
+            assign(names(out)[i],out[[i]])
+        }
+    }
 
     if(shiny::isRunning()){
         progress <- shiny::Progress$new()
@@ -50,7 +55,7 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,p
             path <- paste0("plot_",j,".png")
             filename <- c(filename, path)
 
-            plotPNG2(data$code[i],path,data$type[i],width=width,height=height,units=units,res=res,preprocessing=preprocessing)
+            plotPNG2(data$code[i],path,data$type[i],width=width,height=height,units=units,res=res,preprocessing=preprocessing,out=out)
             j=j+1
 
             } else if(!(data$type[i] %in% c("text","title","author"))){
@@ -73,20 +78,26 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,p
 #' @param res The nominal resolution in ppi
 #' @param ggplot A logical. Set this argument true if the R code is for ggplot
 #' @param preprocessing preprocessing
+#' @param out An object or NULL
 #' @importFrom grDevices png
 #' @importFrom ggplot2 ggsave
 #' @importFrom ggpubr ggexport
-plotPNG2=function(x,file,type,width=7,height=7,units="in",res=300,ggplot=FALSE,preprocessing=""){
+plotPNG2=function(x,file,type,width=7,height=7,units="in",res=300,ggplot=FALSE,preprocessing="",out=NULL){
 
     if(preprocessing!=""){
         sink("NUL")
         eval(parse(text=preprocessing))
         unsink("NUL")
     }
-    if(is_ggplot(x,preprocessing=preprocessing)) {
+    if(!is.null(out)){
+        for(i in seq_along(out)){
+            assign(names(out)[i],out[[i]])
+        }
+    }
+    if(is_ggplot(x,preprocessing=preprocessing,out=out)) {
         p<-eval(parse(text=x))
         ggsave(file,p,width=width,height=height,units=units,dpi=res)
-    } else if(is_ggsurvplot(x,preprocessing=preprocessing)){
+    } else if(is_ggsurvplot(x,preprocessing=preprocessing,out=out)){
         png(file,width=width,height=height,units=units,res=res)
         #pdf(file,paper="letter")
         print(eval(parse(text=x)))
@@ -113,12 +124,18 @@ plotPNG2=function(x,file,type,width=7,height=7,units="in",res=300,ggplot=FALSE,p
 #' Reports whether plotstring encode a ggsurvplot object
 #' @param x A character encoding a plot
 #' @param preprocessing preprocessing
+#' @param out An object or NULL
 #' @export
-is_ggsurvplot=function(x,preprocessing=""){
+is_ggsurvplot=function(x,preprocessing="",out=NULL){
     if(preprocessing!=""){
         sink("NUL")
         eval(parse(text=preprocessing))
         unsink("NUL")
+    }
+    if(!is.null(out)){
+        for(i in seq_along(out)){
+            assign(names(out)[i],out[[i]])
+        }
     }
     p<-eval(parse(text=x))
     ifelse("ggsurvplot" %in% class(p),TRUE,FALSE)
@@ -162,6 +179,11 @@ data2plotzip=function(data,path=".",filename="Plot.zip",format="PNG",width=8,hei
         if(!file.exists(path)) dir.create(path)
         path=paste0(owd,"/",path)
         setwd(path)
+    }
+    if(!is.null(out)){
+        for(i in seq_along(out)){
+            assign(names(out)[i],out[[i]])
+        }
     }
 
     data=data2to1(data)

@@ -13,7 +13,8 @@ plotPNG2(
   units = "in",
   res = 300,
   ggplot = FALSE,
-  preprocessing = ""
+  preprocessing = "",
+  out = NULL
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ plotPNG2(
 \item{ggplot}{A logical. Set this argument true if the R code is for ggplot}
 
 \item{preprocessing}{preprocessing}
+
+\item{out}{An object or NULL}
 }
 \description{
 Make png file with a plot code

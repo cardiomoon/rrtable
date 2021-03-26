@@ -13,6 +13,7 @@
 #' @param width desired width of the plot
 #' @param height desired height of the plot
 #' @param aspectr desired aspect ratio of the plot
+#' @param out An object or NULL
 #' @importFrom stringr "%>%"
 #' @export
 #' @examples
@@ -25,10 +26,15 @@
 #' }
 plot2office=function(x=NULL,target="Report",append=FALSE,title="",
                      type="pptx",preprocessing="",plottype="auto",echo=FALSE,parallel=FALSE,
-                     left=1,top=1,width=NULL,height=NULL,aspectr=NULL){
+                     left=1,top=1,width=NULL,height=NULL,aspectr=NULL,out=NULL){
    if(is.null(x)) {
       message("x should be a ggplot object or a string encoding plot or ggplot")
       return()
+   }
+   if(!is.null(out)){
+      for(i in seq_along(out)){
+         assign(names(out)[i],out[[i]])
+      }
    }
    if(is.null(width)){
       if(is.null(height)){
@@ -92,7 +98,7 @@ plot2office=function(x=NULL,target="Report",append=FALSE,title="",
             pos=pos+0.5
 
          }
-         doc<- add_anyplot(doc,x=code,preprocessing=preprocessing,plottype=plottype,left=left,top=pos,width=width,height=height)
+         doc<- add_anyplot(doc,x=code,preprocessing=preprocessing,plottype=plottype,left=left,top=pos,width=width,height=height,out=out)
       }
 
 
@@ -140,18 +146,25 @@ plot2docx=function(...){
 #'Reports whether plotstring encode a ggplot object
 #'@param plotstring A character
 #'@param preprocessing  A string of R code
+#'@param out An object or NULL
 #'@importFrom ggplot2 is.ggplot
 #'@export
 #'@examples
 #'require(ggplot2)
 #'is_ggplot("plot(iris)")
 #'is_ggplot("ggplot(iris,aes(x=Sepal.Length))+geom_histogram()")
-is_ggplot=function(plotstring,preprocessing=""){
+is_ggplot=function(plotstring,preprocessing="",out=NULL){
    if(preprocessing!="") {
         sink("NUL")
         eval(parse(text=preprocessing))
         unsink("NUL")
    }
+   if(!is.null(out)){
+      for(i in seq_along(out)){
+         assign(names(out)[i],out[[i]])
+      }
+   }
+
    x<-eval(parse(text=plotstring))
    ggplot2::is.ggplot(x)
 }
@@ -186,14 +199,21 @@ open_doc=function(target="Report", type="pptx",append=FALSE) {
 #' @param top top margin
 #' @param width desired width of the plot
 #' @param height desired height of the plot
+#' @param out An object or NULL
 #' @export
-add_anyplot=function(doc,x=NULL,preprocessing="",plottype="auto",left=1,top=2,width=8,height=5.5){
+add_anyplot=function(doc,x=NULL,preprocessing="",plottype="auto",left=1,top=2,width=8,height=5.5,out=NULL){
 
    if(preprocessing!="") {
       sink("NUL")
       eval(parse(text=preprocessing))
       unsink("NUL")
    }
+   if(!is.null(out)){
+      for(i in seq_along(out)){
+         assign(names(out)[i],out[[i]])
+      }
+   }
+
    if(class(doc)=="rpptx"){
       if(plottype=="plot"){
          temp=paste0("ph_with(doc,dml(code=",x,"), location = ph_location(left=",left,",top=",top,
@@ -207,7 +227,7 @@ add_anyplot=function(doc,x=NULL,preprocessing="",plottype="auto",left=1,top=2,wi
          doc <- doc %>%
             ph_with(dml(code = print(x)), location = ph_location(left=left,top=top,width=width,height=height))
       } else{
-         if(is_ggplot(x,preprocessing=preprocessing)){
+         if(is_ggplot(x,preprocessing=preprocessing,out=out)){
             gg=eval(parse(text=x))
             doc <- doc %>%
                ph_with(dml(code = print(gg)), location = ph_location(left=left,top=top,width=width,height=height))
@@ -228,6 +248,7 @@ add_anyplot=function(doc,x=NULL,preprocessing="",plottype="auto",left=1,top=2,wi
             } else{
             temp=paste0("ph_with(doc,dml(code=",x,"), location = ph_location(left=",left,",top=",top,
                         ",width=",width,",height=",height,"))")
+
             doc=eval(parse(text=temp))
             }
 
@@ -243,7 +264,7 @@ add_anyplot=function(doc,x=NULL,preprocessing="",plottype="auto",left=1,top=2,wi
             body_add_gg(value=x)
 
       } else{
-         if(is_ggplot(x)){
+         if(is_ggplot(x,preprocessing=preprocessing,out=out)){
             gg=eval(parse(text=x))
             doc <- doc %>%
                body_add_gg(value=gg,width=width,height=height)

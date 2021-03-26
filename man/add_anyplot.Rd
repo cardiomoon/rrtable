@@ -12,7 +12,8 @@ add_anyplot(
   left = 1,
   top = 2,
   width = 8,
-  height = 5.5
+  height = 5.5,
+  out = NULL
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ add_anyplot(
 \item{width}{desired width of the plot}
 
 \item{height}{desired height of the plot}
+
+\item{out}{An object or NULL}
 }
 \description{
 Add a ggplot or a plot to the Microsoft Office Document

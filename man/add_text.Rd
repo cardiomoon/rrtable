@@ -13,7 +13,8 @@ add_text(
   echo = FALSE,
   eval = FALSE,
   style = "Normal",
-  landscape = FALSE
+  landscape = FALSE,
+  out = NULL
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ add_text(
 \item{style}{text style}
 
 \item{landscape}{Logical. Whether or not make a landscape section.}
+
+\item{out}{An object or NULL}
 }
 \description{
 Add text to document

@@ -93,7 +93,8 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
 
     if(!is.null(out)){
     mycat("```{r,echo=FALSE}\n")
-    mycat("out=params$out\n")
+    mycat("out<-params$out\n")
+    mycat("for(i in seq_along(out)){assign(names(out)[i],out[[i]])}\n")
     mycat("```\n")
     }
 

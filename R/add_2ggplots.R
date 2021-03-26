@@ -84,9 +84,17 @@ add_text2hyperlink=function(mydoc,text){
 #' @param eval logical whether or not evaluate the R code
 #' @param landscape Logical. Whether or not make a landscape section.
 #' @param style text style
+#' @param out An object or NULL
 #' @importFrom officer body_end_section_portrait
 #' @export
-add_text=function(mydoc,title="",text="",code="",preprocessing="",echo=FALSE,eval=FALSE,style="Normal",landscape=FALSE){
+add_text=function(mydoc,title="",text="",code="",preprocessing="",echo=FALSE,eval=FALSE,style="Normal",landscape=FALSE,out=NULL){
+    # if(!is.null(out)){
+    #     cat("In add_text()\n")
+    #     str(out)
+    #     for(i in seq_along(out)){
+    #         assign(names(out)[i],out[[i]])
+    #     }
+    # }
     if(class(mydoc)=="rpptx"){
         layout="Title and Content"
         if((title=="")&(text=="")) layout="Blank"
@@ -108,7 +116,7 @@ add_text=function(mydoc,title="",text="",code="",preprocessing="",echo=FALSE,eva
         pos=1.5
         if(echo) {
             if(code!=""){
-            codeft=Rcode2flextable(code,preprocessing=preprocessing,eval=eval,format="pptx")
+            codeft=Rcode2flextable(code,preprocessing=preprocessing,eval=eval,format="pptx",out=out)
             mydoc<-mydoc %>% ph_with(value=codeft, location = ph_location(left=1,top=pos))
             pos=2
             }
@@ -123,7 +131,7 @@ add_text=function(mydoc,title="",text="",code="",preprocessing="",echo=FALSE,eva
         if(text!="") mydoc<-mydoc %>% body_add_par(value=text,style=style)
         if(echo) {
             if(code!=""){
-            codeft=Rcode2flextable(code,eval=eval,format="docx")
+            codeft=Rcode2flextable(code,eval=eval,format="docx",out=out)
             mydoc<-mydoc %>% body_add_par(value="\n\n",style="Normal")
             mydoc<-mydoc %>% body_add_flextable(codeft)
             mydoc<-mydoc %>% body_add_par(value="\n\n",style="Normal")

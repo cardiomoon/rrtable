@@ -4,7 +4,13 @@
 \alias{Rcode2flextable}
 \title{Make a flextable object with character strings encoding R code}
 \usage{
-Rcode2flextable(result, preprocessing = "", format = "pptx", eval = TRUE)
+Rcode2flextable(
+  result,
+  preprocessing = "",
+  format = "pptx",
+  eval = TRUE,
+  out = out
+)
 }
 \arguments{
 \item{result}{character strings encoding R code}
@@ -14,6 +20,8 @@ Rcode2flextable(result, preprocessing = "", format = "pptx", eval = TRUE)
 \item{format}{desired format. choices are "pptx" or "docx"}
 
 \item{eval}{logical. Whether or not evaluate the code}
+
+\item{out}{An object of NULL}
 }
 \description{
 Make a flextable object with character strings encoding R code

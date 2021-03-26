@@ -1,6 +1,6 @@
 # rrtable version 0.2.6
 =======================
-(25-Mar-2021)
+(26-Mar-2021)
 
 * New argument out added to data2office, data2HTML, data2plotzip 
 

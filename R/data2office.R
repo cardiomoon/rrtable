@@ -34,8 +34,16 @@ data2office=function(data,
     # res=300;rawDataName=NULL;rawDataFile="rawData.RDS";vanilla=FALSE;echo=FALSE
     # landscape=FALSE;
     # showself=FALSE
+
+
     datadata=data
     obj=ls(envir=global_env())
+
+    if(!is.null(out)){
+        for(i in seq_along(out)){
+            assign(names(out)[i],out[[i]])
+        }
+    }
 
     mode=0
     owd=getwd()
@@ -114,6 +122,7 @@ data2office=function(data,
 
     for(i in 1:nrow(datadata)){
 
+
         if(isRunning()){
             progress$inc(1/(nrow(datadata)), detail = paste("Doing part", i+1,"/",nrow(datadata)+1))
         } else(
@@ -161,7 +170,7 @@ data2office=function(data,
             } else{
             mydoc=add_text(mydoc,title=datadata$title[i],text=temp,
                            code=datadata$code[i],echo=echo1,eval=eval,
-                           landscape=landscape1)
+                           landscape=landscape1,out=out)
             }
         } else{
             echo1=echo
@@ -184,17 +193,17 @@ data2office=function(data,
             } else{
             mydoc=add_text(mydoc,title=datadata$title[i],text=temp,
                            code=tempcode,preprocessing=preprocessing,echo=echo1,eval=eval,
-                           landscape=landscape1)
+                           landscape=landscape1,out=out)
             }
         }
 
         if(datadata$type[i] %in% c("out","Out")) {
             if(is.null(out)) {
-                eval(parse(text=datadata$code[i]),envir=global_env())
+                eval(parse(text=datadata$code[i]))
             }
         } else if(datadata$type[i] %in% c("rcode","Rcode","html","HTML","Pre","pre")) {
             #sink("NUL")
-            eval(parse(text=datadata$code[i]),envir=global_env())
+            eval(parse(text=datadata$code[i]))
             #unsink("NUL")
             # preprocessing=paste0(preprocessing,"\n",datadata$code[i])
         } else if(datadata$type[i]=="data"){
@@ -223,7 +232,11 @@ data2office=function(data,
             ft=mytable2flextable(res,vanilla=vanilla)
             mydoc=add_flextable(mydoc,ft,code=datadata$code[i],echo=echo1,landscape = landscape1)
         } else if(datadata$type[i] %in% c("ggplot","plot","girafe")){
+            if(is.null(out)){
             mydoc=add_anyplot(mydoc,x=datadata$code[i],preprocessing=preprocessing,top=ifelse(echo1,2,1.5))
+            } else{
+            mydoc=add_anyplot(mydoc,x=datadata$code[i],preprocessing=preprocessing,top=ifelse(echo1,2,1.5),out=out)
+            }
         } else if(datadata$type[i] %in% c("2plots","2ggplots")){
 
             codes=unlist(strsplit(datadata$code[i],"\n"))

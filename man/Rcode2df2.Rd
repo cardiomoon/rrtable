@@ -4,7 +4,7 @@
 \alias{Rcode2df2}
 \title{Make a data.frame with character strings encoding R code}
 \usage{
-Rcode2df2(result, preprocessing, eval = TRUE)
+Rcode2df2(result, preprocessing, eval = TRUE, out = NULL)
 }
 \arguments{
 \item{result}{character strings encoding R code}
@@ -12,6 +12,8 @@ Rcode2df2(result, preprocessing, eval = TRUE)
 \item{preprocessing}{character strings encoding R code as a preprocessing}
 
 \item{eval}{logical. Whether or not evaluate the code}
+
+\item{out}{An object or NULL}
 }
 \description{
 Make a data.frame with character strings encoding R code
