@@ -4,14 +4,12 @@
 \alias{add_Rcode}
 \title{Make a R code slide into a document object}
 \usage{
-add_Rcode(mydoc, code, preprocessing = "", format = "pptx")
+add_Rcode(mydoc, code, format = "pptx")
 }
 \arguments{
 \item{mydoc}{A document object}
 
 \item{code}{A character string encoding R codes}
-
-\item{preprocessing}{A character string of R code as a preprocessing}
 
 \item{format}{desired format. choices are "pptx" or "docx"}
 }

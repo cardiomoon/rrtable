@@ -8,22 +8,10 @@ unsink=function(temp){
 
 #' Make a data.frame with character strings encoding R code
 #' @param result character strings encoding R code
-#' @param preprocessing character strings encoding R code as a preprocessing
 #' @param eval logical. Whether or not evaluate the code
-#' @param out An object or NULL
 #' @importFrom utils capture.output
-Rcode2df=function(result,preprocessing,eval=TRUE,out=NULL){
+Rcode2df=function(result,eval=TRUE){
 
-    if(preprocessing!="") {
-        sink("NUL")
-        eval(parse(text=preprocessing))
-        unsink("NUL")
-    }
-    if(!is.null(out)){
-        for(i in seq_along(out)){
-            assign(names(out)[i],out[[i]])
-        }
-    }
     resres=c()
     codes=unlist(strsplit(result,"\n",fixed=TRUE))
 
@@ -57,23 +45,10 @@ Rcode2df=function(result,preprocessing,eval=TRUE,out=NULL){
 
 #' Make a data.frame with character strings encoding R code
 #' @param result character strings encoding R code
-#' @param preprocessing character strings encoding R code as a preprocessing
 #' @param eval logical. Whether or not evaluate the code
-#' @param out An object or NULL
 #' @importFrom utils capture.output
-Rcode2df2=function(result,preprocessing,eval=TRUE,out=NULL){
-    if(preprocessing!="") {
-        sink("NUL")
-        eval(parse(text=preprocessing))
-        unsink("NUL")
-    }
-    # if(!is.null(out)){
-    #     cat("In Rcode2df2()\n")
-    #     str(out)
-    #     for(i in seq_along(out)){
-    #         assign(names(out)[i],out[[i]])
-    #     }
-    # }
+Rcode2df2=function(result,eval=TRUE){
+
     res=result
     if(eval){
         temp=capture.output(eval(parse(text=result)))
@@ -167,14 +142,12 @@ df2RcodeTable=function(df,bordercolor="gray",format="pptx",eval=TRUE){
 
 #' Make a flextable object with character strings encoding R code
 #' @param result character strings encoding R code
-#' @param preprocessing character strings encoding R code as a preprocessing
 #' @param format desired format. choices are "pptx" or "docx"
 #' @param eval logical. Whether or not evaluate the code
-#' @param out An object of NULL
 #' @export
 #' @examples
 #' Rcode2flextable("str(mtcars)\nsummary(mtcars)",eval=FALSE)
-Rcode2flextable=function(result,preprocessing="",format="pptx",eval=TRUE,out=out){
+Rcode2flextable=function(result,format="pptx",eval=TRUE){
     # if(!is.null(out)){
     #     cat("In Rcode2flextable()\n")
     #     str(out)
@@ -182,10 +155,10 @@ Rcode2flextable=function(result,preprocessing="",format="pptx",eval=TRUE,out=out
     #         assign(names(out)[i],out[[i]])
     #     }
     # }
-    df=tryCatch(Rcode2df(result,preprocessing=preprocessing,eval=eval,out=out),
+    df=tryCatch(Rcode2df(result,eval=eval),
                 error=function(e) "error")
     if("character" %in% class(df)) {
-        df<-Rcode2df2(result,preprocessing=preprocessing,eval=eval,out=out)
+        df<-Rcode2df2(result,eval=eval)
     }
     df2RcodeTable(df,format=format,eval=eval)
 
@@ -196,7 +169,6 @@ Rcode2flextable=function(result,preprocessing="",format="pptx",eval=TRUE,out=out
 #' Make a R code slide into a document object
 #' @param mydoc A document object
 #' @param code  A character string encoding R codes
-#' @param preprocessing A character string of R code as a preprocessing
 #' @param format desired format. choices are "pptx" or "docx"
 #' @return a document object
 #' @export
@@ -207,9 +179,9 @@ Rcode2flextable=function(result,preprocessing="",format="pptx",eval=TRUE,out=out
 #' code="summary(lm(mpg~hp+wt,data=mtcars))"
 #' read_pptx() %>% add_text(title="Regression Analysis") %>%
 #'    add_Rcode(code)
-add_Rcode=function(mydoc,code,preprocessing="",format="pptx"){
+add_Rcode=function(mydoc,code,format="pptx"){
 
-    ft <- Rcode2flextable(code,preprocessing=preprocessing,format=format)
+    ft <- Rcode2flextable(code,format=format)
     mydoc <- mydoc %>% add_flextable(ft)
     mydoc
 }
@@ -229,6 +201,11 @@ add_Rcode=function(mydoc,code,preprocessing="",format="pptx"){
 #' }
 Rcode2office=function(code,preprocessing="",title="",type="pptx",target="Report",append=FALSE){
 
+    if(preprocessing!=""){
+        #sink("NUL")
+        eval(parse(text=preprocessing),envir = global_env())
+        #unsink("NUL")
+    }
     doc<-open_doc(target=target,type=type,append=append)
     target=attr(doc,"name")
     if(title!=""){
@@ -237,7 +214,7 @@ Rcode2office=function(code,preprocessing="",title="",type="pptx",target="Report"
     } else {
         if(type=="pptx") doc <- doc %>% add_slide(layout="Blank")
     }
-    ft <- Rcode2flextable(code,preprocessing=preprocessing,format=type)
+    ft <- Rcode2flextable(code,format=type)
     doc <- doc %>% add_flextable(ft)
     message(paste0("Exported R code as ", target))
     doc %>% print(target=target)

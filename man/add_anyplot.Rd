@@ -7,21 +7,17 @@
 add_anyplot(
   doc,
   x = NULL,
-  preprocessing = "",
   plottype = "auto",
   left = 1,
   top = 2,
   width = 8,
-  height = 5.5,
-  out = NULL
+  height = 5.5
 )
 }
 \arguments{
 \item{doc}{A document object}
 
 \item{x}{An object of class ggplot2 or a string encoding plot or ggplot}
-
-\item{preprocessing}{A string of R code}
 
 \item{plottype}{character  One of c("auto","plot","ggplot","emf")}
 
@@ -32,8 +28,6 @@ add_anyplot(
 \item{width}{desired width of the plot}
 
 \item{height}{desired height of the plot}
-
-\item{out}{An object or NULL}
 }
 \description{
 Add a ggplot or a plot to the Microsoft Office Document

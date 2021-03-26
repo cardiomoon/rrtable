@@ -1,7 +1,6 @@
 #' Add ggplot into a document object
 #' @param mydoc A document object
 #' @param code R code for table
-#' @param preprocessing preprocessing
 #' @param top top position of plot
 #' @return a document object
 #' @importFrom rvg dml body_add_vg
@@ -14,12 +13,8 @@
 #' code <- "ggplot(mtcars, aes(x = mpg , y = wt)) + geom_point()"
 #' read_pptx() %>% add_text(title="ggplot") %>% add_ggplot(code=code)
 #' read_docx() %>% add_text(title="ggplot") %>% add_ggplot(code=code)
-add_ggplot=function(mydoc,code="",preprocessing="",top=2){
+add_ggplot=function(mydoc,code="",top=2){
 
-
-    if(preprocessing!="") {
-           eval(parse(text=preprocessing))
-    }
 
     if(class(mydoc)=="rpptx"){
 

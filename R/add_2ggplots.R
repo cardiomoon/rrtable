@@ -79,15 +79,13 @@ add_text2hyperlink=function(mydoc,text){
 #' @param title An character string as a plot title
 #' @param text text string to be added
 #' @param code An R code string
-#' @param preprocessing preprocessing
 #' @param echo logical Whether or not show R code
 #' @param eval logical whether or not evaluate the R code
 #' @param landscape Logical. Whether or not make a landscape section.
 #' @param style text style
-#' @param out An object or NULL
 #' @importFrom officer body_end_section_portrait
 #' @export
-add_text=function(mydoc,title="",text="",code="",preprocessing="",echo=FALSE,eval=FALSE,style="Normal",landscape=FALSE,out=NULL){
+add_text=function(mydoc,title="",text="",code="",echo=FALSE,eval=FALSE,style="Normal",landscape=FALSE){
     # if(!is.null(out)){
     #     cat("In add_text()\n")
     #     str(out)
@@ -116,7 +114,7 @@ add_text=function(mydoc,title="",text="",code="",preprocessing="",echo=FALSE,eva
         pos=1.5
         if(echo) {
             if(code!=""){
-            codeft=Rcode2flextable(code,preprocessing=preprocessing,eval=eval,format="pptx",out=out)
+            codeft=Rcode2flextable(code,eval=eval,format="pptx")
             mydoc<-mydoc %>% ph_with(value=codeft, location = ph_location(left=1,top=pos))
             pos=2
             }
@@ -131,7 +129,7 @@ add_text=function(mydoc,title="",text="",code="",preprocessing="",echo=FALSE,eva
         if(text!="") mydoc<-mydoc %>% body_add_par(value=text,style=style)
         if(echo) {
             if(code!=""){
-            codeft=Rcode2flextable(code,eval=eval,format="docx",out=out)
+            codeft=Rcode2flextable(code,eval=eval,format="docx")
             mydoc<-mydoc %>% body_add_par(value="\n\n",style="Normal")
             mydoc<-mydoc %>% body_add_flextable(codeft)
             mydoc<-mydoc %>% body_add_par(value="\n\n",style="Normal")
@@ -146,7 +144,6 @@ add_text=function(mydoc,title="",text="",code="",preprocessing="",echo=FALSE,eva
 #' @param mydoc A document object
 #' @param plot1 An R code encoding the first ggplot
 #' @param plot2 An R code encoding the second ggplot
-#' @param preprocessing preprocessing
 #' @param width plot width in inches
 #' @param height plot height in inches
 #' @param top top plot position in inches
@@ -164,11 +161,7 @@ add_text=function(mydoc,title="",text="",code="",preprocessing="",echo=FALSE,eva
 #' read_pptx() %>% add_text(title="Two ggplots") %>% add_2ggplots(plot1=plot1,plot2=plot2)
 #' read_docx() %>% add_text(title="Two ggplots") %>% add_2ggplots(plot1=plot1,plot2=plot2)
 #' }
-add_2ggplots=function(mydoc,plot1,plot2,preprocessing="",width=3,height=2.5,top=2){
-
-    if(preprocessing!="") {
-        eval(parse(text=preprocessing))
-    }
+add_2ggplots=function(mydoc,plot1,plot2,width=3,height=2.5,top=2){
 
     gg1<-eval(parse(text=plot1))
     gg2<-eval(parse(text=plot2))

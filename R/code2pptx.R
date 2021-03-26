@@ -33,6 +33,11 @@ code2office=function(...,ggobj=NULL,target="Report",append=FALSE,title="",
     # type="pptx";preprocessing="";plottype="auto";echo=FALSE;parallel=FALSE
     # left=1;top=1;width=NULL;height=NULL;aspectr=NULL
 
+    if(preprocessing!=""){
+        #sink("NUL")
+        eval(parse(text=preprocessing),envir = global_env())
+        #unsink("NUL")
+    }
     if(is.null(width)){
         if(is.null(height)){
             if(is.null(aspectr)){

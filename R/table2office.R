@@ -15,6 +15,11 @@
 table2office=function(x=NULL,target="Report",append=FALSE,title="",vanilla=FALSE,echo=FALSE,
                       preprocessing="",type="pptx",landscape=FALSE,left=1,top=1){
 
+    if(preprocessing!=""){
+        #sink("NUL")
+        eval(parse(text=preprocessing),envir = global_env())
+        #unsink("NUL")
+    }
     doc<-open_doc(target=target,type=type,append=append)
     target=attr(doc,"name")
     if(title!=""){
@@ -27,7 +32,7 @@ table2office=function(x=NULL,target="Report",append=FALSE,title="",vanilla=FALSE
     if(title!="") pos=pos+0.5
     if(echo & is.character(x)) {
 
-        codeft=Rcode2flextable(x,preprocessing=preprocessing,format="pptx",eval=FALSE)
+        codeft=Rcode2flextable(x,format="pptx",eval=FALSE)
         doc<-doc %>% ph_with(value=codeft, location = ph_location(left=1,top=pos))
         pos=pos+0.5
 

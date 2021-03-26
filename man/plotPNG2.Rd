@@ -12,9 +12,7 @@ plotPNG2(
   height = 7,
   units = "in",
   res = 300,
-  ggplot = FALSE,
-  preprocessing = "",
-  out = NULL
+  ggplot = FALSE
 )
 }
 \arguments{
@@ -33,10 +31,6 @@ plotPNG2(
 \item{res}{The nominal resolution in ppi}
 
 \item{ggplot}{A logical. Set this argument true if the R code is for ggplot}
-
-\item{preprocessing}{preprocessing}
-
-\item{out}{An object or NULL}
 }
 \description{
 Make png file with a plot code

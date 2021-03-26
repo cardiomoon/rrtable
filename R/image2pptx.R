@@ -89,6 +89,11 @@ image2office=function(x,target="Report",append=FALSE,title="",
                   left=1,top=1,width=8,height=5.5){
 
   # read_pptx() %>%
+  if(preprocessing!=""){
+    #sink("NUL")
+    eval(parse(text=preprocessing),envir = global_env())
+    #unsink("NUL")
+  }
   doc<-open_doc(target=target,type=type,append=append)
   target=attr(doc,"name")
   # add_slide(layout = "Title and Content", master = "Office Theme") %>%
@@ -102,7 +107,7 @@ image2office=function(x,target="Report",append=FALSE,title="",
   }
 
   doc <- doc %>%
-    add_image(x,preprocessing=preprocessing,left = left, top = top, width = width, height = height)
+    add_image(x,left = left, top = top, width = width, height = height)
   # ph_with(external_img(src = filename, width = 8, height = 5.5),
   #         location = ph_location(left = 1, top = 1, width = 8, height = 5.5) ) %>%
   message(paste0("Exported plot as ", target))

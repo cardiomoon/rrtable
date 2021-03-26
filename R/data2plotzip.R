@@ -6,11 +6,9 @@
 #' @param units The units in which height and width are given. Can be px (pixels, the default), in (inches), cm or mm.
 #' @param res The nominal resolution in ppi
 #' @param start Plot start number
-#' @param preprocessing A character string of R code
 #' @param rawDataName The name of the rawData
 #' @param rawDataFile The name of the rawData file which the data are to be read from.
-#' @param out An object or NULL
-myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,preprocessing="",rawDataName=NULL,rawDataFile="rawData.RDS",out=NULL){
+myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,rawDataName=NULL,rawDataFile="rawData.RDS"){
     filename=c()
     count=nrow(data)
 
@@ -20,16 +18,6 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,p
         assign(rawDataName,rawData)
     }
 
-    if(preprocessing!=""){
-        sink("NUL")
-        eval(parse(text=preprocessing))
-        unsink("NUL")
-    }
-    if(!is.null(out)){
-        for(i in seq_along(out)){
-            assign(names(out)[i],out[[i]])
-        }
-    }
 
     if(shiny::isRunning()){
         progress <- shiny::Progress$new()
@@ -41,7 +29,7 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,p
     if(count>0) for(i in 1:count){
         #eval(parse(text=data$code[i]))
         if(data$type[i] %in% c("rcode","Rcode")) {
-            preprocessing=paste0(preprocessing,"\n",data$code[i])
+            eval(parse(text=data$code[i]),envir=global_env())
         }
 
         if(isRunning()){
@@ -55,7 +43,7 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,p
             path <- paste0("plot_",j,".png")
             filename <- c(filename, path)
 
-            plotPNG2(data$code[i],path,data$type[i],width=width,height=height,units=units,res=res,preprocessing=preprocessing,out=out)
+            plotPNG2(data$code[i],path,data$type[i],width=width,height=height,units=units,res=res)
             j=j+1
 
             } else if(!(data$type[i] %in% c("text","title","author"))){
@@ -77,27 +65,16 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,p
 #' @param units The units in which height and width are given. Can be px (pixels, the default), in (inches), cm or mm.
 #' @param res The nominal resolution in ppi
 #' @param ggplot A logical. Set this argument true if the R code is for ggplot
-#' @param preprocessing preprocessing
-#' @param out An object or NULL
 #' @importFrom grDevices png
 #' @importFrom ggplot2 ggsave
 #' @importFrom ggpubr ggexport
-plotPNG2=function(x,file,type,width=7,height=7,units="in",res=300,ggplot=FALSE,preprocessing="",out=NULL){
+plotPNG2=function(x,file,type,width=7,height=7,units="in",res=300,ggplot=FALSE){
 
-    if(preprocessing!=""){
-        sink("NUL")
-        eval(parse(text=preprocessing))
-        unsink("NUL")
-    }
-    if(!is.null(out)){
-        for(i in seq_along(out)){
-            assign(names(out)[i],out[[i]])
-        }
-    }
-    if(is_ggplot(x,preprocessing=preprocessing,out=out)) {
+
+    if(is_ggplot(x)) {
         p<-eval(parse(text=x))
         ggsave(file,p,width=width,height=height,units=units,dpi=res)
-    } else if(is_ggsurvplot(x,preprocessing=preprocessing,out=out)){
+    } else if(is_ggsurvplot(x)){
         png(file,width=width,height=height,units=units,res=res)
         #pdf(file,paper="letter")
         print(eval(parse(text=x)))
@@ -123,20 +100,9 @@ plotPNG2=function(x,file,type,width=7,height=7,units="in",res=300,ggplot=FALSE,p
 
 #' Reports whether plotstring encode a ggsurvplot object
 #' @param x A character encoding a plot
-#' @param preprocessing preprocessing
-#' @param out An object or NULL
 #' @export
-is_ggsurvplot=function(x,preprocessing="",out=NULL){
-    if(preprocessing!=""){
-        sink("NUL")
-        eval(parse(text=preprocessing))
-        unsink("NUL")
-    }
-    if(!is.null(out)){
-        for(i in seq_along(out)){
-            assign(names(out)[i],out[[i]])
-        }
-    }
+is_ggsurvplot=function(x){
+
     p<-eval(parse(text=x))
     ifelse("ggsurvplot" %in% class(p),TRUE,FALSE)
 }
@@ -168,6 +134,7 @@ is_ggsurvplot=function(x,preprocessing="",out=NULL){
 data2plotzip=function(data,path=".",filename="Plot.zip",format="PNG",width=8,height=6,units="in",res=300,start=0,preprocessing="",
                       rawDataName=NULL,rawDataFile="rawData.RDS",out=NULL){
 
+    obj=ls(envir=global_env())
     mode=0
     owd=getwd()
     if (is.null(path)) {
@@ -180,21 +147,33 @@ data2plotzip=function(data,path=".",filename="Plot.zip",format="PNG",width=8,hei
         path=paste0(owd,"/",path)
         setwd(path)
     }
+    if(preprocessing!=""){
+        #sink("NUL")
+        eval(parse(text=preprocessing),envir = global_env())
+        #unsink("NUL")
+    }
     if(!is.null(out)){
         for(i in seq_along(out)){
-            assign(names(out)[i],out[[i]])
+            #assign(names(out)[i],out[[i]])
+            temp=paste0("assign('",names(out)[i],"',out[[i]],envir=global_env())")
+            eval(parse(text=temp))
         }
+    } else{
+        data$type[data$type=="out"]<-"Rcode"
     }
 
     data=data2to1(data)
-    fs=myplot2(data,format=format,width=width,height=height,units=units,res=res,start=start,preprocessing=preprocessing,
-               rawDataName=rawDataName,rawDataFile=rawDataFile,out=out)
+    fs=myplot2(data,format=format,width=width,height=height,units=units,res=res,start=start,
+               rawDataName=rawDataName,rawDataFile=rawDataFile)
     zip(zipfile=filename, files=fs)
     file.remove(fs)
     setwd(owd)
     if(mode) result=file.copy(paste0(path,"/",filename),filename,overwrite=TRUE)
     path=str_replace(path,"//","/")
     paste0(path,"/",filename)
+    objnew=ls(envir=global_env())
+    temp=setdiff(objnew,obj)
+    rm(list=temp,envir=global_env())
 
 }
 

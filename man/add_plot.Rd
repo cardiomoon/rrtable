@@ -4,14 +4,12 @@
 \alias{add_plot}
 \title{Add plot into a document object}
 \usage{
-add_plot(mydoc, plotstring, preprocessing = "", width = 6, height = 6, top = 2)
+add_plot(mydoc, plotstring, width = 6, height = 6, top = 2)
 }
 \arguments{
 \item{mydoc}{A document object}
 
 \item{plotstring}{String of an R code encoding a plot}
-
-\item{preprocessing}{preprocessing}
 
 \item{width}{width of plot}
 

@@ -9,12 +9,10 @@ add_text(
   title = "",
   text = "",
   code = "",
-  preprocessing = "",
   echo = FALSE,
   eval = FALSE,
   style = "Normal",
-  landscape = FALSE,
-  out = NULL
+  landscape = FALSE
 )
 }
 \arguments{
@@ -26,8 +24,6 @@ add_text(
 
 \item{code}{An R code string}
 
-\item{preprocessing}{preprocessing}
-
 \item{echo}{logical Whether or not show R code}
 
 \item{eval}{logical whether or not evaluate the R code}
@@ -35,8 +31,6 @@ add_text(
 \item{style}{text style}
 
 \item{landscape}{Logical. Whether or not make a landscape section.}
-
-\item{out}{An object or NULL}
 }
 \description{
 Add text to document

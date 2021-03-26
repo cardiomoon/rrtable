@@ -12,10 +12,8 @@ myplot2(
   units = "in",
   res = 300,
   start = 0,
-  preprocessing = "",
   rawDataName = NULL,
-  rawDataFile = "rawData.RDS",
-  out = NULL
+  rawDataFile = "rawData.RDS"
 )
 }
 \arguments{
@@ -33,13 +31,9 @@ myplot2(
 
 \item{start}{Plot start number}
 
-\item{preprocessing}{A character string of R code}
-
 \item{rawDataName}{The name of the rawData}
 
 \item{rawDataFile}{The name of the rawData file which the data are to be read from.}
-
-\item{out}{An object or NULL}
 }
 \description{
 Make zipped plots with a data.frame

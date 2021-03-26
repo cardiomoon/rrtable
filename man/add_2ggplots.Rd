@@ -4,15 +4,7 @@
 \alias{add_2ggplots}
 \title{Add two ggplots into a document object}
 \usage{
-add_2ggplots(
-  mydoc,
-  plot1,
-  plot2,
-  preprocessing = "",
-  width = 3,
-  height = 2.5,
-  top = 2
-)
+add_2ggplots(mydoc, plot1, plot2, width = 3, height = 2.5, top = 2)
 }
 \arguments{
 \item{mydoc}{A document object}
@@ -20,8 +12,6 @@ add_2ggplots(
 \item{plot1}{An R code encoding the first ggplot}
 
 \item{plot2}{An R code encoding the second ggplot}
-
-\item{preprocessing}{preprocessing}
 
 \item{width}{plot width in inches}
 

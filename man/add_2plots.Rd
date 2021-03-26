@@ -8,7 +8,6 @@ add_2plots(
   mydoc,
   plotstring1,
   plotstring2,
-  preprocessing = "",
   plottype = "auto",
   width = NULL,
   height = NULL,
@@ -22,8 +21,6 @@ add_2plots(
 \item{plotstring1}{An R code string encoding the first plot}
 
 \item{plotstring2}{An R code string encoding the second plot}
-
-\item{preprocessing}{preprocessing}
 
 \item{plottype}{character  One of c("auto","plot","ggplot")}
 

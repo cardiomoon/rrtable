@@ -39,9 +39,21 @@ data2office=function(data,
     datadata=data
     obj=ls(envir=global_env())
 
+    if(preprocessing!=""){
+        #sink("NUL")
+        eval(parse(text=preprocessing),envir = global_env())
+        #unsink("NUL")
+    }
+    if(!is.null(attr(datadata,"preprocessing"))){
+        temp=attr(datadata,"preprocessing")
+        eval(parse(text=temp),envir=global_env())
+    }
+
     if(!is.null(out)){
         for(i in seq_along(out)){
-            assign(names(out)[i],out[[i]])
+            temp=paste0("assign('",names(out)[i],"',out[[i]],envir=global_env())")
+            eval(parse(text=temp))
+            #assign(names(out)[i],out[[i]])
         }
     }
 
@@ -63,14 +75,7 @@ data2office=function(data,
         assign(rawDataName,rawData)
     }
 
-    if(preprocessing!="") {
 
-        eval(parse(text=preprocessing))
-    }
-    if(!is.null(attr(datadata,"preprocessing"))){
-          preprocessing=paste0(preprocessing,"\n",attr(datadata,"preprocessing"))
-          eval(parse(text=preprocessing))
-    }
     datadata$type=tolower(datadata$type)
 
     if(ncol(datadata)==3) {
@@ -170,7 +175,7 @@ data2office=function(data,
             } else{
             mydoc=add_text(mydoc,title=datadata$title[i],text=temp,
                            code=datadata$code[i],echo=echo1,eval=eval,
-                           landscape=landscape1,out=out)
+                           landscape=landscape1)
             }
         } else{
             echo1=echo
@@ -192,18 +197,18 @@ data2office=function(data,
                     ph_with(value=datadata$title[i],location=ph_location_type(type="title"))
             } else{
             mydoc=add_text(mydoc,title=datadata$title[i],text=temp,
-                           code=tempcode,preprocessing=preprocessing,echo=echo1,eval=eval,
-                           landscape=landscape1,out=out)
+                           code=tempcode,echo=echo1,eval=eval,
+                           landscape=landscape1)
             }
         }
 
         if(datadata$type[i] %in% c("out","Out")) {
             if(is.null(out)) {
-                eval(parse(text=datadata$code[i]))
+                eval(parse(text=datadata$code[i]),envir=global_env())
             }
         } else if(datadata$type[i] %in% c("rcode","Rcode","html","HTML","Pre","pre")) {
             #sink("NUL")
-            eval(parse(text=datadata$code[i]))
+            eval(parse(text=datadata$code[i]),envir=global_env())
             #unsink("NUL")
             # preprocessing=paste0(preprocessing,"\n",datadata$code[i])
         } else if(datadata$type[i]=="data"){
@@ -233,14 +238,14 @@ data2office=function(data,
             mydoc=add_flextable(mydoc,ft,code=datadata$code[i],echo=echo1,landscape = landscape1)
         } else if(datadata$type[i] %in% c("ggplot","plot","girafe")){
             if(is.null(out)){
-            mydoc=add_anyplot(mydoc,x=datadata$code[i],preprocessing=preprocessing,top=ifelse(echo1,2,1.5))
+            mydoc=add_anyplot(mydoc,x=datadata$code[i],top=ifelse(echo1,2,1.5))
             } else{
-            mydoc=add_anyplot(mydoc,x=datadata$code[i],preprocessing=preprocessing,top=ifelse(echo1,2,1.5),out=out)
+            mydoc=add_anyplot(mydoc,x=datadata$code[i],top=ifelse(echo1,2,1.5))
             }
         } else if(datadata$type[i] %in% c("2plots","2ggplots")){
 
             codes=unlist(strsplit(datadata$code[i],"\n"))
-            mydoc=add_2plots(mydoc,plotstring1=codes[1],plotstring2=codes[2],preprocessing=preprocessing,top=ifelse(echo1,2,1.5))
+            mydoc=add_2plots(mydoc,plotstring1=codes[1],plotstring2=codes[2],top=ifelse(echo1,2,1.5))
 
         } else if(datadata$type[i] %in% c("PNG","png")){
 
