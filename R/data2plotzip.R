@@ -12,7 +12,8 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,r
     filename=c()
     count=nrow(data)
 
-
+    # cat("in myplot2\n")
+    # print(head(data))
     if(!is.null(rawDataName)){
         rawData=readRDS(rawDataFile)
         assign(rawDataName,rawData)
@@ -28,6 +29,7 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,r
     j=1
     if(count>0) for(i in 1:count){
         #eval(parse(text=data$code[i]))
+        # cat("i=",i,"\n")
         if(data$type[i] %in% c("rcode","Rcode")) {
             eval(parse(text=data$code[i]),envir=global_env())
         }
@@ -46,11 +48,12 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,r
             plotPNG2(data$code[i],path,data$type[i],width=width,height=height,units=units,res=res)
             j=j+1
 
-            } else if(!(data$type[i] %in% c("text","title","author"))){
-                sink("NUL")
-                eval(parse(text=data$code[i]))
-                unsink("NUL")
-            }
+        }
+        # else if(!(data$type[i] %in% c("text","title","author"))){
+        #         sink("NUL")
+        #         eval(parse(text=data$code[i]))
+        #         unsink("NUL")
+        # }
     }
 
     filename
@@ -153,9 +156,12 @@ data2plotzip=function(data,path=".",filename="Plot.zip",format="PNG",width=8,hei
         #unsink("NUL")
     }
     if(!is.null(out)){
+        # str(out)
         for(i in seq_along(out)){
             #assign(names(out)[i],out[[i]])
-            temp=paste0("assign('",names(out)[i],"',out[[i]],envir=global_env())")
+            # str(out[[i]])
+            temp=paste0("assign('",names(out)[i],"',out[[",i,"]],envir=global_env())")
+            # cat("temp=",temp,"\n")
             eval(parse(text=temp))
         }
     } else{
