@@ -87,7 +87,7 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
 
 
     mycat("```{r setup, include=FALSE}\n")
-    mycat("knitr::opts_chunk$set(echo =",echo,",message=FALSE,warning=FALSE,comment=NA,
+    mycat("knitr::opts_chunk$set(echo =",echo,",error=TRUE,message=FALSE,warning=FALSE,comment=NA,
           fig.width=9,fig.asp=0.618,fig.align='center',dpi=300,out.width='70%')\n")
     mycat("```\n")
 
