@@ -172,6 +172,11 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
             mycat("df2flextable(",mypptlist$code[i],",vanilla=",vanilla,")\n")
             mycat("```\n\n")
 
+        } else if(mypptlist$type[i]=="data2"){
+          mycat("```{r}\n")
+          mycat("myFlextable(",mypptlist$code[i],")\n")
+          mycat("```\n\n")
+
         } else if(mypptlist$type[i]=="table") {
             mycat("```{r,results='asis'}\n")
             mycat(mypptlist$code[i],"\n")
@@ -185,9 +190,7 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
             mycat(mypptlist$code[i],'\n')
             mycat("```\n\n")
         } else if(mypptlist$type[i]=="eval") {
-            mycat("```{r}\n")
-            mycat(mypptlist$code[i],'\n')
-            mycat("```\n\n")
+
         } else if(mypptlist$type[i] %in% c("2ggplots","2plots")){
             mycat("```{r,out.width='50%',fig.align='default',fig.show='hold'}\n")
             mycat(mypptlist$code[i],'\n')

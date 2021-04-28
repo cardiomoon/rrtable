@@ -172,17 +172,22 @@ data2office=function(data,
                 mydoc<-mydoc %>% add_slide(layout="Title Only")
                 mydoc<-mydoc %>%
                     ph_with(value=datadata$title[i],location=ph_location_type(type="title"))
-            } else{
+            } else if(datadata$type[i]!="eval"){
             mydoc=add_text(mydoc,title=datadata$title[i],text=temp,
                            code=datadata$code[i],echo=echo1,eval=eval,
                            landscape=landscape1)
             }
         } else{
             echo1=echo
-            if(datadata$type[i] %in% c("rcode","Rcode","html","HTML","Pre","pre")) echo1=TRUE
-
+            if(datadata$type[i] %in% c("rcode","Rcode","html","HTML","Pre","pre")) {
+                echo1=TRUE
+            } else if(datadata$type[i] %in% c("mytable","data","plot","table","2plots")) {
+                eval=FALSE
+            } else if(datadata$type[i]=="eval"){
+                echo1=FALSE
+                eval=TRUE
+            }
             eval=ifelse(datadata$type[i]=="text",FALSE,TRUE)
-            if(datadata$type[i] %in% c("mytable","data","plot","table","2plots")) eval=FALSE
             landscape1=FALSE
             if(datadata$type[i] %in% c("text","out")) {
                 temp=datadata$code[i]
@@ -195,7 +200,7 @@ data2office=function(data,
                 mydoc<-mydoc %>% add_slide(layout="Title Only")
                 mydoc<-mydoc %>%
                     ph_with(value=datadata$title[i],location=ph_location_type(type="title"))
-            } else{
+            } else if(datadata$type[i]!="eval"){
             mydoc=add_text(mydoc,title=datadata$title[i],text=temp,
                            code=tempcode,echo=echo1,eval=eval,
                            landscape=landscape1)
@@ -206,7 +211,7 @@ data2office=function(data,
             if(is.null(out)) {
                 eval(parse(text=datadata$code[i]),envir=global_env())
             }
-        } else if(datadata$type[i] %in% c("rcode","Rcode","html","HTML","Pre","pre")) {
+        } else if(datadata$type[i] %in% c("rcode","Rcode","html","HTML","Pre","pre","eval")) {
             #sink("NUL")
             eval(parse(text=datadata$code[i]),envir=global_env())
             #unsink("NUL")
@@ -216,7 +221,10 @@ data2office=function(data,
 
             ft=eval(parse(text=paste0("df2flextable2(",datadata$code[i],",vanilla=",vanilla,")")))
             mydoc=add_flextable(mydoc,ft,code=datadata$code[i],echo=echo1,landscape = landscape1)
-        } else if(datadata$type[i]=="ztable"){
+        } else if(datadata$type[i]=="data2"){
+            ft=eval(parse(text=paste0("myFlextable(",datadata$code[i],")")))
+            mydoc=add_flextable(mydoc,ft,code=datadata$code[i],echo=echo1,landscape = landscape1)
+        }else if(datadata$type[i]=="ztable"){
             #tempcode=set_argument(datadata$code[i],argument="vanilla",value=vanilla)
             ft=eval(parse(text=datadata$code[i]))
             ft<-ztable2flextable(ft)

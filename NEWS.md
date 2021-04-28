@@ -1,3 +1,11 @@
+# rrtable version 0.2.7
+=======================
+(28-Apr-2021)
+
+* add new type "eval"
+
+* add new function myFlextable as.mynumeric
+
 # rrtable version 0.2.6
 =======================
 (26-Mar-2021)
