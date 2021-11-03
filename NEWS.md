@@ -1,3 +1,9 @@
+# rrtable version 0.2.8
+=======================
+(3-Nov-2021)
+
+* bug-fixed in function mytable2flextable
+
 # rrtable version 0.2.7
 =======================
 (28-Apr-2021)

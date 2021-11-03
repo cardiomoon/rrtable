@@ -21,7 +21,8 @@
 #' mytable2flextable(result,vanilla=FALSE)
 #' }
 mytable2flextable=function(result,vanilla=TRUE,fontname=NULL,fontsize=10){
-
+      # vanilla=TRUE;fontname=NULL;fontsize=10
+       # result=mytable(Dx~age+sex,data=acs)
      mycsv(result,"test.csv",row.names = FALSE)
      test=read.csv("test.csv",colClasses = "character")
      file.remove("test.csv")
@@ -90,12 +91,15 @@ mytable2flextable=function(result,vanilla=TRUE,fontname=NULL,fontsize=10){
           for(k in 1:length(start)){
                ft=merge_at(ft,i=1,j=start[k]:pcolumns[k],part="header")
           }
-          if(length(change)>1) for(i in 1:(length(change)-1)){
-               if(change[i+1]>change[i]+1){
-                     for(j in 1:length(pcolumns)) {
-                         ft=merge_at(ft,i=(change[i]+1):(change[i+1]),j=pcolumns[j])
-                     }
-               }
+          if(length(change)>1) {
+                  for(i in 1:(length(change)-1)){
+                       if(change[i+1]>change[i]+1){
+                            for(j in 1:length(pcolumns)) {
+                            ft=merge_at(ft,i=(change[i]+1):(change[i+1]),j=pcolumns[j])
+                           }
+                       }
+                  }
+                  ft<-ft  %>% hline(i=change[length(change)-1]+1,j=pcolumns,part="body",border=big_border)
           }
      } else{
 
@@ -112,17 +116,21 @@ mytable2flextable=function(result,vanilla=TRUE,fontname=NULL,fontsize=10){
           pcolumn=ncol(test)
           test[[pcolumn]][test[[pcolumn]]=="0.000"]="< 0.001"
           big_border=fp_border(color="black",width=2)
+          std_border=fp_border(color="black",width=1)
+          no_border=fp_border(color="black",width=0)
           ft=flextable(test) %>%
                set_header_df(mapping=df1,key="col_keys") %>%
                border_remove() %>%
-               hline_top(part="all",border=big_border) %>%
-               hline_bottom(part="all",border=big_border) %>%
                merge_v(part="header") %>%
+               hline_top(part="header",border=big_border) %>%
+               hline_bottom(part="body",border=big_border) %>%
+               hline(i=2,part="header",border=std_border) %>%
+               hline(i=1,j=1,part="header",border=std_border) %>%
+               hline(i=1,j=pcolumn,part="header",border=std_border)%>%
                align(j=1,align="left",part="body") %>%
                align(align="center",part="header") %>%
                padding(padding.left=5,padding.right=5,
-                       padding.top=2,padding.bottom=2,part="all") %>%
-               autofit()
+                       padding.top=2,padding.bottom=2,part="all")
 
           ft
           rowno=c()
@@ -150,12 +158,17 @@ mytable2flextable=function(result,vanilla=TRUE,fontname=NULL,fontsize=10){
           if(!vanilla){
                ft=bg(ft,rowno==1,j=1:ncol(test),bg="#EFEFEF")
           }
-          if(length(change)>1) for(i in 1:(length(change)-1)){
-               if(change[i+1]>change[i]+1){
-                    ft=merge_at(ft,i=change[i]+1,j=2:(ncol(test)-1))
-                    ft=merge_at(ft,j=ncol(test),i=(change[i]+1):(change[i+1]))
-               }
+          if(length(change)>1) {
+                  for(i in 1:(length(change)-1)){
+                      if(change[i+1]>change[i]+1){
+                          ft=merge_at(ft,i=change[i]+1,j=2:(ncol(test)-1))
+                          ft=merge_at(ft,j=ncol(test),i=(change[i]+1):(change[i+1]))
+                      }
+                  }
+                  ft<-ft  %>% hline(i=change[length(change)-1]+1,j=pcolumn,part="body",border=big_border)
           }
+          ft
+
      }
      if(!is.null(fontname)) ft<-ft %>% font(fontname=fontname,part="all")
      ft <- ft %>%

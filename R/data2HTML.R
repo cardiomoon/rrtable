@@ -98,7 +98,7 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
     mycat("```\n")
     }
 
-    mycat("```{r,echo=",echo,",message=FALSE}\n")
+    mycat("```{r,echo=",echo,",message=FALSE,warning=FALSE}\n")
     mycat("require(moonBook)\n")
     mycat("require(rrtable)\n")
     mycat("require(ggplot2)\n")
@@ -154,7 +154,7 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
         if(mypptlist$type[i] %in% c("##","###")){
             mycat(mypptlist$type[i],mypptlist$title[i],"\n\n")
         } else {
-            if(mypptlist$title[i]!="") mycat("###",mypptlist$title[i],"\n\n")
+            if(!(mypptlist$title[i] %in% c("","eval"))) mycat("###",mypptlist$title[i],"\n\n")
         }
 
 
@@ -190,6 +190,9 @@ data2HTML=function(data,preprocessing="",path=".",filename="report.HTML",rawData
             mycat(mypptlist$code[i],'\n')
             mycat("```\n\n")
         } else if(mypptlist$type[i]=="eval") {
+          mycat("```{r,echo=FALSE,eval=TRUE}\n")
+          mycat(mypptlist$code[i],'\n')
+          mycat("```\n\n")
 
         } else if(mypptlist$type[i] %in% c("2ggplots","2plots")){
             mycat("```{r,out.width='50%',fig.align='default',fig.show='hold'}\n")
