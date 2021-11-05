@@ -5,14 +5,16 @@
 #' @param title Optional character of plot title
 #' @param vanilla A logical
 #' @param echo logical
+#' @param add.rownames logical
 #' @param preprocessing A character string
 #' @param type "pptx" or "docx"
 #' @param landscape logical
 #' @param left left margin
 #' @param top top margin
 #' @importFrom moonBook mytable
+#' @importFrom flextable autofit
 #' @export
-table2office=function(x=NULL,target="Report",append=FALSE,title="",vanilla=FALSE,echo=FALSE,
+table2office=function(x=NULL,target="Report",append=FALSE,title="",vanilla=FALSE,echo=FALSE,add.rownames=TRUE,
                       preprocessing="",type="pptx",landscape=FALSE,left=1,top=1){
 
     if(preprocessing!=""){
@@ -45,11 +47,11 @@ table2office=function(x=NULL,target="Report",append=FALSE,title="",vanilla=FALSE
         ft<-mytable2flextable(x,vanilla=vanilla)
     } else if(class(x)[1] %in%
               c("matrix","lm","fitdistr","nls","aov","anova","glm","coxph","prcomp","summary.prcomp")){
-        ft<-ztable2flextable(ztable(x),vanilla=vanilla)
+        ft<-autofit(ztable2flextable(ztable(x),add.rownames=add.rownames,vanilla=vanilla))
     }  else if(class(x)[1]=="flextable"){
         ft<-x
     } else if("data.frame" %in% class(x)){
-        ft<-df2flextable(x,vanilla=vanilla)
+        ft<-df2flextable(x,vanilla=vanilla,add.rownames=add.rownames)
     }
     if(class(doc)=="rpptx"){
         doc<-doc %>% ph_with(value=ft,location = ph_location(left=left,top=pos))

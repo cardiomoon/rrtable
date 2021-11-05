@@ -11,6 +11,7 @@ table2office(
   title = "",
   vanilla = FALSE,
   echo = FALSE,
+  add.rownames = TRUE,
   preprocessing = "",
   type = "pptx",
   landscape = FALSE,
@@ -30,6 +31,8 @@ table2office(
 \item{vanilla}{A logical}
 
 \item{echo}{logical}
+
+\item{add.rownames}{logical}
 
 \item{preprocessing}{A character string}
 
