@@ -1,3 +1,10 @@
+# rrtable version 0.2.9
+=======================
+(6-Nov-2021)
+
+* add add.rownames argument in function table2office
+
+
 # rrtable version 0.2.8
 =======================
 (3-Nov-2021)
