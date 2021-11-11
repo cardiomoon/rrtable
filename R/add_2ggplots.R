@@ -194,7 +194,7 @@ add_2ggplots=function(mydoc,plot1,plot2,width=3,height=2.5,top=2){
 #' @param width plot width in inches
 #' @param code R code string
 #' @return a document object
-#' @importFrom officer slip_in_column_break body_add_gg
+#' @importFrom officer body_add_gg
 #' @export
 #' @examples
 #' \dontrun{
@@ -229,7 +229,6 @@ add_2flextables=function(mydoc,ft1,ft2,echo=FALSE,width=3,code=""){
         mydoc <-mydoc %>%
             body_add_flextable(value=ft1) %>%
             body_add_flextable(value=ft2) %>%
-            slip_in_column_break() %>%
             body_end_section_columns()
         # if(landscape) mydoc <- body_end_section_landscape(mydoc)
     }
