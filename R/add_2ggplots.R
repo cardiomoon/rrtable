@@ -241,7 +241,6 @@ add_2flextables=function(mydoc,ft1,ft2,echo=FALSE,width=3,code=""){
         mydoc <-mydoc %>%
             body_add_flextable(value=ft1) %>%
             body_add_flextable(value=ft2) %>%
-            #slip_in_column_break() %>%
             body_end_section_columns()
         # if(landscape) mydoc <- body_end_section_landscape(mydoc)
     }
