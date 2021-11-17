@@ -206,7 +206,7 @@ add_2ggplots=function(mydoc,plot1,plot2,width=3,height=2.5,top=2){
 #' @param width plot width in inches
 #' @param code R code string
 #' @return a document object
-#' @importFrom officer  body_add_gg
+#' @importFrom officer body_add_gg
 #' @export
 #' @examples
 #' \dontrun{
