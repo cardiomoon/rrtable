@@ -1,11 +1,11 @@
 Package: rrtable
 Type: Package
 Title: Reproducible Research with a Table of R Codes
-Version: 0.2.9
+Version: 0.3.0
 Imports:
    stringr,
    ggplot2 (>= 2.2.0),
-   officer (>= 0.3.5),
+   officer (>= 0.4.1),
    purrr (>= 0.2.4),
    flextable (>= 0.4.4),
    rvg,
@@ -29,6 +29,6 @@ Depends: R(>= 2.10)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 VignetteBuilder: knitr
 Suggests: knitr

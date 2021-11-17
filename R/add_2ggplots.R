@@ -39,7 +39,7 @@ add_self=function(mydoc,data){
 #' @param mydoc A document object
 #' @param text text string to be added
 #' @importFrom stringr str_extract str_remove
-#' @importFrom officer ph_add_text
+#' @importFrom officer hyperlink_ftext body_add_fpar fp_text_lite body_add_par
 add_text2hyperlink=function(mydoc,text){
 
 
@@ -56,20 +56,31 @@ add_text2hyperlink=function(mydoc,text){
         temp=str_extract_all(text,".*?\\[.*?\\]\\(.*?\\)")
         result=lapply(temp,devide)
 
-        for(i in 1:length(result[[1]]$text)){
-            if(i==1) {
-                mydoc=ph_with(mydoc,value=result[[1]]$text[i],location = ph_location_type(type="body"))
-            } else{
-                mydoc=ph_add_text(mydoc,type="body",str=result[[1]]$text[i])
-            }
-
-           mydoc=ph_add_text(mydoc,type="body",str=result[[1]]$str[i],href=result[[1]]$ref[i])
-
+        temp=list()
+        no=length(result[[1]]$text)
+        ft=fp_text_lite(color="blue",underlined=TRUE)
+        for(i in 1:no){
+            temp[[(i-1)*2+1]]=result[[1]]$text[i]
+            temp[[(i-1)*2+2]]=hyperlink_ftext(
+                href=result[[1]]$ref[i],
+                text=result[[1]]$str[i],
+                prop=ft
+            )
+        }
+        temp
+        par<-do.call(fpar,temp)
+        if(class(mydoc)=="rpptx"){
+           mydoc=ph_with(mydoc,par,location=ph_location_type(type="body"))
+        } else{
+            mydoc=body_add_fpar(mydoc,par)
         }
 
-
     } else{
+        if(class(mydoc)=="rpptx"){
         mydoc=ph_with(mydoc, text, location = ph_location_type(type="body"))
+        } else{
+            mydoc=body_add_par(mydoc,value=text)
+        }
     }
     mydoc
 }
@@ -126,7 +137,8 @@ add_text=function(mydoc,title="",text="",code="",echo=FALSE,eval=FALSE,style="No
             mydoc <- mydoc %>% body_end_section_portrait()
         }
         mydoc <- mydoc %>% add_title(title)
-        if(text!="") mydoc<-mydoc %>% body_add_par(value=text,style=style)
+        #if(text!="") mydoc<-mydoc %>% body_add_par(value=text,style=style)
+        if(text!="") mydoc<-mydoc %>% add_text2hyperlink(text=text)
         if(echo) {
             if(code!=""){
             codeft=Rcode2flextable(code,eval=eval,format="docx")
@@ -194,7 +206,7 @@ add_2ggplots=function(mydoc,plot1,plot2,width=3,height=2.5,top=2){
 #' @param width plot width in inches
 #' @param code R code string
 #' @return a document object
-#' @importFrom officer slip_in_column_break body_add_gg
+#' @importFrom officer  body_add_gg
 #' @export
 #' @examples
 #' \dontrun{
@@ -229,7 +241,7 @@ add_2flextables=function(mydoc,ft1,ft2,echo=FALSE,width=3,code=""){
         mydoc <-mydoc %>%
             body_add_flextable(value=ft1) %>%
             body_add_flextable(value=ft2) %>%
-            slip_in_column_break() %>%
+            #slip_in_column_break() %>%
             body_end_section_columns()
         # if(landscape) mydoc <- body_end_section_landscape(mydoc)
     }

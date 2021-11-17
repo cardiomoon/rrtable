@@ -34,7 +34,7 @@ add_2plots=function(mydoc,plotstring1,plotstring2,
         add_anyplot(x=plotstring2,plottype=plottype,left=5,top=top,width=width,height=height)
     if(class(mydoc)=="rdocx"){
         mydoc <- mydoc %>%
-            slip_in_column_break() %>%
+            #slip_in_column_break() %>%
             body_end_section_columns()
     }
 

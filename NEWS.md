@@ -1,3 +1,9 @@
+# rrtable version 0.3.0
+=======================
+(17-Nov-2021)
+
+* change in function add_2plots, add_2ggplots to maintain compatibility with officer(>= 0.4.1) 
+
 # rrtable version 0.2.9
 =======================
 (6-Nov-2021)
