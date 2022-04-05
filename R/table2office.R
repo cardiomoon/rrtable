@@ -53,7 +53,7 @@ table2office=function(x=NULL,target="Report",append=FALSE,title="",vanilla=FALSE
     } else if("data.frame" %in% class(x)){
         ft<-df2flextable(x,vanilla=vanilla,add.rownames=add.rownames)
     }
-    if(class(doc)=="rpptx"){
+    if(inherits(doc,"rpptx")){
         doc<-doc %>% ph_with(value=ft,location = ph_location(left=left,top=pos))
     } else {
         if(landscape) doc <- body_end_section_portrait(doc)

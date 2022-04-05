@@ -139,7 +139,7 @@ data2office=function(data,
         }
 
         if(shortdata==0){
-            if(class(mydoc)=="rpptx"){
+            if(inherits(mydoc,"rpptx")){
             if(datadata$type[i]==""){
                if(i<nrow(datadata)){
                    if(datadata$type[i+1]!="") next
@@ -160,7 +160,7 @@ data2office=function(data,
              } else{
                  temp=""
              }
-            if(class(mydoc)=="rpptx"){
+            if(inherits(mydoc,"rpptx")){
                 if(datadata$type[i] %in% c("header2","")){
                     if(!is.na(datadata$type[i+1])){
                        if(datadata$type[i+1]=="") temp=datadata$text[i+1]
@@ -168,7 +168,7 @@ data2office=function(data,
                 }
             }
 
-            if(class(mydoc)=="rpptx" & datadata$type[i]=="code"){
+            if(inherits(mydoc,"rpptx") & datadata$type[i]=="code"){
                 mydoc<-mydoc %>% add_slide(layout="Title Only")
                 mydoc<-mydoc %>%
                     ph_with(value=datadata$title[i],location=ph_location_type(type="title"))
@@ -196,7 +196,7 @@ data2office=function(data,
                 temp=""
                 tempcode=datadata$code[i]
             }
-            if(class(mydoc)=="rpptx" & datadata$type[i]=="code"){
+            if(inherits(mydoc,"rpptx") & datadata$type[i]=="code"){
                 mydoc<-mydoc %>% add_slide(layout="Title Only")
                 mydoc<-mydoc %>%
                     ph_with(value=datadata$title[i],location=ph_location_type(type="title"))

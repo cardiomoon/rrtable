@@ -16,7 +16,7 @@
 #' read_docx() %>% add_text(title="Plot") %>% add_plot("plot(iris)")
 add_plot=function(mydoc,plotstring,width=6,height=6,top=2){
 
-    if(class(mydoc)=="rpptx"){
+    if(inherits(mydoc,"rpptx")){
         temp=paste0("ph_with(mydoc,dml(code=",plotstring,"), location = ph_location(left=1,top=",top,",width=8,height=5))")
         mydoc=eval(parse(text=temp))
 

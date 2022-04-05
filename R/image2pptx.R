@@ -52,7 +52,7 @@ if(format=="emf"){
       print(p)
     }
     dev.off()
-    if(class(mydoc)=="rpptx"){
+    if(inherits(mydoc,"rpptx")){
 
             mydoc<-ph_with(mydoc,value = external_img(src=filename,width=width,height=height),
               use_loc_size = TRUE, location = ph_location(left=left,top=top,width=width,height=height))

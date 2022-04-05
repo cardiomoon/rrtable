@@ -16,7 +16,7 @@
 add_ggplot=function(mydoc,code="",top=2){
 
 
-    if(class(mydoc)=="rpptx"){
+    if(inherits(mydoc,"rpptx")){
 
             temp=paste0("ph_with(mydoc,dml(code=print(",code,")), location = ph_location(left=1,top=",top,",width=8,height=5))")
             mydoc=eval(parse(text=temp))

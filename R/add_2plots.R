@@ -20,7 +20,7 @@
 add_2plots=function(mydoc,plotstring1,plotstring2,
                     plottype="auto",width=NULL,height=NULL,echo=FALSE,top=2){
 
-    if(class(mydoc)=="rdocx"){
+    if(inherits(mydoc,"rdocx")){
         mydoc <- mydoc %>%
             body_end_section_continuous()
         if(is.null(width)) width<-2.5
@@ -32,7 +32,7 @@ add_2plots=function(mydoc,plotstring1,plotstring2,
     mydoc<-mydoc %>%
         add_anyplot(x=plotstring1,plottype=plottype,left=0.5,top=top,width=width,height=height) %>%
         add_anyplot(x=plotstring2,plottype=plottype,left=5,top=top,width=width,height=height)
-    if(class(mydoc)=="rdocx"){
+    if(inherits(mydoc,"rdocx")){
         mydoc <- mydoc %>%
             body_end_section_columns()
     }

@@ -23,7 +23,7 @@ add_title=function(x,title="",size=20,color=NULL,before=TRUE,after=TRUE){
 #' @param data a data.frame
 #' @export
 add_self=function(mydoc,data){
-    if(class(mydoc)=="rpptx"){
+    if(inherits(mydoc,"rpptx")){
         mydoc <- mydoc %>% add_slide("Blank",master="Office Theme")
         mydoc<-mydoc %>% ph_with(value=df2flextable2(data), location = ph_location(left=1,top=2))
     } else{
@@ -69,14 +69,14 @@ add_text2hyperlink=function(mydoc,text){
         }
         temp
         par<-do.call(fpar,temp)
-        if(class(mydoc)=="rpptx"){
+        if(inherits(mydoc,"rpptx")){
            mydoc=ph_with(mydoc,par,location=ph_location_type(type="body"))
         } else{
             mydoc=body_add_fpar(mydoc,par)
         }
 
     } else{
-        if(class(mydoc)=="rpptx"){
+        if(inherits(mydoc,"rpptx")){
         mydoc=ph_with(mydoc, text, location = ph_location_type(type="body"))
         } else{
             mydoc=body_add_par(mydoc,value=text)
@@ -104,7 +104,7 @@ add_text=function(mydoc,title="",text="",code="",echo=FALSE,eval=FALSE,style="No
     #         assign(names(out)[i],out[[i]])
     #     }
     # }
-    if(class(mydoc)=="rpptx"){
+    if(inherits(mydoc,"rpptx")){
         layout="Title and Content"
         if((title=="")&(text=="")) layout="Blank"
         else if(text=="") layout="Title Only"
@@ -178,7 +178,7 @@ add_2ggplots=function(mydoc,plot1,plot2,width=3,height=2.5,top=2){
     gg1<-eval(parse(text=plot1))
     gg2<-eval(parse(text=plot2))
 
-    if(class(mydoc)=="rpptx"){
+    if(inherits(mydoc,"rpptx")){
 
         mydoc<- mydoc %>%
             ph_with(dml(code = print(gg1)), location = ph_location(left=0.5,top=top,width=4.5,height=5) ) %>%
@@ -227,7 +227,7 @@ add_2flextables=function(mydoc,ft1,ft2,echo=FALSE,width=3,code=""){
 
     pos=1.5
     if(echo & (code!="")) pos=2
-    if(class(mydoc)=="rpptx"){
+    if(inherits(mydoc,"rpptx")){
 
         mydoc<-mydoc %>%
             ph_with(value=ft1, location = ph_location(left=0.5,top=pos)) %>%

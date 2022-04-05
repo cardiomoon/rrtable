@@ -14,7 +14,7 @@ as.mynumeric=function(x){
     }
     temp=gsub(",","",temp)
     res<-tryCatch(as.numeric(temp),warning=function(w) "warning")
-    if(class(res)=="numeric") {
+    if(inherits(res,"numeric")) {
         res
     } else{
         x

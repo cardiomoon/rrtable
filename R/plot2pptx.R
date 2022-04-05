@@ -195,7 +195,7 @@ open_doc=function(target="Report", type="pptx",append=FALSE) {
 #' @export
 add_anyplot=function(doc,x=NULL,plottype="auto",left=1,top=2,width=8,height=5.5){
 
-   if(class(doc)=="rpptx"){
+   if(inherits(doc,"rpptx")){
       if(plottype=="plot"){
          temp=paste0("ph_with(doc,dml(code=",x,"), location = ph_location(left=",left,",top=",top,
                      ",width=",width,",height=",height,"))")

@@ -32,7 +32,7 @@ add_flextable=function(mydoc,ftable,echo=FALSE,code="",landscape=FALSE){
      }
      pos=1.5
      if(echo & (code!="")) pos=2
-     if(class(mydoc)=="rpptx"){
+     if(inherits(mydoc,"rpptx")){
 
               mydoc<-mydoc %>% ph_with(value=ft,location = ph_location(left=1,top=pos))
      } else {
