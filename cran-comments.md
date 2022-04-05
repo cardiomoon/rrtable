@@ -1,4 +1,4 @@
-This is the bug-fixed version of the package 'rrtable'.
+This is the updated version of the package 'rrtable'.
 Specifically, fix the problems shown on
 <https://cran.r-project.org/web/checks/check_results_rrtable.html>.
 
