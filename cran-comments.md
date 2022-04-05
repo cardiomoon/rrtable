@@ -3,7 +3,7 @@ Specifically, fix the problems shown on
 <https://cran.r-project.org/web/checks/check_results_rrtable.html>.
 
 ## Test environments
-* local OS X install, R 4.1.2
+* local OS X install, R 4.1.3
 * win-builder (devel and release)
 * rhub
 
