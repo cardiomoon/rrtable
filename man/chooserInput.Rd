@@ -28,7 +28,7 @@ chooserInput(
 
 \item{size}{number of column lines to be displayed}
 
-\item{multiple}{logical enalble multiple selection}
+\item{multiple}{logical enable multiple selection}
 
 \item{width}{width of left and right columns in pixel}
 }

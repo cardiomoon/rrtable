@@ -2,7 +2,7 @@
 % Please edit documentation in R/data2pdf.R
 \name{data2pptx2}
 \alias{data2pptx2}
-\title{Make a powerpoint file with a data.frame}
+\title{Make a Powerpoint file with a data.frame}
 \usage{
 data2pptx2(...)
 }
@@ -10,5 +10,5 @@ data2pptx2(...)
 \item{...}{further arguments to be passed to data2HTML}
 }
 \description{
-Make a powerpoint file with a data.frame
+Make a Powerpoint file with a data.frame
 }

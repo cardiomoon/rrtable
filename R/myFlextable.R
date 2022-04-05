@@ -24,7 +24,7 @@ as.mynumeric=function(x){
 
 #' Make flextable with a data.frame
 #' @param df A data.frame
-#' @param numericCol Numeric. COlumns to be treated as numeric
+#' @param numericCol Numeric. Columns to be treated as numeric
 #' @export
 #' @importFrom flextable flextable delete_part add_header_row theme_booktabs align_nottext_col autofit
 myFlextable=function(df,numericCol=NULL){

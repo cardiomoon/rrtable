@@ -9,7 +9,7 @@ myFlextable(df, numericCol = NULL)
 \arguments{
 \item{df}{A data.frame}
 
-\item{numericCol}{Numeric. COlumns to be treated as numeric}
+\item{numericCol}{Numeric. Columns to be treated as numeric}
 }
 \description{
 Make flextable with a data.frame

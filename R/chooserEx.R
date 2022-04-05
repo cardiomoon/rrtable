@@ -5,7 +5,7 @@
 #'@param leftChoices choices for left column
 #'@param rightChoices choices for right column
 #'@param size number of column lines to be displayed
-#'@param multiple logical enalble multiple selection
+#'@param multiple logical enable multiple selection
 #'@param width width of left and right columns in pixel
 #'@importFrom shiny reactive renderUI tagList NS uiOutput tags singleton HTML div icon
 #'@export

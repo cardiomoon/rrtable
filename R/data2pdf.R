@@ -39,7 +39,7 @@ data2docx2=function(...){
     data2HTML(...,type="docx")
 }
 
-#' Make a powerpoint file with a data.frame
+#' Make a Powerpoint file with a data.frame
 #' @param ... further arguments to be passed to data2HTML
 #' @importFrom rmarkdown render
 #' @export
