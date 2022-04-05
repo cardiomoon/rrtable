@@ -1,0 +1,104 @@
+HTMLcode2latex          Convert HTML table to latex table
+Rcode2df                Make a data.frame with character strings
+                        encoding R code
+Rcode2df2               Make a data.frame with character strings
+                        encoding R code
+Rcode2docx              Save R code to Microsoft Word format
+Rcode2flextable         Make a flextable object with character strings
+                        encoding R code
+Rcode2office            Make R code slide
+Rcode2pptx              Save R code to Microsoft Powerpoint format
+add_2flextables         Add two flextables into a document object
+add_2ggplots            Add two ggplots into a document object
+add_2plots              Add two plots into a document object
+add_Rcode               Make a R code slide into a document object
+add_anyplot             Add a ggplot or a plot to the Microsoft Office
+                        Document
+add_flextable           Add a flextable or mytable object into a
+                        document object
+add_ggplot              Add ggplot into a document object
+add_image               Add plot into a document object
+add_plot                Add plot into a document object
+add_self                add self data to document
+add_text                Add text to document
+add_text2hyperlink      Add hyperlink text
+add_title               Add title to docx file
+add_title_slide         Add title slide
+chooser                 Server function of chooser Module
+chooser2                Server function of chooser2 Module
+chooser2UI              UI of chooser2 Module Add 'all select' and
+                        'reset' button to chooser module
+chooserInput            Chooser Input
+chooserUI               UI of chooser Module
+code2docx               Save plot/ggplot code to Microsoft Powerpoint
+                        format
+code2office             Save plot/ggplot code to Microsoft Powerpoint
+                        format
+code2pptx               Save plot/ggplot code to Microsoft Powerpoint
+                        format
+data2HTML               Make a HTML5 file with a data.frame
+data2docx               convert data to docx file
+data2docx2              Make a word file with a data.frame
+data2office             convert data to pptx file
+data2pdf                Make a pdf file with a data.frame
+data2plotzip            Make zipped plot file with a data.frame
+data2pptx               convert data to pptx file
+data2pptx2              Make a powerpoint file with a data.frame
+df2RcodeTable           Make a flextable with a data.frame
+df2flextable            Convert data.frame to flextable
+df2flextable2           Make flextable with limited width
+exportCSV               Export pptxList file to desired format
+file2HTML               read data file and make a HTML file
+file2docx               read data file and make a docx file
+file2docx2              read data file and make a docx file with Rmd
+                        file
+file2pdf                read data file and make a pdf file
+file2plotzip            read data file and make a zip file with plots
+file2pptx               read data file and make a pptx file
+file2pptx2              read data file and make a pptx file with Rmd
+                        file
+flextable2ztable        Convert flextable to ztable
+html2latex              Convert html5 code to latex
+image2docx              Save plot/ggplot to Microsoft Word format
+image2office            Save plot/ggplot as image to Microsoft
+                        Powerpoint format
+image2pptx              Save plot/ggplot to Microsoft Powerpoint format
+insert_argument         replace argument of a function
+is_ggplot               Reports whether plotstring encode a ggplot
+                        object
+is_ggsurvplot           Reports whether plotstring encode a ggsurvplot
+                        object
+mycat                   Concatenate to file
+mygrep                  grep string in all files in subdirectory
+myplot2                 Make zipped plots with a data.frame
+mytable2flextable       Convert mytable object to flextable
+open_doc                Make/open office document with file name
+p2character             Change p value to string
+pickerInput3            Side by side pickerInput
+plot2docx               Save plot/ggplot to Microsoft Word format
+plot2office             Save plot/ggplot to Microsoft Powerpoint format
+plot2pptx               Save plot/ggplot to Microsoft Powerpoint format
+plotPNG2                Make png file with a plot code
+pptxList                Server function of pptxList shiny module
+pptxListInput           UI of pptxList shiny module
+readCSVComment          Read a csv file with comment
+readComment             Read comment from a file
+replace_argument        replace argument of a function
+roundDf                 Convert numeric columns of data.frame to
+                        character
+sampleData2             Sample data for pptxList A dataset containing
+                        five objects for reproducible research
+sampleData3             Sample data for pptxList A dataset containing
+                        five objects for reproducible research
+set_argument            set argument of a function
+table2docx              Export data.frame or statistical output to
+                        Microsoft Word format
+table2office            Export data.frame or statistical output to a
+                        table in Microsoft Office
+table2pptx              Export data.frame or statistical output to
+                        Microsoft Powerpoint format
+tensiSplit              Split strings with desired length with exdent
+unsink                  Remove File and sink()
+writeCSVComment         Write a csv file with comment
+ztable2                 Make ztable with desired width
+ztable2flextable        Convert ztable to flextable

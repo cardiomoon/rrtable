@@ -1,0 +1,111 @@
+---
+title: "For Easy Reproducible Research"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Update}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE ,message=FALSE,warning=FALSE,comment=NA,eval=FALSE,
+          fig.width=9,fig.asp=0.618,fig.align='center',out.width='70%')
+```
+
+```{r,echo= TRUE ,message=FALSE}
+require(rrtable)
+require(ggplot2)
+```
+
+### Introduction 
+
+If you are a data scientist or researcher, you will certainly be interested in reproducible research. With R package `rrtable`, you can make a MS Powerpoint file easily with a R code.
+
+## Make The Powerpoint File with R plot/ggplot
+
+You can make the Powerpoint file easily with R plot with or without R code.
+
+```{r}
+x=ggplot(mtcars,aes(x=wt,y=mpg))+geom_point()
+```
+
+You can make a Powerpoint file with this ggplot object.
+
+```{r}
+plot2pptx(x)
+```
+
+If you want to show R code as well as plot, you can use R code string and set the echo argument TRUE.
+
+```{r}
+x="ggplot(mtcars,aes(x=wt,y=mpg))+geom_point()"
+plot2pptx(x,echo=TRUE,title="A ggplot")
+```
+
+By default, "Report.pptx" file will be generated
+
+You can append a plot to existing Powerpoint file with a string of R code.
+
+```{r,eval=FALSE}
+plot2pptx("plot(iris)",echo=TRUE,append=TRUE)
+```
+
+You can add R code on the slide by setting the argument `echo` TRUE.
+
+## Add a data.frame to the Powerpoint file
+
+You can add a data.frame to the Powerpoint file.
+
+```{r}
+table2pptx("head(iris)", echo=TRUE,append=TRUE)
+```
+
+## Add the result of R code to the Powerpoint file
+
+You can add the R code and the result of R code to the Powerpoint file
+
+```{r}
+fit=lm(mpg~ wt*hp, data=mtcars)
+Rcode2pptx("summary(fit)",append=TRUE)
+```
+
+
+## Add the result of statistical analysis to the Powerpoint file
+
+You can add the result of statistical analysis to the Powerpoint file
+
+```{r}
+fit2=aov(yield ~ block + N * P + K, data = npk)
+table2pptx(fit2,title="ANOVA result",append=TRUE,vanilla=TRUE)
+```
+
+Or
+
+```{r}
+table2pptx("aov(yield ~ block + N * P + K, data = npk)",
+           title="ANOVA result",echo=TRUE,append=TRUE,vanilla=TRUE)
+```
+
+You can use class of "matrix","lm","fitdistr","nls","aov","anova","glm","coxph","prcomp" or "summary.prcomp" object using table2pptx() file.
+
+## Adding the 2 plots/ggplots on a slide
+
+You can add 2 plots on a slide side by side.
+
+```{r}
+x=c("plot(iris)","ggplot(mtcars,aes(x=hp,y=mpg))+geom_point()")
+plot2office(x,title="2 plots",parallel=TRUE,echo=TRUE,append=TRUE)
+```
+
+You can download sample Powerpoint file: [Report.pptx](https://github.com/cardiomoon/rrtable/raw/master/inst/doc_examples/Report.pptx) - view with [office web viewer](https://view.officeapps.live.com/op/view.aspx?src=https://github.com/cardiomoon/rrtable/raw/master/inst/doc_examples/Report.pptx)
+
+
+## Shiny app using package rrtable
+
+You can see the shiny app using package rrtable with the following R command.
+
+```{r}
+shiny::runApp(system.file('pptxList',package='rrtable'))  
+```
+
+Press the `load SampleData` button of the shiny app and enjoy!

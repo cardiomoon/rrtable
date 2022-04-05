@@ -1,0 +1,12 @@
+name: pptxList
+title: pptxList
+username:
+account: cardiomoon
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1744718
+bundleId: 2767722
+url: https://cardiomoon.shinyapps.io/pptxList/
+when: 1580521219.7771
+asMultiple: FALSE
+asStatic: FALSE

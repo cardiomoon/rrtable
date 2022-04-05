@@ -1,0 +1,27 @@
+Package: rrtable
+Type: Package
+Title: Reproducible Research with a Table of R Codes
+Version: 0.2.1
+Imports: stringr, ggplot2 (>= 2.2.0), officer (>= 0.3.5), purrr (>=
+        0.2.4), flextable (>= 0.4.4), rvg, magrittr, devEMF, moonBook
+        (>= 0.1.8), rmarkdown, shiny, editData, shinyWidgets, ggpubr,
+        rlang, readr (>= 1.1.1), ztable (>= 0.1.8)
+Authors@R: person("Keon-Woong", "Moon", email = "cardiomoon@gmail.com",
+    role = c("aut", "cre"))
+Description: Makes documents containing plots and tables from a table of R codes. 
+    Can make "HTML", "pdf('LaTex')", "docx('MS Word')" and "pptx('MS Powerpoint')" documents with or without R code.
+    In the package, modularized 'shiny' app codes are provided. These modules are intended for reuse across applications.
+Depends: R(>= 2.10)
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.0
+VignetteBuilder: knitr
+Suggests: knitr
+NeedsCompilation: no
+Packaged: 2020-04-02 04:49:18 UTC; cardiomoon
+Author: Keon-Woong Moon [aut, cre]
+Maintainer: Keon-Woong Moon <cardiomoon@gmail.com>
+Repository: CRAN
+Date/Publication: 2020-04-02 12:40:02 UTC
+Built: R 4.1.0; ; 2021-05-28 08:25:02 UTC; unix
