@@ -27,6 +27,11 @@
 plot2office=function(x=NULL,target="Report",append=FALSE,title="",
                      type="pptx",preprocessing="",plottype="auto",echo=FALSE,parallel=FALSE,
                      left=1,top=1,width=NULL,height=NULL,aspectr=NULL,out=NULL){
+
+    # target="Report";append=FALSE;title=""
+    # type="pptx";preprocessing="";plottype="auto";echo=FALSE;parallel=FALSE
+    # left=1;top=1;width=NULL;height=NULL;aspectr=NULL;out=NULL
+
    if(preprocessing!=""){
       #sink("NUL")
       eval(parse(text=preprocessing),envir = global_env())
@@ -94,8 +99,11 @@ plot2office=function(x=NULL,target="Report",append=FALSE,title="",
          } else {
             if(type=="pptx") doc <- doc %>% add_slide(layout="Blank")
          }
-         if(is.character(x)){code=x[i]}
-         else code=x
+         if(is.character(x)){
+             code=x[i]
+        } else {
+            code=x
+        }
 
          if(echo & is.character(code)) {
 
@@ -194,7 +202,7 @@ open_doc=function(target="Report", type="pptx",append=FALSE) {
 #' @param height desired height of the plot
 #' @export
 add_anyplot=function(doc,x=NULL,plottype="auto",left=1,top=2,width=8,height=5.5){
-
+   # plottype="auto";left=1;top=2;width=8;height=5.5
    if(inherits(doc,"rpptx")){
       if(plottype=="plot"){
          temp=paste0("ph_with(doc,dml(code=",x,"), location = ph_location(left=",left,",top=",top,
@@ -205,13 +213,23 @@ add_anyplot=function(doc,x=NULL,plottype="auto",left=1,top=2,width=8,height=5.5)
          doc<-doc %>% add_image(x,left = left, top = top, width = width, height = height)
 
       } else if(is.ggplot(x)){
+          if(inherits(x,"ggPredict")){
+              doc <- doc %>%
+                  ph_with(value=x, location = ph_location(left=left,top=top,width=width,height=height))
+          } else{
          doc <- doc %>%
             ph_with(dml(code = print(x)), location = ph_location(left=left,top=top,width=width,height=height))
+          }
       } else{
          if(is_ggplot(x)){
             gg=eval(parse(text=x))
+            if(inherits(gg,"ggPredict")){
+                doc <- doc %>%
+                    ph_with(value=gg, location = ph_location(left=left,top=top,width=width,height=height))
+            } else{
             doc <- doc %>%
                ph_with(dml(code = print(gg)), location = ph_location(left=left,top=top,width=width,height=height))
+            }
          } else{
             gg=eval(parse(text=x))
             if(("ggsurvplot" %in% class(gg))|("egg" %in% class(gg))){
