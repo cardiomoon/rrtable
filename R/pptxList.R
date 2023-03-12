@@ -51,7 +51,7 @@ pptxList<-function(input,output,session,data=reactive(""),preprocessing=reactive
      savedPPT=reactiveValues()
 
      observe({
-          if(data()!=""){
+          if(!identical(data(),"")){
                df<-data()
                savedPPT$type=df$type
                savedPPT$title=df$title

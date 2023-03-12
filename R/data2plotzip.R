@@ -39,7 +39,7 @@ myplot2=function(data,format="PNG",width=7,height=7,units="in",res=300,start=0,r
         }
 
 
-        if(data$type[i] %in% c("plot","ggplot","PNG","png","emf","code")){
+        if(data$type[i] %in% c("plot","ggplot","PNG","png","emf","code","girafe")){
 
             if(!isRunning()) cat("row:",i,",fig:",j,":",data$code[[i]],"\n")
             path <- paste0("plot_",j,".png")
