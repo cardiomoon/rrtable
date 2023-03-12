@@ -1,3 +1,10 @@
+# rrtable version 0.3.1
+=======================
+(12-Mar-2023)
+
+* change icons in function chooserInput
+
+
 # rrtable version 0.3.0
 =======================
 (17-Nov-2021)
