@@ -32,3 +32,4 @@ LazyData: true
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Suggests: knitr
+BugReports: https://github.com/cardiomoon/rrtable/issues
