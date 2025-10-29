@@ -47,7 +47,9 @@ if(format=="emf"){
         png(filename = filename, width = width, height = height,units=units,res=res)
     }
     if(is.null(p)) {
-      eval(parse(text=x))
+       eval(parse(text=x))
+    } else if("gtable" %in% class(p)){
+        eval(parse(text=x))
     } else{
       print(p)
     }
@@ -55,7 +57,8 @@ if(format=="emf"){
     if(inherits(mydoc,"rpptx")){
 
             mydoc<-ph_with(mydoc,value = external_img(src=filename,width=width,height=height),
-              use_loc_size = TRUE, location = ph_location(left=left,top=top,width=width,height=height))
+             # use_loc_size = TRUE, location = ph_location(left=left,top=top,width=width,height=height))
+                   location = ph_location_type(type="body"))
 
     } else{
 

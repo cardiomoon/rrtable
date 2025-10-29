@@ -107,7 +107,7 @@ add_text=function(mydoc,title="",text="",code="",echo=FALSE,eval=FALSE,style="No
     if(inherits(mydoc,"rpptx")){
         layout="Title and Content"
         if((title=="")&(text=="")) layout="Blank"
-        else if(text=="") layout="Title Only"
+        else if(text=="") layout="Title and Content"
 
         mydoc <- mydoc %>%
             add_slide(layout = layout, master = "Office Theme")

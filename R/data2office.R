@@ -255,9 +255,9 @@ data2office=function(data,
             codes=unlist(strsplit(datadata$code[i],"\n"))
             mydoc=add_2plots(mydoc,plotstring1=codes[1],plotstring2=codes[2],top=ifelse(echo1,2,1.5))
 
-        } else if(datadata$type[i] %in% c("PNG","png")){
+        } else if(datadata$type[i] %in% c("PNG","png","PNG2","png2")){
 
-            mydoc<-add_image(mydoc,datadata$code[i],format="png")
+            mydoc<-add_image(mydoc,datadata$code[i],format="png",height=height,width=width)
 
         } else if(datadata$type[i] %in% c("emf","EMF")){
 
