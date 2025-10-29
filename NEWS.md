@@ -1,3 +1,10 @@
+# rrtable version 0.3.3
+=======================
+(29-Oct-2025)
+
+* change in add_text, add_image
+
+
 # rrtable version 0.3.2
 =======================
 (12-Mar-2023)
