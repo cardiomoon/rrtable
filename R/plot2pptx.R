@@ -232,7 +232,15 @@ add_anyplot=function(doc,x=NULL,plottype="auto",left=1,top=2,width=8,height=5.5)
             }
          } else{
             gg=eval(parse(text=x))
-            if(("ggsurvplot" %in% class(gg))|("egg" %in% class(gg))){
+            if("plotPSS3" %in% class(gg)){
+                doc <- doc %>%
+                    ph_with(dml(code = print(gg)), location = ph_location(left=left,top=top,width=width,height=height))
+
+            } else if("ggsurvplot" %in% class(gg)){
+                my_vec_graph <- rvg::dml(code = print(gg, newpage = FALSE))
+                doc <- ph_with(doc, my_vec_graph, location = ph_location(left=left,top=top,width=width,height=height) )
+
+            } else if("egg" %in% class(gg)){
                filename="plot.emf"
                # p<-eval(parse(text=code))
                devEMF::emf(file=filename,width=width,height=height)

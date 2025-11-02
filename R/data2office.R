@@ -130,9 +130,9 @@ data2office=function(data,
 
         if(isRunning()){
             progress$inc(1/(nrow(datadata)), detail = paste("Doing part", i+1,"/",nrow(datadata)+1))
-        } else(
-            cat(i+1)
-        )
+        } else{
+            cat(i,": ",datadata$code[i],"\n")
+        }
 
         if(showself){
             mydoc=add_self(mydoc,datadata[i,])

@@ -3,7 +3,7 @@
 (29-Oct-2025)
 
 * change in add_text, add_image
-
+* now compatible with ggsurvplot from survminer package
 
 # rrtable version 0.3.2
 =======================
